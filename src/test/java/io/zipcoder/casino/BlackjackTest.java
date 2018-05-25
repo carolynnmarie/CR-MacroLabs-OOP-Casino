@@ -1,10 +1,9 @@
 package io.zipcoder.casino;
 
+import io.zipcoder.casino.games.Blackjack;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 public class BlackjackTest {
 

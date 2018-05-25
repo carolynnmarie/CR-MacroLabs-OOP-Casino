@@ -1,6 +1,8 @@
 package io.zipcoder.casino;
 
 
+import io.zipcoder.casino.games.Game;
+
 import java.util.Scanner;
 
 import static io.zipcoder.casino.Person.createNewPlayerFromUserInput;

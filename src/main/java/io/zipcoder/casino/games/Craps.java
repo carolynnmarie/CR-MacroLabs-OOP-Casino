@@ -1,4 +1,6 @@
-package io.zipcoder.casino;
+package io.zipcoder.casino.games;
+
+import io.zipcoder.casino.*;
 
 import java.util.*;
 
