@@ -70,7 +70,7 @@ public class GoFishTest {
         Card cardSend = new Card(Rank.ACE, Suit.SPADES);
 
         int expected = 1;
-        int actual = goFishTest.doYouHaveTheCardThatIWantFromComputer(1, dealerTest);
+        int actual = goFishTest.compAsksForCard(1, dealerTest);
 
         Assert.assertEquals(expected, actual);
     }
@@ -82,7 +82,7 @@ public class GoFishTest {
 
         Card cardSend = new Card(Rank.ACE, Suit.SPADES);
 
-        int actual = goFishTest.removeCardsFromComputerPlayerAndIntoHand(1, dealerTest, player1Test);
+        int actual = goFishTest.moveFromComputerToPlayer(1, dealerTest, player1Test);
         int expected = cardSend.getRank().toInt();
 
 

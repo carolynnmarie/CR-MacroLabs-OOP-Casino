@@ -11,7 +11,7 @@ public class BlackjackTest {
     Person player = new Person("test");
 
     @Before public void setUp() {
-        player.getWallet().addChipsToAmount(500);
+        player.getWallet().addChips(500);
 
     }
 
@@ -53,8 +53,8 @@ public class BlackjackTest {
         int expectedPersonHandSum = 5; // 5 = 2 + 1 + 1 + 1
         int expectedDealerHandSum = 26; // 26 = 1 + 10 + 10 + 5
         // When
-        int actualPersonHandSum = blackjack.sumOfRanksInHand(blackjack.getPlayer());
-        int actualDealerHandSum = blackjack.sumOfRanksInHand(blackjack.getDealer());
+        int actualPersonHandSum = blackjack.rankSum(blackjack.getPlayer());
+        int actualDealerHandSum = blackjack.rankSum(blackjack.getDealer());
         // Then
         Assert.assertEquals(expectedPersonHandSum, actualPersonHandSum);
         Assert.assertEquals(expectedDealerHandSum, actualDealerHandSum);
@@ -82,8 +82,8 @@ public class BlackjackTest {
         int expectedPersonRankReps = 3; // ACE
         int expectedDealerRankReps = 2; // SIX
         // When
-        int actualPersonRankReps = blackjack.countRankRepetitionsInHand(blackjack.getPlayer(), notShuffled1);
-        int actualDealerRankReps = blackjack.countRankRepetitionsInHand(blackjack.getDealer(), dealerCard0);
+        int actualPersonRankReps = blackjack.rankRepeats(blackjack.getPlayer(), notShuffled1);
+        int actualDealerRankReps = blackjack.rankRepeats(blackjack.getDealer(), dealerCard0);
         // Then
         Assert.assertEquals(expectedPersonRankReps, actualPersonRankReps);
         Assert.assertEquals(expectedDealerRankReps, actualDealerRankReps);
@@ -96,7 +96,7 @@ public class BlackjackTest {
         int expectedLowerInt = 5;
         int expectedHigherInt = 7;
         // When
-        int actualLowerInt = blackjack.findSmallerOfTwoInts(expectedLowerInt, expectedHigherInt);
+        int actualLowerInt = blackjack.smallerOfTwo(expectedLowerInt, expectedHigherInt);
         // Then
         Assert.assertEquals(expectedLowerInt, actualLowerInt);
     }
@@ -108,7 +108,7 @@ public class BlackjackTest {
         int expectedLowerInt = 5;
         int expectedHigherInt = 7;
         // When
-        int actualHigherInt = blackjack.findGreaterOfTwoInts(expectedLowerInt, expectedHigherInt);
+        int actualHigherInt = blackjack.greaterofTwo(expectedLowerInt, expectedHigherInt);
         // Then
         Assert.assertEquals(expectedHigherInt, actualHigherInt);
     }
@@ -185,7 +185,7 @@ public class BlackjackTest {
         // When
         Blackjack blackjack = new Blackjack(player);
         blackjack.placeBet(blackjack.getPlayer(), betPlaced); // will remove 1 chip
-        int actualChipsRemaining = blackjack.getPlayer().getWallet().checkChipAmount();
+        int actualChipsRemaining = blackjack.getPlayer().getWallet().checkChips();
         // Then
         Assert.assertEquals(expectedChipsRemaining,actualChipsRemaining);
     }

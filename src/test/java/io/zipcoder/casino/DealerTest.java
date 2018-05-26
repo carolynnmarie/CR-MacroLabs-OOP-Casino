@@ -19,7 +19,7 @@ public class DealerTest {
     public void getWalletTest() {
         Dealer dealer = new Dealer();
         Integer expected = Integer.MAX_VALUE;
-        Integer actual = dealer.getDealerWallet().checkChipAmount();
+        Integer actual = dealer.getDealerWallet().checkChips();
         Assert.assertEquals(actual, expected);
     }
 

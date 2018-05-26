@@ -15,7 +15,7 @@ public class Casino {
     //fillPlayerWallet fills the new player's wallet with chips based on user's input
     public static Person newPlayer() {
         Person player = createNewPlayerFromUserInput();
-        player.getWallet().fillPlayerWalletFromUserInput();
+        player.getWallet().fillWallet();
         return player;
     }
 

@@ -8,13 +8,9 @@ import java.util.Collections;
 public class Deck {
 
     private ArrayList<Card> deckOfCards;
-    private Rank rank;
-    private Suit suit;
 
     public Deck() {
-
-        this.deckOfCards = new ArrayList<Card>();
-
+        this.deckOfCards = new ArrayList<>();
         for (Suit suit : Suit.values()){
             for(Rank rank : Rank.values()){
                 deckOfCards.add(new Card(rank, suit));
@@ -23,21 +19,19 @@ public class Deck {
     }
 
     public ArrayList<Card> getDeckOfCards(){
-
-        return this.deckOfCards;
+        return deckOfCards;
     }
 
     public void shuffleDeck(){
-        Collections.shuffle(this.deckOfCards);
+        Collections.shuffle(deckOfCards);
     }
 
     public Card drawCard(){
-
-        return this.deckOfCards.remove(deckOfCards.size() - 1);
+        return deckOfCards.remove(deckOfCards.size() - 1);
     }
 
     public void clearDeck(){
-        this.deckOfCards.clear();
+        deckOfCards.clear();
     }
 
 }

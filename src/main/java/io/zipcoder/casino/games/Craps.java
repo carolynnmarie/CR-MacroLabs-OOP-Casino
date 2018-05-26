@@ -39,11 +39,11 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
     }
 
     public int checkChipAmount(Person personToCheck) {
-        return personToCheck.getWallet().checkChipAmount();
+        return personToCheck.getWallet().checkChips();
     }
 
     public void placeBet(Person personPlacingBet, int betAmount) {
-        personPlacingBet.getWallet().removeChipsFromAmount(betAmount);
+        personPlacingBet.getWallet().removeChips(betAmount);
 
     }
 
@@ -69,7 +69,7 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
     public void start() {
         System.out.println("Welcome to Craps!");
         do {
-            if (player.getWallet().checkChipAmount() < 5) {
+            if (player.getWallet().checkChips() < 5) {
                 bootPlayerFromGame(player);
                 break;
             }
@@ -157,7 +157,7 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
 
     public void passLineBetWin() {
         System.out.println("Pass line bets pay 1:1. You won " + passLineBet + " chips!");
-        player.getWallet().addChipsToAmount(passLineBet);
+        player.getWallet().addChips(passLineBet);
         passLineBet = 0;
 
     }
@@ -177,7 +177,7 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
 
     public void dontPassLineBetWin() {
         System.out.println("Don't Pass bets pay 1:1. You won " + dontPassLineBet + " chips!");
-        player.getWallet().addChipsToAmount(dontPassLineBet);
+        player.getWallet().addChips(dontPassLineBet);
         dontPassLineBet = 0;
     }
 
@@ -199,7 +199,7 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
 
     private void comeBetWin() {
         System.out.println("Come bet wins! Come bet pays 1:1. You won " + comeBet + " chips!");
-        player.getWallet().addChipsToAmount(comeBet);
+        player.getWallet().addChips(comeBet);
         comeBet = 0;
     }
 
@@ -221,7 +221,7 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
 
     private void dontComeBetWin() {
         System.out.println("Don't Come bet wins! You won " + dontComeBet + " chips!");
-        player.getWallet().addChipsToAmount(dontComeBet);
+        player.getWallet().addChips(dontComeBet);
         dontComeBet = 0;
     }
 
@@ -241,7 +241,7 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
     private void comeBetPointWin() {
         System.out.println("Your Come bet on point " + crapsDice.getTotalValue() + " wins! Come Bet points are 1:1. " +
                 " You won " + comeBetPoints.get(crapsDice.getTotalValue()) + " chips!");
-        player.getWallet().addChipsToAmount(comeBetPoints.get(crapsDice.getTotalValue()));
+        player.getWallet().addChips(comeBetPoints.get(crapsDice.getTotalValue()));
         comeBetPoints.remove(crapsDice.getTotalValue());
     }
 
@@ -268,7 +268,7 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
             totalValueOfPoints += entry.getValue();
         }
         System.out.println("Your Don't Come bet points won! You won a total of " + totalValueOfPoints + " chips.");
-        player.getWallet().addChipsToAmount(totalValueOfPoints);
+        player.getWallet().addChips(totalValueOfPoints);
         dontComeBetPoints.clear();
     }
 
@@ -304,13 +304,13 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
 
     private void fieldDoubleWin() {
         System.out.println("Field win is doubled! You wn " + fieldBet * 2 + " chips!");
-        player.getWallet().addChipsToAmount(fieldBet * 2);
+        player.getWallet().addChips(fieldBet * 2);
         fieldBet = 0;
     }
 
     private void fieldWin() {
         System.out.println("Field wins! Payout is 1:1. You won " + fieldBet + " chips!");
-        player.getWallet().addChipsToAmount(fieldBet);
+        player.getWallet().addChips(fieldBet);
         fieldBet = 0;
     }
 
@@ -330,17 +330,17 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
     private void passLineOddsWin() {
         if (point == 4 || point == 10) {
             System.out.println("Pass Line odds wins! Payout is 2:1. You won " + (passOddsBet + passOddsBet * 2) + " chips!");
-            player.getWallet().addChipsToAmount(passOddsBet = passOddsBet * 2);
+            player.getWallet().addChips(passOddsBet = passOddsBet * 2);
             passOddsBet = 0;
         } else if (point == 5 || point == 9) {
             System.out.println("Pass Line odds wins! Payout is 3:2. You won " + (passOddsBet +(int)
                     Math.floor(passOddsBet * .5)) + " chips!");
-            player.getWallet().addChipsToAmount(passOddsBet + (int)Math.floor(passOddsBet * 1.5));
+            player.getWallet().addChips(passOddsBet + (int)Math.floor(passOddsBet * 1.5));
             passOddsBet = 0;
         } else if (point == 6 || point == 8) {
             System.out.println("Pass Line odds wins! Payout is 6:5. You won " + (passOddsBet + (int)
                     Math.floor(passOddsBet * .2)) + " chips!");
-            player.getWallet().addChipsToAmount(passOddsBet + (int)Math.floor(passOddsBet * 1.2));
+            player.getWallet().addChips(passOddsBet + (int)Math.floor(passOddsBet * 1.2));
             passOddsBet = 0;
         }
     }
@@ -362,17 +362,17 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
         if (point == 4 || point == 10) {
             System.out.println("Don't Pass odds wins! Payout is 1:2. You won " + (dontPassOddsBet +
                     (int)Math.floor(dontPassOddsBet * .5)) + " chips!");
-            player.getWallet().addChipsToAmount(dontPassOddsBet + (int)Math.floor(dontPassOddsBet * .5));
+            player.getWallet().addChips(dontPassOddsBet + (int)Math.floor(dontPassOddsBet * .5));
             dontPassOddsBet = 0;
         } else if (point == 5 || point == 9) {
             System.out.println("Don't Pass odds wins! Payout is 2:3. You won " + (dontPassOddsBet +
                     (int)Math.floor(dontPassOddsBet * .66)) + " chips!");
-            player.getWallet().addChipsToAmount(dontPassOddsBet + (int)Math.floor(dontPassOddsBet * .66));
+            player.getWallet().addChips(dontPassOddsBet + (int)Math.floor(dontPassOddsBet * .66));
             dontPassOddsBet = 0;
         } else if (point == 6 || point == 8) {
             System.out.println("Don't Pass odds wins! Payout is 5:6. You won " +(dontPassOddsBet +
                     (int)Math.floor(dontPassOddsBet * .83)) + " chips!");
-            player.getWallet().addChipsToAmount((dontPassOddsBet + (int)Math.floor(dontPassOddsBet * .83)));
+            player.getWallet().addChips((dontPassOddsBet + (int)Math.floor(dontPassOddsBet * .83)));
             dontPassOddsBet = 0;
         }
     }
@@ -396,21 +396,21 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
             System.out.println("Your Come bet Odds on point " + crapsDice.getTotalValue() + " wins! Payout is 2:1." +
                     " You won " + (comeBetPointOdds.get(crapsDice.getTotalValue()) +
                     comeBetPointOdds.get(crapsDice.getTotalValue()) * 2)  + " chips!");
-            player.getWallet().addChipsToAmount(comeBetPointOdds.get(crapsDice.getTotalValue()) +
+            player.getWallet().addChips(comeBetPointOdds.get(crapsDice.getTotalValue()) +
                     comeBetPointOdds.get(crapsDice.getTotalValue()) * 2);
             comeBetPointOdds.remove(crapsDice.getTotalValue());
         } else if (crapsDice.getTotalValue() == 5 || crapsDice.getTotalValue() == 9) {
             System.out.println("Your Come bet Odds on point " + crapsDice.getTotalValue() + " wins! Payout is 3:2." +
                     " You won " + (comeBetPointOdds.get(crapsDice.getTotalValue()) +
                     (int) Math.floor(comeBetPointOdds.get(crapsDice.getTotalValue()) * 1.5))  + " chips!");
-            player.getWallet().addChipsToAmount(comeBetPointOdds.get(crapsDice.getTotalValue()) +
+            player.getWallet().addChips(comeBetPointOdds.get(crapsDice.getTotalValue()) +
                     (int) Math.floor(comeBetPointOdds.get(crapsDice.getTotalValue()) * 1.5));
             comeBetPointOdds.remove(crapsDice.getTotalValue());
         } else if (crapsDice.getTotalValue() == 6 || crapsDice.getTotalValue() == 8) {
             System.out.println("Your Come bet Odds on point " + crapsDice.getTotalValue() + " wins! Payout is 6:5." +
                     " You won " + (comeBetPointOdds.get(crapsDice.getTotalValue()) +
                     (int) Math.floor(comeBetPointOdds.get(crapsDice.getTotalValue()) * 1.2))  + " chips!");
-            player.getWallet().addChipsToAmount(comeBetPointOdds.get(crapsDice.getTotalValue()) +
+            player.getWallet().addChips(comeBetPointOdds.get(crapsDice.getTotalValue()) +
                     (int) Math.floor(comeBetPointOdds.get(crapsDice.getTotalValue()) * 1.2));
             comeBetPointOdds.remove(crapsDice.getTotalValue());
         }
@@ -447,7 +447,7 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
                 System.out.println("Your Don't Come bet Odds on point " + entry.getKey() + " wins! Payout is 1:2." +
                         " You won " + (entry.getValue() +
                         (int) Math.floor(entry.getValue() * .5)) + " chips!");
-                player.getWallet().addChipsToAmount(entry.getValue() +
+                player.getWallet().addChips(entry.getValue() +
                         (int) Math.floor(entry.getValue() * .5));
                 grandTotal += (entry.getValue() +
                         (int) Math.floor(entry.getValue() * .5));
@@ -455,7 +455,7 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
                 System.out.println("Your Don't Come bet Odds on point " + entry.getKey() + " wins! Payout is 2:3." +
                         " You won " + (entry.getValue() +
                         (int) Math.floor(entry.getValue() * .66)) + " chips!");
-                player.getWallet().addChipsToAmount(entry.getValue() +
+                player.getWallet().addChips(entry.getValue() +
                         (int) Math.floor(entry.getValue() * .66));
                 grandTotal += (entry.getValue() +
                         (int) Math.floor(entry.getValue() * .66));
@@ -463,7 +463,7 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
                 System.out.println("Your Don't Come bet Odds on point " + entry.getKey() + " wins! Payout is 5:6." +
                         " You won " + (entry.getValue() +
                         (int) Math.floor(entry.getValue() * .83)) + " chips!");
-                player.getWallet().addChipsToAmount(entry.getValue() +
+                player.getWallet().addChips(entry.getValue() +
                         (int) Math.floor(entry.getValue() * .83));
                 grandTotal += (entry.getValue() +
                         (int) Math.floor(entry.getValue() * .83));
@@ -487,7 +487,7 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
             System.out.println("Your Place Win bet won! Payout is 7:6. You won " + ((int) Math.floor(
                     placeWinBets.get(crapsDice.getTotalValue()) + placeWinBets.get(crapsDice.getTotalValue())
                     * 1.16)) +  " chips!");
-            player.getWallet().addChipsToAmount((int) Math.floor(
+            player.getWallet().addChips((int) Math.floor(
                     placeWinBets.get(crapsDice.getTotalValue()) + placeWinBets.get(crapsDice.getTotalValue())
                             * 1.16));
             placeWinBets.remove(crapsDice.getTotalValue());
@@ -495,7 +495,7 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
             System.out.println("Your Place Win bet won! Payout is 7:5. You won " + ((int) Math.floor(
                     placeWinBets.get(crapsDice.getTotalValue()) + placeWinBets.get(crapsDice.getTotalValue())
                             * 1.4)) +  " chips!");
-            player.getWallet().addChipsToAmount((int) Math.floor(
+            player.getWallet().addChips((int) Math.floor(
                     placeWinBets.get(crapsDice.getTotalValue()) + placeWinBets.get(crapsDice.getTotalValue())
                             * 1.4));
             placeWinBets.remove(crapsDice.getTotalValue());
@@ -503,7 +503,7 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
             System.out.println("Your Place Win bet won! Payout is 9:5. You won " + ((int) Math.floor(
                     placeWinBets.get(crapsDice.getTotalValue()) + placeWinBets.get(crapsDice.getTotalValue())
                             * 1.8)) +  " chips!");
-            player.getWallet().addChipsToAmount((int) Math.floor(
+            player.getWallet().addChips((int) Math.floor(
                     placeWinBets.get(crapsDice.getTotalValue()) + placeWinBets.get(crapsDice.getTotalValue())
                             * 1.8));
             placeWinBets.remove(crapsDice.getTotalValue());
@@ -539,21 +539,21 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
             if (entry.getKey() == 6 || entry.getKey() == 8) {
                 System.out.println("Your Place Lose bet on " + entry.getKey() + " won! Payout is 4:5. You won " +
                         (entry.getValue() + (int) Math.floor(entry.getValue() * .8)) + " chips!");
-                player.getWallet().addChipsToAmount(entry.getValue() + (int) Math.floor(entry.getValue()
+                player.getWallet().addChips(entry.getValue() + (int) Math.floor(entry.getValue()
                                 * .8));
                 grandTotal += (entry.getValue() + (int) Math.floor(entry.getValue()
                         * .8));
             } else if (entry.getKey() == 5 || entry.getKey() == 9) {
                 System.out.println("Your Place Lose bet on " + entry.getKey() + " won! Payout is 5:8. You won " +
                         (entry.getValue() + (int) Math.floor(entry.getValue() * .62)) + " chips!");
-                player.getWallet().addChipsToAmount(entry.getValue() + (int) Math.floor(entry.getValue()
+                player.getWallet().addChips(entry.getValue() + (int) Math.floor(entry.getValue()
                                 * .62));
                 grandTotal += (entry.getValue() + (int) Math.floor(entry.getValue()
                         * .62));
             } else if (entry.getKey() == 4 || entry.getKey() == 10) {
                 System.out.println("Your Place Lose bet on " + entry.getKey() + " won! Payout is 5:11. You won " +
                         (entry.getValue() + (int) Math.floor(entry.getValue() * .45)) + " chips!");
-                player.getWallet().addChipsToAmount(entry.getValue()+ (int) Math.floor(entry.getValue()
+                player.getWallet().addChips(entry.getValue()+ (int) Math.floor(entry.getValue()
                                 * .45));
                 grandTotal += (entry.getValue()+ (int) Math.floor(entry.getValue()
                         * .45));
@@ -566,7 +566,7 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
     private void placeBetPhaseTwoHandler() {
         String userAnswer = "";
         do {
-            if (player.getWallet().checkChipAmount() < 5) {
+            if (player.getWallet().checkChips() < 5) {
                 System.out.println("You don't have enough money for more bets!");
                 break;
             }
@@ -600,7 +600,7 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
         } else if (userAnswer.equals("place lose")) {
             placeLoseChecker();
         } else if (userAnswer.equals("check wallet amount")) {
-            System.out.println(player.getWallet().checkChipAmount());
+            System.out.println(player.getWallet().checkChips());
         } else if (userAnswer.equals("roll dice")) {
         } else {
             System.out.println("Input not recognized. Please try again.");
@@ -654,7 +654,7 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
     public void firstBetChecker(){
         do {
             placePassBetChecker();
-            if (player.getWallet().checkChipAmount() < 5 ) {
+            if (player.getWallet().checkChips() < 5 ) {
                 System.out.println("You don't have enough money for another bet!");
             } else {
                 placeDontPassLineBetChecker();

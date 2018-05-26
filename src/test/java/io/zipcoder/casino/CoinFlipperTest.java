@@ -9,7 +9,7 @@ public class CoinFlipperTest {
     private static CoinFlipper coinFlipper = new CoinFlipper(player);
 
     public static void main(String[] args) {
-        player.getWallet().addChipsToAmount(1000);
+        player.getWallet().addChips(1000);
         coinFlipper.start();
     }
 

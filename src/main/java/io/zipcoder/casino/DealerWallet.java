@@ -4,17 +4,17 @@ public class DealerWallet extends Wallet {
     private int chipAmount = Integer.MAX_VALUE;
 
     @Override
-    public void addChipsToAmount(int chipsToAdd) {
+    public void addChips(int chipsToAdd) {
 
     }
 
     @Override
-    public void removeChipsFromAmount(int chipsToRemove) {
+    public void removeChips(int chipsToRemove) {
 
     }
 
     @Override
-    public int checkChipAmount() {
+    public int checkChips() {
         return chipAmount;
 
     }

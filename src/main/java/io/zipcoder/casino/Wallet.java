@@ -11,21 +11,20 @@ public class Wallet {
         this.chipAmount = 0;
     }
 
-    public void addChipsToAmount(int chipsToAdd) {
+    public void addChips(int chipsToAdd) {
         this.chipAmount = this.chipAmount + chipsToAdd;
     }
 
-    public void removeChipsFromAmount(int chipsToRemove) {
+    public void removeChips(int chipsToRemove) {
         this.chipAmount = this.chipAmount - chipsToRemove;
     }
 
-    public int checkChipAmount(){
+    public int checkChips(){
         return this.chipAmount;
     }
 
-    //has Scanner and Wilhelm told me not to test methods with Scanner
-    //is called in sendNewPlayerToGame in Casino
-    public void fillPlayerWalletFromUserInput() {
+
+    public void fillWallet() {
         String isGambling;
         int walletAmount;
         Scanner in = new Scanner(System.in);
@@ -36,7 +35,7 @@ public class Wallet {
         if(isGambling.equals("y")) {
             System.out.println("Please enter number of chips you would like to begin with");
             walletAmount = getUserInput();
-            addChipsToAmount(walletAmount);
+            addChips(walletAmount);
         }
     }
 

@@ -1,360 +1,248 @@
 package io.zipcoder.casino.games;
 
 import io.zipcoder.casino.*;
-import io.zipcoder.casino.games.Game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
 public class GoFish extends Game implements GameInterface, CardGameInterface {
 
-    private Person player1;
-    private Person dealer = new Person("Dealer");
-    private Deck houseDeck = new Deck();
-
-    private Scanner userInputScanner = new Scanner(System.in);
-    private int userInputSave = 0;
-
-    private Scanner anotherRoundScanner = new Scanner(System.in);
+    private Person player;
+    private Person dealer;
+    private Deck houseDeck;
 
     private int booksTotalPlayer = 0;
     private int booksTotalDealer = 0;
 
     private Random random = new Random();
-    private int randomCardFromDealersHand = 0;
+    private int randomDealerCard;
 
-    public void GoFish(Person player) {
-        this.player1 = player;
+    public GoFish(Person player) {
+        this.player = player;
+        this.dealer = new Person("Dealer");
+        this.houseDeck = new Deck();
     }
+
+    public GoFish() {
+    }
+
 
     public void start() {
         System.out.println("*************************  Welcome to Go Fish!  *************************");
         System.out.println("\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
                 "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
                 "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B");
-        System.out.println("*************************  Welcome to Go Fish!  *************************\n");
-
+        System.out.println("*************************  Welcome to Go Fish!  *************************\n\n" +
+                "When choosing card enter 1 for Ace, 11 for Jack, 12 for Queen, 13 for King\n");
         houseDeck = new Deck();
         startingDrawDeck(houseDeck);
-
         userTurn();
     }
 
-    public GoFish(Person player1) {
-         this.player1 = player1;
-    }
-
-    public GoFish() {
-
-    }
 
     public void startingDrawDeck(Deck houseDeck){
-        // Add 7 cards to player1 hands
+        houseDeck.shuffleDeck();
+        for (int i = 0; i < 7; i++) currentHand(player).add(houseDeck.drawCard());
+        for (int i = 0; i < 7; i++) currentHand(dealer).add(houseDeck.drawCard());
+        houseDeck.shuffleDeck();
+    }
 
-        houseDeck.shuffleDeck();
-        for (int i = 0; i < 7; i++){
-            player1.getHand().getHandArrayList().add(houseDeck.drawCard());
-        }
-        // Add 7 cards to dealer hands
-        for (int i = 0; i < 7; i++){
-            dealer.getHand().getHandArrayList().add(houseDeck.drawCard());
-        }
-        houseDeck.shuffleDeck();
+    public int numberOfCards(Person person){
+        return person.getPlayerHand().size();
+    }
+
+    private ArrayList<Card> currentHand(Person person){
+        return person.getPlayerHand();
     }
 
     public void userTurn(){
-            do {
-                System.out.println("******      Player's turn     ******");
-                System.out.println("Enter: 1 for Ace, 11 for Jack, 12 for Queen, & 13 for King\n");
-                System.out.println("**** Choose a card to request from dealer ****");
-                checkNumberOfCard();
-                while(!userInputScanner.hasNextInt()) {
-                    userInputScanner.next();
-                }
-     /*SAVE*/   int userInput = userInputScanner.nextInt();
-                userInputSave = userInput;
-            } while (userInputSave <= 0 || userInputSave > 13);
+        int in = 0;
+        do {
+            int userChoice = playerInput();
+            in = userChoice;
+            if (doYouHaveCard(userChoice, dealer)) {
+                swapCards(userChoice, dealer, player);
+                bookCountCheck(userChoice, player);
+            } else {
+                goFishTurn(player);
+            }
+        } while (doYouHaveCard(in, player));
+        checkAfterPlayerGoFish(player);
+    }
 
-        doYouHaveTheCardThatIWantFromComputer(userInputSave, dealer);
+    private int playerInput(){
+        Scanner input = new Scanner(System.in);
+        int userChoice = 0;
+        do{
+            System.out.println("Player's Turn\n Your current hand: " +
+                    currentHand(player) + "\nChoose a card to request from dealer\n");
+            while(!input.hasNextInt()) input.next();
+            userChoice = input.nextInt();
+        } while (userChoice <=0 || userChoice>13);
+        return userChoice;
     }
 
     public void dealerTurn(){
+        ArrayList<Integer> cardValue = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9,10,11,12,13));
 
-        ArrayList<Integer> dealerRandomNumberList = new ArrayList<Integer>();
+        int randomDealerCard = cardValue.get(random.nextInt(cardValue.size()));
 
-        dealerRandomNumberList.add(1);
-        dealerRandomNumberList.add(2);
-        dealerRandomNumberList.add(3);
-        dealerRandomNumberList.add(4);
-        dealerRandomNumberList.add(5);
-        dealerRandomNumberList.add(6);
-        dealerRandomNumberList.add(7);
-        dealerRandomNumberList.add(8);
-        dealerRandomNumberList.add(9);
-        dealerRandomNumberList.add(10);
-        dealerRandomNumberList.add(11);
-        dealerRandomNumberList.add(12);
-        dealerRandomNumberList.add(13);
-
-        for (int x = 0; x < 13; x++) {
-            randomCardFromDealersHand = (dealerRandomNumberList.get(random.nextInt(dealerRandomNumberList.size())));
-        }
         System.out.println("****        Dealer's turn       ****");
-        System.out.println("\nDealer has chosen card: " + randomCardFromDealersHand);
-
-        doYouHaveTheCardThatIWantFromPlayer(randomCardFromDealersHand, player1);
+        System.out.println("\nDealer has chosen card: " + randomDealerCard + ", do you have it?");
+        do {
+            if (doYouHaveCard(randomDealerCard, player)) {
+                swapCards(randomDealerCard, player, dealer);
+                bookCountCheck(randomDealerCard,dealer);
+            }
+        }
+        checkAfterDealerGoFish();
     }
 
-    //Will check the players hand for books and delete them
-    // Need to add in score for completed books
-    public void checkBookCount(int userInputSave, Person handOfCards){
-
-            int num = 0;
-
-            for(int i = 0; i < handOfCards.getHand().getHandArrayList().size(); i++) {
-                if (userInputSave == handOfCards.getHand().getHandArrayList().get(i).getRank().toInt()) {
-                    num++;
-                }
+    private boolean doYouHaveCard(int randomCard, Person person) {
+        boolean yOrN = false;
+        for (int i = 0; i < numberOfCards(person); i++) {
+            if (randomCard == currentHand(person).get(i).toInt()) {
+                yOrN = true;
+                break;
             }
-            if (num == 4) {
-                for (int j = handOfCards.getHand().getHandArrayList().size() - 1; j >= 0 ; j--) {
-                    if (userInputSave == handOfCards.getHand().getHandArrayList().get(j).getRank().toInt()){
-
-                        handOfCards.getHand().getHandArrayList().remove(handOfCards.getHand().getHandArrayList().get(j));
-                    }
-                }
-                booksTotalPlayer++;
-                System.out.println("\n!$!$!$!$!$!$! You Scored a Book! (Four of a kind) !$!$!$!$!$!$!\n");
-                System.out.println("!!!!Your Book Total: " + booksTotalPlayer + "\n");
-            }
-
-        checkForEmptyDeckOrHandOfUserAfterCardFromComputer();
-        //return 0;
+        }
+        return yOrN;
     }
 
-    public void checkBookCountAfterGoFish(int userInputSave, Person handOfCards){
-
-        int num = 0;
-
-        for(int i = 0; i < handOfCards.getHand().getHandArrayList().size(); i++) {
-            if (userInputSave == handOfCards.getHand().getHandArrayList().get(i).getRank().toInt()) {
-                num++;
+    private void swapCards(int userInput, Person giver, Person receiver){
+        for(int i = 0; i< numberOfCards(giver); i++){
+            if(userInput == currentHand(giver).get(i).toInt()){
+                currentHand(receiver).add(currentHand(giver).get(i));
+                currentHand(giver).remove(i);
             }
         }
-        if (num == 4) {
-            for (int j = handOfCards.getHand().getHandArrayList().size() - 1; j >= 0 ; j--) {
-                if (userInputSave == handOfCards.getHand().getHandArrayList().get(j).getRank().toInt()){
-                    handOfCards.getHand().getHandArrayList().remove(handOfCards.getHand().getHandArrayList().get(j));
-                }
-            }
-            booksTotalPlayer++;
-            System.out.println("\n!$!$!$!$!$!$! You Scored a Book! (Four of a kind) !$!$!$!$!$!$!\n");
-            System.out.println("!!!!Your Book total: " + booksTotalPlayer + "\n");
-        }
-        checkForEmptyDeckOrHandOfUserAfterGoFish();
+        cardCountCheck(giver);
     }
 
-    public void checkBookCountDealer(int randomCardFromDealersHand, Person handOfCards){
+    public void goFishTurn(Person recieveCardFromDeck){
+        cardCountCheck(recieveCardFromDeck);
+        System.out.println("******************* Go Fish! ********************");
 
-        int num = 0;
-
-        for(int i = 0; i < handOfCards.getHand().getHandArrayList().size(); i++) {
-            if (randomCardFromDealersHand == handOfCards.getHand().getHandArrayList().get(i).getRank().toInt()) {
-                num++;
-            }
-        }
-        if (num == 4) {
-            for (int j = handOfCards.getHand().getHandArrayList().size() - 1; j >= 0 ; j--) {
-                if (randomCardFromDealersHand == handOfCards.getHand().getHandArrayList().get(j).getRank().toInt()){
-                    handOfCards.getHand().getHandArrayList().remove(handOfCards.getHand().getHandArrayList().get(j));
-                }
-            }
-            booksTotalDealer++;
-            System.out.println("\n!$!$!$!$!$!$! Dealer Scored a Book! (Four of a kind) !$!$!$!$!$!$!\n");
-            System.out.println("!!!!Dealer's Book total: " + booksTotalDealer + "\n");
-        }
-        checkForEmptyDeckOrHandOfDealerAfterCardFromPlayer();
-    }
-
-    public void checkBookCountDealerAfterGoFish(int randomCardFromDealersHand, Person handOfCards){
-
-        int num = 0;
-
-        for(int i = 0; i < handOfCards.getHand().getHandArrayList().size(); i++) {
-            if (randomCardFromDealersHand == handOfCards.getHand().getHandArrayList().get(i).getRank().toInt()) {
-                num++;
-            }
-        }
-        if (num == 4) {
-
-            for (int j = handOfCards.getHand().getHandArrayList().size() - 1; j >= 0 ; j--) {
-                if (randomCardFromDealersHand == handOfCards.getHand().getHandArrayList().get(j).getRank().toInt()){
-                    handOfCards.getHand().getHandArrayList().remove(handOfCards.getHand().getHandArrayList().get(j));
-                }
-            }
-            booksTotalDealer++;
-            System.out.println("\n!$!$!$!$!$!$! Dealer Scored a Book! (Four of a kind) !$!$!$!$!$!$!\n");
-            System.out.println("!!!!Dealer's Book total: " + booksTotalDealer + "\n");
-        }
-        checkForEmptyDeckOrHandOfDealerAfterGoFish();
-    }
-
-    // Asks Player if they have the card requested
-    public int doYouHaveTheCardThatIWantFromComputer(int userInputSave, Person handOfCards){
-
-        int counter = 0;
-
-        for(int i = 0; i < handOfCards.getHand().getHandArrayList().size(); i++){
-            if (userInputSave == handOfCards.getHand().getHandArrayList().get(i).getRank().toInt()){
-                counter++;
-            }
-        }
-
-        if (counter > 0){
-            System.out.println("\n*** You found requested Card : " + userInputSave + "!***\n");
-            removeCardsFromComputerPlayerAndIntoHand(userInputSave, dealer, player1);
-            return 1;
-
-        } else {
-            System.out.println("\n*** Computer's hand does not have card ***\n");
-            goFishPlayer(player1);
-            //checkNumberOfCards();
-            return 0;
-        }
-
-    }
-
-    public int doYouHaveTheCardThatIWantFromPlayer(int randomCardFromDealersHand, Person handOfCards){
-
-        int counter = 0;
-
-        for(int i = 0; i < handOfCards.getHand().getHandArrayList().size(); i++){
-            if (randomCardFromDealersHand == handOfCards.getHand().getHandArrayList().get(i).getRank().toInt()){
-                counter++;
-            }
-        }
-        if (counter > 0){
-            System.out.println("\n*** Computer found requested Card : " + randomCardFromDealersHand + "!***\n");
-            removeCardsFromPlayerAndIntoComputerHand(randomCardFromDealersHand, player1, dealer);
-            return 1;
-
-        } else {
-            System.out.println("\n*** Player's hand does not have card ***\n");
-            goFishDealer(dealer);
-            //userTurn();
-            return 0;
-        }
-
-    }
-
-    // Removes Cards from player that has been asked and returns card to player that asked
-    public int removeCardsFromComputerPlayerAndIntoHand(int userInputSave, Person giveHandOfCards, Person receiveHandOfCards){
-
-        for(int i = giveHandOfCards.getHand().getHandArrayList().size() - 1; i >= 0; i--){
-            if (userInputSave == giveHandOfCards.getHand().getHandArrayList().get(i).getRank().toInt()){
-                receiveHandOfCards.getHand().getHandArrayList().add(giveHandOfCards.getHand().getHandArrayList().get(i));
-                giveHandOfCards.getHand().getHandArrayList().remove(i);
-            }
-        }
-        checkBookCount(userInputSave, player1);
-        return userInputSave;
-    }
-
-    public int removeCardsFromPlayerAndIntoComputerHand(int randomCardFromDealersHand, Person giveHandOfCards, Person receiveHandOfCards){
-
-        for(int i = giveHandOfCards.getHand().getHandArrayList().size() - 1; i >= 0; i--){
-            if (userInputSave == giveHandOfCards.getHand().getHandArrayList().get(i).getRank().toInt()){
-                receiveHandOfCards.getHand().getHandArrayList().add(giveHandOfCards.getHand().getHandArrayList().get(i));
-                giveHandOfCards.getHand().getHandArrayList().remove(i);
-            }
-        }
-        checkBookCountDealer(userInputSave, dealer);
-        return randomCardFromDealersHand;
-    }
-
-    public void goFishPlayer(Person recieveCardFromDeck){
-        System.out.println("********************");
-        System.out.println("  Player Go Fish!");
-        System.out.println("********************");
-        System.out.println("");
-
-            player1.getHand().getHandArrayList().add(houseDeck.drawCard());
-
-            for(int i = 0; i < player1.getHand().getHandArrayList().size(); i++){
-                userInputSave = player1.getHand().getHandArrayList().get(i).getRank().toInt();
-            }
-
-            System.out.println("\u270B Total deck of cards count: " + houseDeck.getDeckOfCards().size() + "\n");
-            checkBookCountAfterGoFish(userInputSave, player1);
-            //return houseDeck.drawCard();
-    }
-
-    public void goFishDealer(Person recieveCardFromDeck){
-        System.out.println("********************");
-        System.out.println("  Dealer Go Fish!");
-        System.out.println("********************");
-        System.out.println("");
-
-        if (houseDeck.getDeckOfCards().size() == 0 || dealer.getHand().getHandArrayList().size() == 0) {
+        if (houseDeck.getDeckOfCards().size() == 0) {
             System.out.println("Out of Cards!");
             whoWonTheGame();
 
         } else {
-            dealer.getHand().getHandArrayList().add(houseDeck.drawCard());
-
-            for(int i = 0; i < dealer.getHand().getHandArrayList().size(); i++){
-                randomCardFromDealersHand = dealer.getHand().getHandArrayList().get(i).getRank().toInt();
-            }
-            System.out.println("\u270B Total deck of cards count: " + houseDeck.getDeckOfCards().size() + "\n");
-            checkBookCountDealerAfterGoFish(randomCardFromDealersHand, dealer);
+            Card card = houseDeck.drawCard();
+            currentHand(recieveCardFromDeck).add(card);
+            System.out.println("Card fished: " + card);
+            bookCountCheck(card.toInt(), recieveCardFromDeck);
         }
-
+        cardCountCheck(recieveCardFromDeck);
     }
 
-    public void dealCards() {
 
+
+    private void bookCountCheck(int userInputSave, Person playerHand){
+        int num = 0;
+        for(int i = 0; i < numberOfCards(playerHand); i++) {
+            if (userInputSave == currentHand(playerHand).get(i).toInt()) {
+                num++;
+            }
+        }
+        if (num == 4) {
+            for (int j = numberOfCards(playerHand) - 1; j >= 0 ; j--) {
+                if (userInputSave == currentHand(playerHand).get(j).toInt()){
+                    currentHand(playerHand).remove(currentHand(playerHand).get(j));
+                }
+            }
+            playerHand.setBook(playerHand.getBook()+1);
+            System.out.println("\n!$!$!$!$!$!$! You Scored a Book! (Four of a kind) !$!$!$!$!$!$!\n" +
+                    "!!!!Your Book Total: " + playerHand.getBook() + "\n");
+        }
     }
 
-    public int checkNumberOfCards(Hand hand) {
-
-        System.out.println("Your hand: " + "\u270B" + player1.getHand().getHandArrayList() + "\u270B");
-
-        return player1.getHand().getHandArrayList().size();
+    public void cardCountCheck(Person person){
+        if (houseDeck.getDeckOfCards().size() == 0 || numberOfCards(person) == 0){
+            whoWonTheGame();
+        }
     }
 
-    public int checkNumberOfCard() {
+//    public void checkPlayerCountBefore(int userInputSave, Person playerHand){
+//        bookCountCheck(userInputSave,playerHand);
+//        checkPlayerAfterDealerSwap();
+//    }
+//
+//    public void checkPlayerCountAfterGoFish(int userInputSave, Person handOfCards){
+//        bookCountCheck(userInputSave,handOfCards);
+//        checkAfterPlayerGoFish(handOfCards);
+//    }
 
-        System.out.println("Your hand: " + "\u270B" + player1.getHand().getHandArrayList() + "\u270B");
+//    public void checkDealerCount(int randomCardFromDealersHand, Person handOfCards){
+//        int num = 0;
+//        for(int i = 0; i < handOfCards.getPlayerHand().size(); i++) {
+//            if (randomCardFromDealersHand == handOfCards.getPlayerHand().get(i).getRank().toInt()) {
+//                num++;
+//            }
+//        }
+//        if (num == 4) {
+//            for (int j = numberOfCards(handOfCards) - 1; j >= 0 ; j--) {
+//                if (randomCardFromDealersHand == currentHand(handOfCards).get(j).getRank().toInt()){
+//                    currentHand(handOfCards).remove(currentHand(handOfCards).get(j));
+//                }
+//            }
+//            handOfCards.setBook(handOfCards.getBook()+1);
+//            System.out.println("\n" + handOfCards.getName() + " Scored a Book! (Four of a kind) !\n");
+//            System.out.println("!!!!Dealer's Book total: " + handOfCards.getBook() + "\n");
+//        }
+//    }
 
-        return player1.getHand().getHandArrayList().size();
-    }
+//    public void checkDealerCountBefore(int randomCardFromDealersHand, Person handOfCards) {
+//        checkDealerCount(randomCardFromDealersHand, handOfCards);
+//        checkDealerAfterPlayerTurn();
+//    }
+//
+//    public void checkBookCountDealerAfterGoFish(int randomCardFromDealersHand, Person handOfCards){
+//        checkDealerCount(randomCardFromDealersHand, handOfCards);
+//        checkAfterDealerGoFish();
+//    }
 
-    public void checkForEmptyDeckOrHandOfUserAfterGoFish(){
-        if (houseDeck.getDeckOfCards().size() == 0 || player1.getHand().getHandArrayList().size() == 0){
+//
+//    public void moveFromComputerToPlayer(int userInputSave, Person dealer1, Person player){
+//        swapCards(userInputSave, dealer1 ,player);
+//        checkPlayerCountBefore(userInputSave, player);
+//    }
+//
+//    public void moveFromPlayerToComputer(int card, Person play, Person deal){
+//        swapCards(card,play,deal);
+//        checkDealerCountBefore(card, deal);
+//    }
+//
+
+
+    public void checkAfterPlayerGoFish(Person player1){
+        if (houseDeck.getDeckOfCards().size() == 0 || numberOfCards(player1) == 0){
             whoWonTheGame();
         } else {
             dealerTurn();
         }
     }
-    public void checkForEmptyDeckOrHandOfUserAfterCardFromComputer(){
-        if (houseDeck.getDeckOfCards().size() == 0 || player1.getHand().getHandArrayList().size() == 0){
+
+    public void checkAfterDealerGoFish(Person dealer1){
+        if (houseDeck.getDeckOfCards().size() == 0 || numberOfCards(dealer1) == 0){
             whoWonTheGame();
         } else {
             userTurn();
         }
     }
 
-    public void checkForEmptyDeckOrHandOfDealerAfterGoFish(){
-        if (houseDeck.getDeckOfCards().size() == 0 || dealer.getHand().getHandArrayList().size() == 0){
+    public void checkPlayerAfterDealerSwap(){
+        if (houseDeck.getDeckOfCards().size() == 0 || numberOfCards(player) == 0){
             whoWonTheGame();
         } else {
             userTurn();
         }
     }
 
-    public void checkForEmptyDeckOrHandOfDealerAfterCardFromPlayer(){
-        if (houseDeck.getDeckOfCards().size() == 0 || dealer.getHand().getHandArrayList().size() == 0){
+    public void checkDealerAfterPlayerTurn(){
+        if (houseDeck.getDeckOfCards().size() == 0 || numberOfCards(dealer) == 0){
             whoWonTheGame();
         } else {
             dealerTurn();
@@ -362,49 +250,31 @@ public class GoFish extends Game implements GameInterface, CardGameInterface {
     }
 
     public void whoWonTheGame(){
-        if (booksTotalPlayer > booksTotalDealer){
+        if (player.getBook() > dealer.getBook()){
             System.out.println("*************************  You Won!  *************************");
-            System.out.println("\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
-                    "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
-                    "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\n" +
-                    "           You won the game with a total Book Score of " + booksTotalPlayer + "!\n" +
-                    "           Dealer lost game with a total Book Score of " + booksTotalDealer + "!\n" +
-                    "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
-                    "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
-                    "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B");
+            System.out.println("You won the game with a total Book Score of " + player.getBook() + "!\n" +
+                    "Dealer lost game with a total Book Score of " + dealer.getBook() + "!\n");
             System.out.println("*************************  You Won!  *************************\n");
-        } else if (booksTotalPlayer == booksTotalDealer) {
+        } else if (player.getBook() == dealer.getBook()) {
             System.out.println("*************************  You Tied!  *************************");
-            System.out.println("\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
-                    "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
-                    "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\n" +
-                    "           Both Players Tied with a total Book Score of " + booksTotalPlayer + "!\n" +
-                    "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
-                    "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
-                    "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B");
+            System.out.println("Both Players Tied with a total Book Score of " + player.getBook()+ "!\n" );
             System.out.println("*************************  You Tied!  *************************\n");
         } else {
             System.out.println("*************************  You Lost!  *************************");
-            System.out.println("\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
-                    "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
-                    "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\n" +
-                    "           You Lost! Dealer had a Book Score of " + booksTotalDealer + "!\n" +
-                    "                 You had a Book Score of " + booksTotalPlayer + "!\n" +
-                    "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
-                    "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
-                    "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B");
+            System.out.println("           You Lost! Dealer had a Book Score of " + dealer.getBook() + "!\n" +
+                    "                 You had a Book Score of " + player.getBook() + "!\n");
             System.out.println("*************************  You Lost!  *************************\n");
         }
         end();
     }
 
     public void end() {
+        Scanner anotherRoundScanner = new Scanner(System.in);
+        player.setBook(0);
+        dealer.setBook(0);
 
-        booksTotalPlayer = 0;
-        booksTotalDealer = 0;
-
-        player1.getHand().getHandArrayList().clear();
-        dealer.getHand().getHandArrayList().clear();
+        currentHand(player).clear();
+        currentHand(dealer).clear();
 
         System.out.println("Play another round? yes or no...");
         if (anotherRoundScanner.nextLine().equalsIgnoreCase("yes")) {
@@ -412,6 +282,15 @@ public class GoFish extends Game implements GameInterface, CardGameInterface {
         } else {
             System.out.println("Thanks for playing!");
         }
+    }
+
+    @Override
+    public int checkNumberOfCards(Hand hand) {
+        return 0;
+    }
+
+    public void dealCards() {
+
     }
 
 //    public static void main(String[] args) {

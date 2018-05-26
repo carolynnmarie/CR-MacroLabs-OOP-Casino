@@ -24,9 +24,9 @@ public class War extends Game implements GameInterface, CardGameInterface {
         System.out.println("Enter 'exit' at any time to end the game");
         Deck dealerDeck = new Deck();
         for (int i = 0; i < dealerDeck.getDeckOfCards().size(); i++) {
-            dealer.getHand().receiveCards(dealerDeck.getDeckOfCards().get(i));
+            dealer.receiveCards(dealerDeck.getDeckOfCards().get(i));
         }
-        dealer.getHand().shuffleHand();
+        dealer.shuffleHand();
         dealCards();
         engine();
     }
@@ -37,8 +37,8 @@ public class War extends Game implements GameInterface, CardGameInterface {
         if (nextLineIsNotExit()) {
             while (gameIsRunning == true) {
                 while (!handOfPersonIsEmpty(dealer) && !handOfPersonIsEmpty(player)) {
-                    playerPlayedCards.add(player.getHand().drawCardfromHand());
-                    dealerPlayedCards.add(dealer.getHand().drawCardfromHand());
+                    playerPlayedCards.add(player.drawCardfromHand());
+                    dealerPlayedCards.add(dealer.drawCardfromHand());
                     System.out.println("You played " + playerPlayedCards + " and the dealer played " + dealerPlayedCards);
                     int winner =
                             compareCards(
@@ -61,7 +61,7 @@ public class War extends Game implements GameInterface, CardGameInterface {
     }
 
     private boolean handOfPersonIsEmpty(Person person) {
-        return person.getHand().getHandArrayList().size() == 0;
+        return person.getPlayerHand().size() == 0;
     }
 
     private void announceWinner(int winnerNumber) {
@@ -107,12 +107,13 @@ public class War extends Game implements GameInterface, CardGameInterface {
 
     public void giveCardsFromTheTableToTheWinner(ArrayList<Card> tableDeck, Person person) {
         while (tableDeck.size() != 0) {
-            person.getHand().receiveCards(tableDeck.remove(0));
+            person.receiveCards(tableDeck.remove(0));
         }
     }
 
     public void somebodyWonMessage() {
-        System.out.println("You have " + player.getHand().getHandArrayList().size() + " cards and the dealer has " + dealer.getHand().getHandArrayList().size() + " cards");
+        System.out.println("You have " + player.getPlayerHand().size() +
+                " cards and the dealer has " + dealer.getPlayerHand().size() + " cards");
     }
 
     // Make private after testing / Make public for testing
@@ -141,30 +142,27 @@ public class War extends Game implements GameInterface, CardGameInterface {
 
     // Make private after testing / Make public for testing
     public void playCardInHandForPerson(ArrayList<Card> playedCards, Person person, int i) {
-        playedCards.add(person.getHand().drawCardfromHand());
+        playedCards.add(person.drawCardfromHand());
     }
 
     public void dealCards() {
-        for (int i = dealer.getHand().getHandArrayList().size()-1; i >= 26; i--) {
-            player.getHand()
-                    .getHandArrayList()
-                    .add(dealer
-                            .getHand()
-                            .getHandArrayList()
+        for (int i = dealer.getPlayerHand().size()-1; i >= 26; i--) {
+            player.getPlayerHand()
+                    .add(dealer.getPlayerHand()
                             .remove(i));
         }
     }
 
     public void end() {
         String winner = "";
-        if (player.getHand().getHandArrayList().size() > 25) {
+        if (player.getPlayerHand().size() > 25) {
             winner += "you!";
         } else {
             winner += "the dealer!";
         }
         System.out.println("And the winner is " + winner);
-        player.getHand().clearHand();
-        dealer.getHand().clearHand();
+        player.clearHand();
+        dealer.clearHand();
         System.out.println("If you want to play again, enter 'yes', or enter anything else to return to the casino");
         if (input.nextLine().equals("yes")) {
             start();
@@ -172,8 +170,8 @@ public class War extends Game implements GameInterface, CardGameInterface {
         gameIsRunning = false;
     }
 
-    public int checkNumberOfCards(Hand handToCheck) {
-        return handToCheck.getHandArrayList().size();
+    public int checkNumberOfCards(Person handToCheck) {
+        return handToCheck.getPlayerHand().size();
     }
 
 }

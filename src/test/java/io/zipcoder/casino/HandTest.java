@@ -38,7 +38,7 @@ public class HandTest {
         Hand hand = new Hand();
         Card expectedCard = new Card(Rank.SEVEN, Suit.SPADES);
         String expectedCardString = expectedCard.toString();
-        //System.out.println(hand.getHandArrayList());
+        //System.out.println(hand.getPlayerHand());
 
         // When
         hand.getHandArrayList().add(expectedCard);
@@ -158,12 +158,12 @@ public class HandTest {
         Card notShuffled2 = new Card(Rank.FOUR, Suit.HEARTS);
         Card notShuffled3 = new Card(Rank.FIVE, Suit.SPADES);
         hand.receiveCards(notShuffled0, notShuffled1, notShuffled2, notShuffled3);
-        //System.out.println(hand.getHandArrayList());
+        //System.out.println(hand.getPlayerHand());
 
         // When
         hand.shuffleHand();
         Card cardAtIndex0 = hand.getHandArrayList().get(0);
-        //System.out.println(hand.getHandArrayList());
+        //System.out.println(hand.getPlayerHand());
 
         // Then
         Assert.assertNotEquals(notShuffled0, cardAtIndex0);

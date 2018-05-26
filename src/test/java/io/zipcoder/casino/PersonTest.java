@@ -1,7 +1,6 @@
 package io.zipcoder.casino;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class PersonTest {
     public void getWalletTest() {
         Person person = new Person("Joe");
         int expected = 0;
-        int actual = person.getWallet().checkChipAmount();
+        int actual = person.getWallet().checkChips();
         Assert.assertEquals(actual, expected);
     }
 }

@@ -10,7 +10,7 @@ public class CrapsTest {
     Craps crapsTest = new Craps(personTest);
 
     @Before public void addMoney() {
-            personTest.getWallet().addChipsToAmount(500);
+            personTest.getWallet().addChips(500);
         }
 
 
@@ -22,7 +22,7 @@ public class CrapsTest {
         crapsTest.setPoint(8);
         crapsTest.checkPhaseTwoRolls();
         int expected = 505;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected,actual);
     }
 
@@ -34,7 +34,7 @@ public class CrapsTest {
         crapsTest.setPoint(8);
         crapsTest.checkPhaseTwoRolls();
         int expected = 500;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected,actual);
     }
 
@@ -46,7 +46,7 @@ public class CrapsTest {
         crapsTest.setPoint(8);
         crapsTest.checkPhaseTwoRolls();
         int expected = 505;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected,actual);
     }
 
@@ -58,7 +58,7 @@ public class CrapsTest {
         crapsTest.setPoint(8);
         crapsTest.checkPhaseTwoRolls();
         int expected = 500;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected,actual);
     }
 
@@ -70,7 +70,7 @@ public class CrapsTest {
         crapsTest.setComeBet(5);
         crapsTest.checkPhaseTwoRolls();
         int expected = 505;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected,actual);
     }
 
@@ -82,7 +82,7 @@ public class CrapsTest {
         crapsTest.setComeBet(5);
         crapsTest.checkPhaseTwoRolls();
         int expected = 500;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected,actual);
     }
 
@@ -94,7 +94,7 @@ public class CrapsTest {
         crapsTest.setDontComeBet(5);
         crapsTest.checkPhaseTwoRolls();
         int expected = 505;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected,actual);
     }
 
@@ -106,7 +106,7 @@ public class CrapsTest {
         crapsTest.setDontComeBet(5);
         crapsTest.checkPhaseTwoRolls();
         int expected = 500;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected,actual);
     }
 
@@ -118,7 +118,7 @@ public class CrapsTest {
         crapsTest.createFieldValues();
         crapsTest.checkPhaseTwoRolls();
         int expected = 520;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -130,7 +130,7 @@ public class CrapsTest {
         crapsTest.createFieldValues();
         crapsTest.checkPhaseTwoRolls();
         int expected = 510;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -142,7 +142,7 @@ public class CrapsTest {
         crapsTest.createFieldValues();
         crapsTest.checkPhaseTwoRolls();
         int expected = 500;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -154,7 +154,7 @@ public class CrapsTest {
         crapsTest.setPoint(4);
         crapsTest.checkPhaseTwoRolls();
         int expected = 520;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -166,7 +166,7 @@ public class CrapsTest {
         crapsTest.setPoint(4);
         crapsTest.checkPhaseTwoRolls();
         int expected = 500;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -178,7 +178,7 @@ public class CrapsTest {
         crapsTest.setPoint(4);
         crapsTest.checkPhaseTwoRolls();
         int expected = 515;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -190,7 +190,7 @@ public class CrapsTest {
         crapsTest.setPoint(4);
         crapsTest.checkPhaseTwoRolls();
         int expected = 500;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -202,7 +202,7 @@ public class CrapsTest {
         crapsTest.setPoint(4);
         crapsTest.checkPhaseTwoRolls();
         int expected = 510;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -215,7 +215,7 @@ public class CrapsTest {
         crapsTest.setPoint(4);
         crapsTest.checkPhaseTwoRolls();
         int expected = 500;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -228,7 +228,7 @@ public class CrapsTest {
         crapsTest.setPoint(4);
         crapsTest.checkPhaseTwoRolls();
         int expected = 520;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -240,7 +240,7 @@ public class CrapsTest {
         crapsTest.setPoint(4);
         crapsTest.checkPhaseTwoRolls();
         int expected = 500;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -252,7 +252,7 @@ public class CrapsTest {
         crapsTest.setPoint(4);
         crapsTest.checkPhaseTwoRolls();
         int expected = 525;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -264,7 +264,7 @@ public class CrapsTest {
         crapsTest.setPoint(5);
         crapsTest.checkPhaseTwoRolls();
         int expected = 530;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -276,7 +276,7 @@ public class CrapsTest {
         crapsTest.setPoint(5);
         crapsTest.checkPhaseTwoRolls();
         int expected = 522;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -289,7 +289,7 @@ public class CrapsTest {
         crapsTest.setPoint(5);
         crapsTest.checkPhaseTwoRolls();
         int expected = 500;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -301,7 +301,7 @@ public class CrapsTest {
         crapsTest.setPoint(6);
         crapsTest.checkPhaseTwoRolls();
         int expected = 500;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -315,7 +315,7 @@ public class CrapsTest {
         crapsTest.setPoint(6);
         crapsTest.checkPhaseTwoRolls();
         int expected = 549;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -327,7 +327,7 @@ public class CrapsTest {
         crapsTest.setPoint(6);
         crapsTest.checkPhaseTwoRolls();
         int expected = 521;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -339,7 +339,7 @@ public class CrapsTest {
         crapsTest.setPoint(6);
         crapsTest.checkPhaseTwoRolls();
         int expected = 524;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -351,7 +351,7 @@ public class CrapsTest {
         crapsTest.setPoint(6);
         crapsTest.checkPhaseTwoRolls();
         int expected = 528;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -365,7 +365,7 @@ public class CrapsTest {
         crapsTest.setPoint(6);
         crapsTest.checkPhaseTwoRolls();
         int expected = 500;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -379,7 +379,7 @@ public class CrapsTest {
         crapsTest.setPoint(6);
         crapsTest.checkPhaseTwoRolls();
         int expected = 548;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 
@@ -391,7 +391,7 @@ public class CrapsTest {
         crapsTest.setPoint(6);
         crapsTest.checkPhaseTwoRolls();
         int expected = 500;
-        int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
+        int actual = crapsTest.getPlayer().getWallet().checkChips();
         Assert.assertEquals(expected, actual);
     }
 }
