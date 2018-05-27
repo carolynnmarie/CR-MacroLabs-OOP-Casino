@@ -1,14 +1,15 @@
-package io.zipcoder.casino;
+package io.zipcoder.casino.cards;
 
 public class Card {
 
-    private final Rank rank;
-    private final Suit suit;
+    private Rank rank;
+    private Suit suit;
 
     public Card(Rank rank, Suit suit) {
         this.rank = rank;
         this.suit = suit;
     }
+    public Card(){}
 
     public Rank getRank() {
         return rank;

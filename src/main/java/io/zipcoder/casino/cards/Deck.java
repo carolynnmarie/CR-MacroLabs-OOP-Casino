@@ -1,7 +1,6 @@
-package io.zipcoder.casino;
+package io.zipcoder.casino.cards;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 
@@ -28,6 +27,11 @@ public class Deck {
 
     public Card drawCard(){
         return deckOfCards.remove(deckOfCards.size() - 1);
+    }
+
+    public Card getCard(){
+        Collections.shuffle(deckOfCards);
+        return deckOfCards.get(0);
     }
 
     public void clearDeck(){

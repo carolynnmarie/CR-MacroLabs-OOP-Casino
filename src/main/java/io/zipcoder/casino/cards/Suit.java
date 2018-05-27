@@ -1,4 +1,4 @@
-package io.zipcoder.casino;
+package io.zipcoder.casino.cards;
 
 public enum Suit {
 

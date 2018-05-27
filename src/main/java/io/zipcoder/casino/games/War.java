@@ -1,21 +1,26 @@
 package io.zipcoder.casino.games;
 
-import io.zipcoder.casino.*;
-import io.zipcoder.casino.games.Game;
+import io.zipcoder.casino.cards.Card;
+import io.zipcoder.casino.cards.Deck;
+import io.zipcoder.casino.people.Dealer;
+import io.zipcoder.casino.people.Person;
 
 import java.util.*;
 
 public class War extends Game implements GameInterface, CardGameInterface {
 
     private boolean gameIsRunning;
-    private Dealer dealer = new Dealer();
+    private Dealer dealer;
     private Person player;
-    private ArrayList<Card> playerPlayedCards = new ArrayList<Card>();
-    private ArrayList<Card> dealerPlayedCards = new ArrayList<Card>();
+    private ArrayList<Card> playerPlayedCards;
+    private ArrayList<Card> dealerPlayedCards;
     private Scanner input = new Scanner(System.in);
 
     public War(Person player) {
         this.player = player;
+        this.dealer = new Dealer();
+        this.playerPlayedCards = new ArrayList<>();
+        this.dealerPlayedCards = new ArrayList<>();
     }
 
     public void start() {
@@ -31,11 +36,11 @@ public class War extends Game implements GameInterface, CardGameInterface {
         engine();
     }
 
-    // Make private after testing / Make public for testing
+
     public void engine() {
         // String playerInput = input.nextLine();
         if (nextLineIsNotExit()) {
-            while (gameIsRunning == true) {
+            while (gameIsRunning) {
                 while (!handOfPersonIsEmpty(dealer) && !handOfPersonIsEmpty(player)) {
                     playerPlayedCards.add(player.drawCardfromHand());
                     dealerPlayedCards.add(dealer.drawCardfromHand());
@@ -89,7 +94,6 @@ public class War extends Game implements GameInterface, CardGameInterface {
         return 0;
     }
 
-    // Make private after testing / Make public for testing
     public void playerWins() {
         System.out.println("You won this round!");
         giveCardsFromTheTableToTheWinner(playerPlayedCards, player);
@@ -97,7 +101,6 @@ public class War extends Game implements GameInterface, CardGameInterface {
         somebodyWonMessage();
     }
 
-    // Make private after testing / Make public for testing
     public void dealerWins() {
         System.out.println("You lost this round!");
         giveCardsFromTheTableToTheWinner(playerPlayedCards, dealer);
@@ -119,10 +122,10 @@ public class War extends Game implements GameInterface, CardGameInterface {
     // Make private after testing / Make public for testing
     public void iDeclareWar() {
         System.out.println("I   D E C L A R E   W A R!");
-        int amountOfPlayerAvailibleCards = checkNumberOfCards(player.getHand());
-        int amountOfDealerAvailibleCards = checkNumberOfCards(dealer.getHand());
-        iDeclareWarLogic(playerPlayedCards, player, amountOfPlayerAvailibleCards);
-        iDeclareWarLogic(dealerPlayedCards, dealer, amountOfDealerAvailibleCards);
+        int amountPlayerCards = checkNumberOfCards(player);
+        int amountDealerCards = checkNumberOfCards(dealer);
+        iDeclareWarLogic(playerPlayedCards, player, amountPlayerCards);
+        iDeclareWarLogic(dealerPlayedCards, dealer, amountDealerCards);
     }
 
     // Make private after testing / Make public for testing
@@ -144,6 +147,7 @@ public class War extends Game implements GameInterface, CardGameInterface {
     public void playCardInHandForPerson(ArrayList<Card> playedCards, Person person, int i) {
         playedCards.add(person.drawCardfromHand());
     }
+
 
     public void dealCards() {
         for (int i = dealer.getPlayerHand().size()-1; i >= 26; i--) {

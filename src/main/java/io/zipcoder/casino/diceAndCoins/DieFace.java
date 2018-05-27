@@ -1,4 +1,4 @@
-package io.zipcoder.casino;
+package io.zipcoder.casino.diceAndCoins;
 
 public enum DieFace {
     ONE(1),

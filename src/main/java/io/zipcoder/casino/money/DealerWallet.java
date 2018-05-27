@@ -1,4 +1,4 @@
-package io.zipcoder.casino;
+package io.zipcoder.casino.money;
 
 public class DealerWallet extends Wallet {
     private int chipAmount = Integer.MAX_VALUE;

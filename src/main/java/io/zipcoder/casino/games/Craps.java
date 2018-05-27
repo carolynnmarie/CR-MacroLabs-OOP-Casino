@@ -1,6 +1,8 @@
 package io.zipcoder.casino.games;
 
-import io.zipcoder.casino.*;
+import io.zipcoder.casino.diceAndCoins.DiceManager;
+import io.zipcoder.casino.money.GamblingInterface;
+import io.zipcoder.casino.people.Person;
 
 import java.util.*;
 
@@ -23,11 +25,17 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
     private HashMap<Integer, Integer> dontComeBetPointOdds = new HashMap<Integer, Integer>();
     private HashMap<Integer, Integer> placeWinBets = new HashMap<Integer, Integer>();
     private HashMap<Integer, Integer> placeLoseBets = new HashMap<Integer, Integer>();
-    private boolean keepPlaying = true;
+
     private Scanner userInput = new Scanner(System.in);
 
 
-    Person player;
+    private Person player;
+
+    public Craps(){}
+
+    public Craps(Person player) {
+        this.player = player;
+    }
 
 
     public void rollDice() {
@@ -44,39 +52,38 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
 
     public void placeBet(Person personPlacingBet, int betAmount) {
         personPlacingBet.getWallet().removeChips(betAmount);
-
     }
 
     public int getAnte() {
         return 5;
     }
 
-    public void bootPlayerFromGame(Person personToBoot) {
-        System.out.println("You don't have enough money!");
 
-    }
+
 
     public int checkPot() {
         return 0;
     }
 
-    public Craps(){}
 
-    public Craps(Person player) {
-        this.player = player;
-    }
 
     public void start() {
+        boolean keep = true;
         System.out.println("Welcome to Craps!");
         do {
             if (player.getWallet().checkChips() < 5) {
-                bootPlayerFromGame(player);
+                System.out.println("You don't have enough money!");
                 break;
             }
             firstBetChecker();
             comeOutRoll();
-            quitProgram();
-        } while (keepPlaying);
+            keep = quitProgram();
+        } while (keep);
+
+    }
+
+    @Override
+    public void end() {
 
     }
 
@@ -841,7 +848,8 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
         winLosePlaceValues.add(10);
     }
 
-    private void quitProgram() {
+    private boolean quitProgram() {
+        boolean keepPlaying = true;
         System.out.println("Would you like to keep playing? Yes or no.");
         String userAnswer = "";
         do {
@@ -855,10 +863,11 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
                 System.out.println("Your answer was not recognized. Please try again.");
             }
         }while (!(userAnswer.equals("yes")) && !(userAnswer.equals("no")));
+        return keepPlaying;
     }
 
 
-    //Testing methods
+    //Testi ng methods
     public Person getPlayer() {
         return player;
     }
@@ -922,4 +931,7 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
     public void setPlaceLoseBets(int testInput1, int testInput2) {
         placeLoseBets.put(testInput1, testInput2);
     }
+
+    @Override
+    public void bootPlayerFromGame(Person personToBoot) { }
 }

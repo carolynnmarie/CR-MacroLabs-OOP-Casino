@@ -1,5 +1,7 @@
 package io.zipcoder.casino;
 
+import io.zipcoder.casino.diceAndCoins.DiceManager;
+import io.zipcoder.casino.diceAndCoins.DieFace;
 import org.junit.Assert;
 import org.junit.Test;
 

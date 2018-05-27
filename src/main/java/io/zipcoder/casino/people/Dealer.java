@@ -1,6 +1,9 @@
-package io.zipcoder.casino;
+package io.zipcoder.casino.people;
 
-public class Dealer extends Person{
+import io.zipcoder.casino.money.DealerWallet;
+import io.zipcoder.casino.money.Wallet;
+
+public class Dealer extends Person {
 
 
     private Wallet dealerWallet;

@@ -1,6 +1,10 @@
 package io.zipcoder.casino;
 
+import io.zipcoder.casino.cards.Card;
+import io.zipcoder.casino.cards.Rank;
+import io.zipcoder.casino.cards.Suit;
 import io.zipcoder.casino.games.Blackjack;
+import io.zipcoder.casino.people.Person;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

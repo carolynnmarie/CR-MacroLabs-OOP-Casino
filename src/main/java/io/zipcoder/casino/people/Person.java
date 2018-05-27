@@ -1,5 +1,8 @@
-package io.zipcoder.casino;
+package io.zipcoder.casino.people;
 
+
+import io.zipcoder.casino.money.Wallet;
+import io.zipcoder.casino.cards.Card;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,12 +50,12 @@ public class Person {
         return playerHand;
     }
 
-    public ArrayList<Card> getSpecificCardsArrayList(Card... cards) {
-        for (Card card : cards) {
-            playerHand.remove(card);
-            specificCards.add(card);
+    public String displayHand(){
+        String hand = "";
+        for(Card card: playerHand){
+            hand += card.toString();
         }
-        return specificCards;
+        return hand;
     }
 
     public void receiveCards(Card... cards) {
@@ -73,9 +76,10 @@ public class Person {
         Collections.shuffle(playerHand);
     }
 
-    public void setBook(Integer book){
+    public void setBook(int book){
         this.book = book;
     }
+
     public int getBook(){
         return book;
     }
