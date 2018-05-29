@@ -15,6 +15,7 @@ public class Deck {
                 deckOfCards.add(new Card(rank, suit));
             }
         }
+        Collections.shuffle(deckOfCards);
     }
 
     public ArrayList<Card> getDeckOfCards(){
@@ -30,12 +31,20 @@ public class Deck {
     }
 
     public Card getCard(){
-        Collections.shuffle(deckOfCards);
-        return deckOfCards.get(0);
+        return deckOfCards.get(deckOfCards.size()-1);
     }
 
     public void clearDeck(){
         deckOfCards.clear();
+    }
+
+
+    public ArrayList<Card> dealHand(int beginningHand){
+        ArrayList<Card> hand = new ArrayList<>();
+        for(int i = 0; i<beginningHand; i++){
+            hand.add(deckOfCards.remove(deckOfCards.size()-1-i));
+        }
+        return hand;
     }
 
 }

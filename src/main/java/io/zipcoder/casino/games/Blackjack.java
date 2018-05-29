@@ -10,7 +10,7 @@ import io.zipcoder.casino.people.Person;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Blackjack extends Game implements GameInterface, CardGameInterface, GamblingInterface {
+public class Blackjack extends Game implements CardGameInterface, GamblingInterface {
 
     private Person player;
     private ArrayList<Card> playerHand;
@@ -67,6 +67,10 @@ public class Blackjack extends Game implements GameInterface, CardGameInterface,
 
     public Wallet getPlayerWallet(){ return this.playerWallet; }
 
+    public void setPlayerHand(ArrayList<Card> cards){
+        this.playerHand = cards;
+    }
+
 
     public int rankSum(Person person) {
         int handSum = 0;
@@ -114,30 +118,31 @@ public class Blackjack extends Game implements GameInterface, CardGameInterface,
         return sb.toString();
     }
 
-    public void hit(Person person) {
-        Card cardFromDealer = this.getDeck().drawCard();
-        person.receiveCards(cardFromDealer);
-    }
+//    public ArrayList<Card> hit(Person person) {
+//
+//        Card cardFromDealer = this.getDeck().drawCard();
+//        person.receiveCards(cardFromDealer);
+//    }
 
     @Override
     public int checkNumberOfCards(Person person) {
         return 0;
     }
 
-
-
+    @Override
+    public ArrayList<Card> dealCards(Person person) {
+        return null;
+    }
 
 
     // GameInterface or Game Class
 
 
     public void start() {
-        Deck deck = getDeck();
-        deck.shuffleDeck();
+
         int personHandSum = 0;
         int dealerHandSum = 0;
         String playerDecisionString = "";
-        this.deck = checkDeckSize(getDeck());
 
         if (getPlayerChips() <= 0) {
             System.out.println("You don't have anymore chips to play");
@@ -145,12 +150,13 @@ public class Blackjack extends Game implements GameInterface, CardGameInterface,
         }
 
         int betPlaced = starterBet();
+
         for(int i =0; i<4;i++){ hit(getPlayer());}
 
         System.out.println("+++ PLAY BLACKJACK +++");
         do {
             personHandSum = rankSum(getPlayer());
-            displayCards(personHandSum);
+            System.out.println(displayCards(personHandSum));
             if (personHandSum == 21) {
                 System.out.println("\n++++++++++++++++++++++++++++++++\nBLACKJACK!+++ You won " + betPlaced + " chip(s)\n" +
                         "++++++++++++++++++++++++++++++++");
@@ -170,11 +176,9 @@ public class Blackjack extends Game implements GameInterface, CardGameInterface,
         dealerHandSum = rankSum(getDealer());
         personHandSum = rankSum(getPlayer());
 
-        if (!(personHandSum >= 21) ) {
-            if (dealerHandSum <= 16) {
-                this.hit(dealer);
-            }
-        }
+        if (personHandSum <= 21 && dealerHandSum <= 16) this.hit(dealer);
+
+
         if (playerDecisionString.equals("stay")) {
             whoWins(personHandSum,dealerHandSum);
         }
@@ -203,11 +207,11 @@ public class Blackjack extends Game implements GameInterface, CardGameInterface,
         return betPlaced;
     }
 
-    private void displayCards(int personHandSum){
-        System.out.println("\n" + getPlayer().getName() + ": \u270B\n"+ handToString(getPlayer()) +
-                "\n\u270B, hand = " + personHandSum);
+    private String displayCards(int personHandSum){
+        String display = "\n" + getPlayer().getName() + ": \u270B\n"+ handToString(getPlayer()) +
+                "\n\u270B, hand = " + personHandSum;
         String dealerCards = getDealer().getPlayerHand().get(1).toString();
-        System.out.println("Dealer: " + dealerCards );
+        return (display + "Dealer: " + dealerCards);
     }
 
     private Deck checkDeckSize(Deck deck){

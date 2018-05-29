@@ -50,6 +50,10 @@ public class Person {
         return playerHand;
     }
 
+    public int cardNumber(){
+        return playerHand.size();
+    }
+
     public String displayHand(){
         String hand = "";
         for(Card card: playerHand){

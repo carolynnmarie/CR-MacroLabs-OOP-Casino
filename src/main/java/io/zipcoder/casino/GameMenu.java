@@ -6,11 +6,11 @@ import io.zipcoder.casino.people.Person;
 import java.util.Scanner;
 
 
-public class MainMenu {
+public class GameMenu {
 
     Game game;
 
-    public MainMenu() {
+    public GameMenu() {
         this.game = game;
     }
 

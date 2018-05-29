@@ -6,7 +6,7 @@ import io.zipcoder.casino.people.Person;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class MainMenuTest {
+public class GameMenuTest {
 
     @Test
     public void testChooseGame() {
@@ -14,7 +14,7 @@ public class MainMenuTest {
         Person player = new Person ("Adam");
         Game expected = new War(player);
 
-        Game actual = MainMenu.chooseGame(chosenGame, player);
+        Game actual = GameMenu.chooseGame(chosenGame, player);
 
         Assert.assertEquals(actual, expected);
     }
@@ -25,7 +25,7 @@ public class MainMenuTest {
         Person player = new Person ("Adam");
         Game expected = new War(player);
 
-        Game actual = MainMenu.chooseGame(chosenGame, player);
+        Game actual = GameMenu.chooseGame(chosenGame, player);
 
         Assert.assertNotEquals(actual, expected);
     }
