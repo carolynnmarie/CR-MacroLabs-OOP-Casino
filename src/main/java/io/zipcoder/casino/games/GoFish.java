@@ -15,6 +15,7 @@ public class GoFish extends Game implements CardGameInterface {
     private Deck houseDeck;
     private ArrayList<Card> playerHand;
     private ArrayList<Card> dealerHand;
+    private int book;
 
     private int booksTotalPlayer = 0;
     private int booksTotalDealer = 0;
@@ -26,8 +27,9 @@ public class GoFish extends Game implements CardGameInterface {
         this.player = player;
         this.dealer = new Person("Dealer");
         this.houseDeck = new Deck();
-        this.playerHand = houseDeck.dealHand(7);
-        this.dealerHand = houseDeck.dealHand(7);
+        this.playerHand = new ArrayList<>();
+        this.dealerHand = new ArrayList<>();
+        this.book = 0;
     }
 
     public GoFish() {
@@ -39,46 +41,54 @@ public class GoFish extends Game implements CardGameInterface {
     public ArrayList<Card> getDealerHand(){
         return this.dealerHand;
     }
+    public void setBook(int book){
+        this.book = book;
+    }
 
+    public int getBook(){
+        return book;
+    }
 
     public void start() {
-        ArrayList<Card> playerHand = dealCards()
+        playerHand = houseDeck.dealHand(7);
+        dealerHand = houseDeck.dealHand(7);
         System.out.println("*************************  Welcome to Go Fish!  *************************");
         System.out.println("\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
                 "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
                 "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B");
         System.out.println("*************************  Welcome to Go Fish!  *************************\n\n" +
                 "When choosing card enter 1 for Ace, 11 for Jack, 12 for Queen, 13 for King\n");
-        userTurn();
+        userTurn(playerHand, dealerHand);
     }
 
 
-    public ArrayList<Card> dealCards(Person person){
-        return houseDeck.dealHand(7);
-    }
+ //   public ArrayList<Card> dealCards(Person person){
+//        return houseDeck.dealHand(7);
+//    }
+
 
     public int checkNumberOfCards(ArrayList<Card> hand){
         return hand.size();
     }
 
-    private ArrayList<Card> currentHand(Person person){
-        return person.getPlayerHand();
+    private ArrayList<Card> currentHand(ArrayList<Card> hand ){
+        return hand;
     }
 
     private String displayCards(Person person){ return person.displayHand(); }
 
-    public void userTurn(){
+    public void userTurn(ArrayList<Card> playerHand, ArrayList<Card> dealerHand){
         int fish = 0;
         do {
             int userChoice = playerInput();
-            if (doYouHaveCard(userChoice, getDealerHand())) {
-                swapCards(userChoice, getDealerHand(), getPlayerHand());
+            if (doYouHaveCard(userChoice, dealerHand)) {
+                swapCards(userChoice, dealerHand, playerHand);
             } else {
                 System.out.println("Dealer doesn't have any " + userChoice + ", Go Fish!");
-                fish = goFishTurn(userChoice, getPlayerHand());
+                fish = goFishTurn(userChoice, playerHand);
             }
         } while (fish == 1);
-        checkPlayerAfterPlayerTurn(player);
+        checkPlayerAfterPlayerTurn(playerHand, dealerHand);
     }
 
     private int playerInput(){
@@ -93,7 +103,7 @@ public class GoFish extends Game implements CardGameInterface {
         return userChoice;
     }
 
-    public void dealerTurn(){
+    public void dealerTurn(ArrayList<Card> playerHand, ArrayList<Card> dealerHand){
         int fish = 0;
         System.out.println("****Dealer's turn****");
         Deck deck = new Deck();
@@ -101,15 +111,15 @@ public class GoFish extends Game implements CardGameInterface {
         do{
             cardValue = deck.drawCard().toInt();
             System.out.println("\nDo you have any " + cardValue + "s ?\n");
-            if (doYouHaveCard(cardValue, player)) {
-                swapCards(cardValue, player, dealer);
+            if (doYouHaveCard(cardValue, playerHand)) {
+                swapCards(cardValue, playerHand, dealerHand);
             } else {
-                fish = goFishTurn(cardValue,dealer);
-                doYouHaveCard(cardValue, dealer);
-                bookCountCheck(cardValue,dealer);
+                fish = goFishTurn(cardValue,dealerHand);
+                doYouHaveCard(cardValue, dealerHand);
+                bookCountCheck(cardValue,dealerHand);
             }
         } while(fish == 1);
-        checkDealerAfterDealerTurn(dealer);
+        checkDealerAfterDealerTurn(playerHand, dealerHand);
     }
 
     private boolean doYouHaveCard(int randomCard, ArrayList<Card> hand) {
@@ -152,7 +162,7 @@ public class GoFish extends Game implements CardGameInterface {
 
 
 
-    private void bookCountCheck(int userInputSave, Person playerHand){
+    private void bookCountCheck(int userInputSave, ArrayList<Card> playerHand){
         int num = 0;
         for(int i = 0; i < checkNumberOfCards(playerHand); i++) {
             if (userInputSave == currentHand(playerHand).get(i).toInt()) {
@@ -165,9 +175,9 @@ public class GoFish extends Game implements CardGameInterface {
                     currentHand(playerHand).remove(currentHand(playerHand).get(j));
                 }
             }
-            playerHand.setBook(playerHand.getBook()+1);
+            player.setBook(player.getBook()+1);
             System.out.println("\n!$!$!$!$!$!$! You Scored a Book! (Four of a kind) !$!$!$!$!$!$!\n" +
-                    "!!!!Your Book Total: " + playerHand.getBook() + "\n");
+                    "!!!!Your Book Total: " + player.getBook() + "\n");
         }
     }
 
@@ -178,19 +188,19 @@ public class GoFish extends Game implements CardGameInterface {
         }
     }
 
-    public void checkPlayerAfterPlayerTurn(Person player1){
-        if (houseDeck.getDeckOfCards().size() == 0 || checkNumberOfCards(player1) == 0){
+    public void checkPlayerAfterPlayerTurn(ArrayList<Card> playerHand, ArrayList<Card> dealerHand){
+        if (houseDeck.getDeckOfCards().size() == 0 || checkNumberOfCards(playerHand) == 0){
             whoWonTheGame();
         } else {
-            dealerTurn();
+            dealerTurn(playerHand, dealerHand);
         }
     }
 
-    public void checkDealerAfterDealerTurn(Person dealer1){
-        if (houseDeck.getDeckOfCards().size() == 0 || checkNumberOfCards(dealer1) == 0){
+    public void checkDealerAfterDealerTurn(ArrayList<Card> playerHand, ArrayList<Card> dealerHand){
+        if (houseDeck.getDeckOfCards().size() == 0 || checkNumberOfCards(dealerHand) == 0){
             whoWonTheGame();
         } else {
-            userTurn();
+            userTurn(playerHand, dealerHand);
         }
     }
 
@@ -216,8 +226,8 @@ public class GoFish extends Game implements CardGameInterface {
     public void end() {
         player.setBook(0);
         dealer.setBook(0);
-        currentHand(player).clear();
-        currentHand(dealer).clear();
+        playerHand.clear();
+        dealerHand.clear();
         Scanner anotherRoundScanner = new Scanner(System.in);
         System.out.println("Play another round? yes or no...");
         if (anotherRoundScanner.nextLine().equalsIgnoreCase("yes")) {
@@ -230,5 +240,15 @@ public class GoFish extends Game implements CardGameInterface {
     public static void main(String[] args) {
         GoFish game = new GoFish();
         game.start();
+    }
+
+
+    public int checkNumberOfCards(Person person) {
+        return 0;
+    }
+
+
+    public ArrayList<Card> dealCards(Person person) {
+        return null;
     }
 }

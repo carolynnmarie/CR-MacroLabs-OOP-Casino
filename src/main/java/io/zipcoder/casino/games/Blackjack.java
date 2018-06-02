@@ -99,15 +99,6 @@ public class Blackjack extends Game implements CardGameInterface, GamblingInterf
     }
 
 
-//    public void personDecision(Person person) {
-//        Scanner scanner = new Scanner(System.in);
-//        String playerDecisionString = scanner.nextLine();
-//
-//        if (playerDecisionString.equals("hit")) {
-//            this.hit(person);
-//        }
-//    }
-
     public String handToString(Person person) {
         ArrayList<Card> hand = person.getPlayerHand();
         StringBuilder sb = new StringBuilder();
@@ -118,11 +109,11 @@ public class Blackjack extends Game implements CardGameInterface, GamblingInterf
         return sb.toString();
     }
 
-//    public ArrayList<Card> hit(Person person) {
-//
-//        Card cardFromDealer = this.getDeck().drawCard();
-//        person.receiveCards(cardFromDealer);
-//    }
+    public ArrayList<Card> hit(ArrayList<Card> hand) {
+        Card cardFromDealer = getDeck().drawCard();
+        hand.add(cardFromDealer);
+        return hand;
+    }
 
     @Override
     public int checkNumberOfCards(Person person) {
@@ -151,7 +142,8 @@ public class Blackjack extends Game implements CardGameInterface, GamblingInterf
 
         int betPlaced = starterBet();
 
-        for(int i =0; i<4;i++){ hit(getPlayer());}
+//        for(int i =0; i<4;i++){ hit(getPlayer());}
+
 
         System.out.println("+++ PLAY BLACKJACK +++");
         do {

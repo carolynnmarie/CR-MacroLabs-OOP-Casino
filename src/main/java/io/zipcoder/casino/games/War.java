@@ -97,7 +97,7 @@ public class War extends Game implements CardGameInterface {
     public int compareCards(Card p1card, Card p2card) {
         if (p1card.toInt() == p2card.toInt()) {
             iDeclareWar();
-        } else if (p1card.getRank().toInt() > p2card.getRank().toInt()) {
+        } else if (p1card.toInt() > p2card.toInt()) {
             return 1;
         } else {return 2;}
         return 0;
@@ -130,18 +130,20 @@ public class War extends Game implements CardGameInterface {
     // Make private after testing / Make public for testing
     public int iDeclareWar() {
         System.out.println("I   D E C L A R E   W A R!");
-        int amountPlayerCards = checkNumberOfCards(player);
-        int amountDealerCards = checkNumberOfCards(dealer);
-        int topPlayerCard = iDeclareWarLogic(getPlayerStack(), getPlayer());
-        int topDealerCard = iDeclareWarLogic(getDealerStack(),getDealer());
+        ArrayList<Card> p = new ArrayList<>();
+        ArrayList<Card> d = new ArrayList<>();
+        if(checkNumberOfCards(player)>=3 && checkNumberOfCards(dealer)>=3){
+
+        }
+
     }
 
     // Make private after testing / Make public for testing
     public int iDeclareWarLogic(ArrayList<Card> playedCards, Person person) {
         int topPlayerCard = 0;
         for(int i = 0; i<checkNumberOfCards(person); i++){
-            player.drawCardfromHand();
-            topPlayerCard = p;
+            Card card = player.drawCardfromHand();
+            topPlayerCard = card.toInt();
         }
         return topPlayerCard;
     }
@@ -187,6 +189,11 @@ public class War extends Game implements CardGameInterface {
 
     public int checkNumberOfCards(Person handToCheck) {
         return handToCheck.getPlayerHand().size();
+    }
+
+    @Override
+    public ArrayList<Card> dealCards(Person person) {
+        return null;
     }
 
 }
