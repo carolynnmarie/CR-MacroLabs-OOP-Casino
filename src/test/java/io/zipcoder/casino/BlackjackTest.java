@@ -8,8 +8,9 @@ import java.util.Arrays;
 
 public class BlackjackTest {
 
-    private Blackjack blackjack;
+
     Person player = new Person("test");
+    Blackjack blackjack = new Blackjack(player);
 
     @Before public void setUp() {
         player.getWallet().addChipsToAmount(500);
@@ -35,7 +36,7 @@ public class BlackjackTest {
 
     @Test
     public void sumOfRanksInHandTest() {
-        Blackjack blackjack = new Blackjack(player);
+
         // Add cards to player1 Hand
         Card notShuffled0 = new Card(Rank.DEUCE, Suit.CLUBS);
         Card notShuffled1 = new Card(Rank.ACE, Suit.DIAMONDS);
@@ -63,7 +64,6 @@ public class BlackjackTest {
 
     @Test
     public void countRankRepetitionsInHandTest() {
-        Blackjack blackjack = new Blackjack(player);
 
         // Add cards to player1 Hand
         Card notShuffled0 = new Card(Rank.DEUCE, Suit.CLUBS);
@@ -92,8 +92,6 @@ public class BlackjackTest {
 
     @Test
     public void findSmallerOfTwoIntsTest() {
-        // Given
-        Blackjack blackjack = new Blackjack(player);
         int expectedLowerInt = 5;
         int expectedHigherInt = 7;
         // When
@@ -104,8 +102,6 @@ public class BlackjackTest {
 
     @Test
     public void findGreaterOfTwoIntsTest() {
-        // Given
-        Blackjack blackjack = new Blackjack(player);
         int expectedLowerInt = 5;
         int expectedHigherInt = 7;
         // When
@@ -122,8 +118,6 @@ public class BlackjackTest {
 
     @Test
     public void handToStringTest() {
-        // Given
-        Blackjack blackjack = new Blackjack(player);
         blackjack.getPlayer().getHand().receiveCards(new Card(Rank.DEUCE, Suit.CLUBS), new Card(Rank.THREE, Suit.DIAMONDS),
                 new Card(Rank.FOUR, Suit.HEARTS), new Card(Rank.FIVE, Suit.SPADES));
         String expectedHandToString = "5♠ 4♥ 3♦ 2♣";
@@ -138,7 +132,7 @@ public class BlackjackTest {
     public void hitTest() {
         // if playerSum < 21, player can hit
         // if playerDecision = "hit", then dealer draws card and player hand receives card
-        Blackjack blackjack = new Blackjack(player);
+
 
         // Add cards to player1 Hand
         Card playerCard0 = new Card(Rank.DEUCE, Suit.CLUBS);
