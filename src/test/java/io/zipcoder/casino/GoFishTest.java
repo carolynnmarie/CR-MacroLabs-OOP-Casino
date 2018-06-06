@@ -66,7 +66,6 @@ public class GoFishTest {
     public void doYouHaveTheCardThatIWant() {
         Person player1 = new Person("Joe");
         GoFish goFishTest = new GoFish(player1);
-        Person dealer = new Person();
 
         // card counts as int 1
         Card cardSend = new Card(Rank.ACE, Suit.SPADES);
@@ -93,11 +92,7 @@ public class GoFishTest {
 
     @Test
     public void BookCheckerTest(){
-        GoFish goFishTest = new GoFish();
-
         System.out.println(playerBookTest.getHand().getHandArrayList());
-
-        Card cardSend = new Card(Rank.SEVEN,Suit.CLUBS);
 
         String expected = "[A♠, 7♣, 7♦, 7♥, 7♠]";
         String actual = playerBookTest.getHand().getHandArrayList().toString();
@@ -110,8 +105,6 @@ public class GoFishTest {
 
     @Test
     public void goFishTest(){
-        GoFish goFishTest = new GoFish();
-
         Card cardExpected = new Card(Rank.KING,Suit.SPADES);
 
         String expected = "K♠";
