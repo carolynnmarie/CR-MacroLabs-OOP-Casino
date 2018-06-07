@@ -32,7 +32,7 @@ public class Person {
         return this.wallet;
     }
 
-    public int getChips(){return this.wallet.checkChips();}
+    public int checkChips(){return this.wallet.checkChips();}
 
     public void addChips(int chips){
         this.wallet.addChips(chips);
