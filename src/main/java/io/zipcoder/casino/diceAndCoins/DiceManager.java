@@ -9,9 +9,6 @@ public class DiceManager {
 
     public DiceManager(int amountOfDice) {
         this.diceArray = new Die[amountOfDice];
-        for(int i = 0; i < this.diceArray.length; i++) {
-            this.diceArray[i] = new Die();
-        }
     }
 
     public Die rollSpecificDie(int index) {
@@ -23,19 +20,14 @@ public class DiceManager {
         this.diceArray[index].setDieFace(desiredFace);
     }
 
-    public Die getDie(int indexOfDie) {
-        return this.diceArray[indexOfDie];
-    }
-
     public void rollAllDice() {
         for (int i = 0; i < diceArray.length; i++) {
-            rollSpecificDie(i);
+            diceArray[i].rollDie();
         }
     }
 
     public DieFace[] getAllDieFaces() {
-        Die[] copyOfDiceArray = Arrays.copyOf(this.diceArray, this.diceArray.length);
-        DieFace[] dieFaces = new DieFace[copyOfDiceArray.length];
+        DieFace[] dieFaces = new DieFace[diceArray.length];
         for(int i = 0; i < this.diceArray.length; i++) {
             dieFaces[i] = this.diceArray[i].getDieFace();
         }
@@ -45,7 +37,7 @@ public class DiceManager {
     public int getTotalValue() {
         int sum = 0;
         for (int i = 0; i < diceArray.length; i++) {
-            sum += diceArray[i].getDieFace().toInt();
+            sum += diceArray[i].getDieValue();
         }
         return sum;
     }

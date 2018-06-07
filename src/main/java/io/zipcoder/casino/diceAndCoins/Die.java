@@ -1,11 +1,13 @@
 package io.zipcoder.casino.diceAndCoins;
 
-import java.util.Random;
+
+import static java.lang.Math.ceil;
+import static java.lang.Math.random;
 
 public class Die {
 
     private DieFace dieFace;
-    Random random = new Random();
+
 
     public Die() {
         this.dieFace = null;
@@ -15,13 +17,16 @@ public class Die {
         return this.dieFace;
     }
 
-    public void setDieFace(DieFace desiredDieFace) {
-        this.dieFace = desiredDieFace;
+    public void setDieFace(DieFace dieFace) {
+        this.dieFace = dieFace;
     }
 
+    public int getDieValue(){
+        return dieFace.getFaceValue();
+    }
 
     public void rollDie() {
-        int randomNumber = random.nextInt(6) + 1;
+        int randomNumber = (int)(ceil(random())*6);
         switch (randomNumber) {
             case 1:
                 this.setDieFace(DieFace.ONE);

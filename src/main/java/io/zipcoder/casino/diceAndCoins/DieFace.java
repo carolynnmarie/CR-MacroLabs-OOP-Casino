@@ -15,10 +15,10 @@ public enum DieFace {
     }
 
     public boolean equalsFaceValue(int faceValue) {
-        return this.faceValue == faceValue;
+        return this.faceValue == faceValue? true: false;
     }
 
-    public int toInt() {
+    public int getFaceValue() {
         return this.faceValue;
     }
 }

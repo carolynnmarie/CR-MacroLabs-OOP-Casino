@@ -22,7 +22,7 @@ public class DieFaceTest {
     public void toIntTest1() {
         DieFace one = DieFace.ONE;
         int expected = 1;
-        int actual = one.toInt();
+        int actual = one.getFaceValue();
         Assert.assertEquals(expected, actual);
     }
 
@@ -30,7 +30,7 @@ public class DieFaceTest {
     public void toIntTest2() {
         DieFace two = DieFace.TWO;
         int expected = 2;
-        int actual = two.toInt();
+        int actual = two.getFaceValue();
         Assert.assertEquals(expected, actual);
     }
 
