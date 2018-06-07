@@ -8,18 +8,25 @@ import java.util.*;
 
 public class War extends Game implements CardGameInterface {
 
-    private boolean gameIsRunning;
     private Person dealer;
     private Person player;
-    private ArrayList<Card> playerStack;
-    private ArrayList<Card> dealerStack;
+    private ArrayList<Card> playerHand;
+    private ArrayList<Card> dealerHand;
+
+    private Deck deck;
+
     private Scanner input = new Scanner(System.in);
 
     public War(Person player) {
         this.player = player;
         this.dealer = new Person("Dealer");
-        this.playerStack = new ArrayList<>();
-        this.dealerStack = new ArrayList<>();
+        this.deck = new Deck();
+        this.playerHand = deck.dealHand(26);
+        this.dealerHand = deck.dealHand(26);
+    }
+
+    public void setDealerHand(ArrayList<Card> dealerHand) {
+        this.dealerHand = dealerHand;
     }
 
     public Person getPlayer(){
@@ -28,163 +35,101 @@ public class War extends Game implements CardGameInterface {
     public Person getDealer(){
         return this.dealer;
     }
-    public ArrayList<Card> getPlayerStack(){
-        return this.playerStack;
+    public ArrayList<Card> getPlayerHand(){
+        return this.playerHand;
     }
 
-    public ArrayList<Card> getDealerStack(){
-        return this.dealerStack;
+    public ArrayList<Card> getDealerHand(){
+        return this.dealerHand;
     }
 
     public void start() {
-        gameIsRunning = true;
         System.out.println("Welcome to WAR! Enter anything into the console to play a card");
         System.out.println("Enter 'exit' at any time to end the game");
-        Deck dealerDeck = new Deck();
-        for (int i = 0; i < dealerDeck.getDeckOfCards().size(); i++) {
-            getDealer().receiveCards(dealerDeck.getDeckOfCards().get(i));
-        }
-        getDealer().shuffleHand();
-        dealCards();
-        engine();
+        engine(playerHand, dealerHand);
     }
 
-    public void engine() {
-        // String playerInput = input.nextLine();
+    public void engine(ArrayList<Card> playerHand, ArrayList<Card> dealerHand) {
         String exitStay = input.nextLine();
-        if (!("exit").equals(exitStay)) {
-            while (gameIsRunning) {
-                while (!handOfPersonIsEmpty(getDealer()) && !handOfPersonIsEmpty(getPlayer())) {
-                    getPlayerStack().add(getPlayer().drawCardfromHand());
-                    dealerStack.add(dealer.drawCardfromHand());
-                    System.out.println("You played " + getPlayerStack() + " and the dealer played " + getDealerStack());
-                    int playerCard = getPlayerStack().get(getPlayer().cardNumber()-1).toInt();
-                    int dealerCard = getDealerStack().get(getDealer().cardNumber()-1).toInt();
-                    int winner = (playerCard == dealerCard)? iDeclareWar(): (playerCard > dealerCard)? 1: 2;
-                    System.out.println((winner==1) ? playerWins(): dealerWins());
-                    if ("exit".equals(exitStay)) {
-                        end();
+        System.out.println("Lets go to war!");
+        while (!("exit").equals(exitStay)) {
+            while (playerHand.size() !=0 && dealerHand.size() !=0) {
+                Card playerCard = playerHand.remove(0);
+                Card dealerCard = dealerHand.remove(0);
+                int winCard = 0;
+                System.out.println("You played " + playerCard + " and the dealer played " + dealerCard);
+                if (playerCard.toInt() == dealerCard.toInt()) {
+                    winCard = iDeclareWar(playerHand, dealerHand);
+                    ArrayList<Card> warWin = new ArrayList<>(Arrays.asList(playerHand.get(0),playerHand.get(1),playerHand.get(2),
+                            dealerHand.get(0), dealerHand.get(1), dealerHand.get(2)));
+                    if (winCard == 1) {
+                        playerHand.addAll(warWin);
+                    } else if (winCard == 2) {
+                        dealerHand.addAll(warWin);
                     }
-                    checkIfGameIsOver();
+                } else if (playerCard.toInt() > dealerCard.toInt()) {
+                    playerHand.add(playerCard);
+                    playerHand.add(dealerCard);
+                } else {
+                    dealerHand.add(playerCard);
+                    dealerHand.add(dealerCard);
+                }
+                if (playerCard.toInt() > dealerCard.toInt()) {
+                    System.out.println("You won the round!  You now have " + playerHand.size() + " cards.  Dealer now has "
+                            + dealerHand.size() + " cards.");
+                } else {
+                    System.out.println("Dealer won the round.  You now have" + playerHand.size() + " cards.  Dealer now has "
+                            +dealerHand.size() + " cards.");
                 }
             }
-        } else {end();}
-    }
-
-    private void checkIfGameIsOver() {
-        if (handOfPersonIsEmpty(player) || handOfPersonIsEmpty(dealer)) {
-            end();
         }
-    }
-
-    private boolean handOfPersonIsEmpty(Person person) {
-        return person.getPlayerHand().size() == 0;
-    }
-
-    private void announceWinner(int winnerNumber) {
-        if (winnerNumber == 1) {
-            playerWins();
-        } else if (winnerNumber == 2) {
-            dealerWins();
-        }
-    }
-
-    private Card topTableCard(ArrayList<Card> cardsOnTable) {
-        return cardsOnTable.get(cardsOnTable.size() - 1);
+        end(playerHand,dealerHand);
     }
 
 
-    public int compareCards(Card p1card, Card p2card) {
-        if (p1card.toInt() == p2card.toInt()) {
-            iDeclareWar();
-        } else if (p1card.toInt() > p2card.toInt()) {
-            return 1;
-        } else {return 2;}
-        return 0;
-    }
 
-    public String playerWins() {
-        System.out.println("You won this round!");
-        tableCardsToWinner(playerStack, player);
-        tableCardsToWinner(dealerStack, player);
-        return somebodyWonMessage();
-    }
-
-    public String dealerWins() {
-        System.out.println("You lost this round!");
-        tableCardsToWinner(playerStack, dealer);
-        tableCardsToWinner(dealerStack, dealer);
-        return somebodyWonMessage();
-    }
-
-    public void tableCardsToWinner(ArrayList<Card> tableDeck, Person person) {
-        while (tableDeck.size() != 0) {
-            person.receiveCards(tableDeck.remove(0));
-        }
-    }
-
-    public String somebodyWonMessage() {
-        return "You have " + player.cardNumber() + "cards and the dealer has " + dealer.cardNumber() + " cards";
-    }
-
-    // Make private after testing / Make public for testing
-    public int iDeclareWar() {
-        System.out.println("I   D E C L A R E   W A R!");
-        ArrayList<Card> p = new ArrayList<>();
-        ArrayList<Card> d = new ArrayList<>();
-        if(checkNumberOfCards(player)>=3 && checkNumberOfCards(dealer)>=3){
-
-        }
-
-    }
-
-    // Make private after testing / Make public for testing
-    public int iDeclareWarLogic(ArrayList<Card> playedCards, Person person) {
-        int topPlayerCard = 0;
-        for(int i = 0; i<checkNumberOfCards(person); i++){
-            Card card = player.drawCardfromHand();
-            topPlayerCard = card.toInt();
-        }
-        return topPlayerCard;
-    }
-
-    // Make private after testing / Make public for testing
-    public int decideOnHowManyTimesToIterateBasedOn(int amountOfCardsAvailable) {
-        if(amountOfCardsAvailable <= 4) {
-            return amountOfCardsAvailable -1;
-        }
-        return 4;
-    }
-
-    // Make private after testing / Make public for testing
-    public void playCardInHandForPerson(ArrayList<Card> playedCards, Person person, int i) {
-        playedCards.add(person.drawCardfromHand());
-    }
-
-
-    public void dealCards() {
-        for (int i = dealer.getPlayerHand().size()-1; i >= 26; i--) {
-            player.getPlayerHand()
-                    .add(dealer.getPlayerHand()
-                            .remove(i));
-        }
-    }
-
-    public void end() {
-        String winner = "";
-        if (player.getPlayerHand().size() > 25) {
-            winner += "you!";
+    // To avoid recursion I am changing making a minor alteration to the game: if the 3rd card in an "I declare war" is also a tie
+    // then the win goes to the person whose 2nd card is higher, instead of both players going again.
+    public int iDeclareWar(ArrayList<Card> player1, ArrayList<Card> dealer1) {
+        int win = 0;
+        if (player1.size() >= 3 && dealer1.size() >= 3) {
+            System.out.println("I D E C L A R E  W A R!!\nPlayer's top card: " + player1.get(2) + ". Dealer's top card: " + dealer1.get(2));
+            if(player1.get(2).toInt() > dealer1.get(2).toInt()){
+                win = 1;
+            } else if(player1.get(2).toInt() < dealer1.get(2).toInt()){
+                win = 2;
+            } else if(player1.get(2).toInt() == dealer1.get(2).toInt()){
+                if(player1.get(1).toInt() > dealer1.get(1).toInt()){
+                    win = 1;
+                } else {
+                    win = 2;
+                }
+            }
+        } else if(player1.size()<3) {
+            System.out.println("Sorry, you don't have enough cards to go to war.");
+            end(player1, dealer1);
         } else {
-            winner += "the dealer!";
+            System.out.println("Dealer doesn't have enough cards to go to war");
+            end(player1, dealer1);
         }
-        System.out.println("And the winner is " + winner);
-        player.clearHand();
-        dealer.clearHand();
-        System.out.println("If you want to play again, enter 'yes', or enter anything else to return to the casino");
-        if (input.nextLine().equals("yes")) {
+        return win;
+    }
+
+
+    public void end(ArrayList<Card> playerHand, ArrayList<Card> dealerHand) {
+        String winner = "And the winner is ";
+        winner += playerHand.size() < 25 ? "the dealer!": "YOU!";
+        winner += "If you want to play again, enter 'yes', or enter anything else to return to the casino";
+        playerHand.clear();
+        dealerHand.clear();
+        System.out.println(winner);
+        if (input.nextLine().equalsIgnoreCase("yes")) {
             start();
         }
-        gameIsRunning = false;
+    }
+
+    public void end(){
+
     }
 
     public int checkNumberOfCards(Person handToCheck) {

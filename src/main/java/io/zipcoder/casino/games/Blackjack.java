@@ -18,30 +18,24 @@ public class Blackjack extends Game implements CardGameInterface, GamblingInterf
     private int playerChips;
 
     private Dealer dealer;
-    private ArrayList<Card> dealerHand;
-    private Wallet dealerWallet;
 
     private Deck deck;
 
     // these 2 args are now in Person constructor for gambling games
     public Blackjack(Person player) {
         this.player = player;
-        this.playerHand = player.getPlayerHand();
+        this.playerHand = new ArrayList<>();
         this.playerWallet = player.getWallet();
         this.playerChips = player.getWallet().checkChips();
         this.dealer = new Dealer();
-        this.dealerHand = dealer.getPlayerHand();
-        this.dealerWallet = dealer.getDealerWallet();
         this.deck = new Deck();
     }
     public Blackjack(Person player, int playerChips){
         this.player = player;
-        this.playerHand = player.getPlayerHand();
+        this.playerHand = new ArrayList<>();
         this.playerWallet = player.getWallet();
         this.playerChips = playerChips;
         this.dealer = new Dealer();
-        this.dealerHand = dealer.getPlayerHand();
-        this.dealerWallet = dealer.getDealerWallet();
         this.deck = new Deck();
 
     }
@@ -139,11 +133,9 @@ public class Blackjack extends Game implements CardGameInterface, GamblingInterf
             System.out.println("You don't have anymore chips to play");
             return;
         }
-
         int betPlaced = starterBet();
 
 //        for(int i =0; i<4;i++){ hit(getPlayer());}
-
 
         System.out.println("+++ PLAY BLACKJACK +++");
         do {
@@ -160,7 +152,7 @@ public class Blackjack extends Game implements CardGameInterface, GamblingInterf
                 Scanner scan = new Scanner(System.in);
                 playerDecisionString = scan.nextLine();
                 if (playerDecisionString.equals("hit")) {
-                    hit(getPlayer());
+                    hit(getPlayerHand());
                 }
             }
         } while (personHandSum < 21);
@@ -168,7 +160,7 @@ public class Blackjack extends Game implements CardGameInterface, GamblingInterf
         dealerHandSum = rankSum(getDealer());
         personHandSum = rankSum(getPlayer());
 
-        if (personHandSum <= 21 && dealerHandSum <= 16) this.hit(dealer);
+        if (personHandSum <= 21 && dealerHandSum <= 16) this.hit(getPlayerHand());
 
 
         if (playerDecisionString.equals("stay")) {

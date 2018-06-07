@@ -15,13 +15,7 @@ public class GoFish extends Game implements CardGameInterface {
     private Deck houseDeck;
     private ArrayList<Card> playerHand;
     private ArrayList<Card> dealerHand;
-    private int book;
 
-    private int booksTotalPlayer = 0;
-    private int booksTotalDealer = 0;
-
-    private Random random = new Random();
-    private int randomDealerCard;
 
     public GoFish(Person player) {
         this.player = player;
@@ -29,7 +23,6 @@ public class GoFish extends Game implements CardGameInterface {
         this.houseDeck = new Deck();
         this.playerHand = new ArrayList<>();
         this.dealerHand = new ArrayList<>();
-        this.book = 0;
     }
 
     public GoFish() {
@@ -41,13 +34,7 @@ public class GoFish extends Game implements CardGameInterface {
     public ArrayList<Card> getDealerHand(){
         return this.dealerHand;
     }
-    public void setBook(int book){
-        this.book = book;
-    }
 
-    public int getBook(){
-        return book;
-    }
 
     public void start() {
         playerHand = houseDeck.dealHand(7);
@@ -60,11 +47,6 @@ public class GoFish extends Game implements CardGameInterface {
                 "When choosing card enter 1 for Ace, 11 for Jack, 12 for Queen, 13 for King\n");
         userTurn(playerHand, dealerHand);
     }
-
-
- //   public ArrayList<Card> dealCards(Person person){
-//        return houseDeck.dealHand(7);
-//    }
 
 
     public int checkNumberOfCards(ArrayList<Card> hand){
