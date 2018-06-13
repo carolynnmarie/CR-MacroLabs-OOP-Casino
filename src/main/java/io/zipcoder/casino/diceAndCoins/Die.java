@@ -26,8 +26,7 @@ public class Die {
     }
 
     public void rollDie() {
-        int randomNumber = (int)(ceil(random())*6);
-        switch (randomNumber) {
+        switch ((int)(ceil(random())*6)) {
             case 1:
                 this.setDieFace(DieFace.ONE);
                 break;
