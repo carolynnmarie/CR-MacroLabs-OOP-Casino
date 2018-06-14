@@ -15,7 +15,7 @@ public class Coin {
         }
     }
 
-    int coinLogic() {
+    public int coinLogic() {
         return random.nextInt(2) + 1;
     }
 

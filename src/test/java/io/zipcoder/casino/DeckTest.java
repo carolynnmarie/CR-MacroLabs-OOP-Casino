@@ -9,51 +9,51 @@ import java.util.ArrayList;
 
 public class DeckTest {
 
-    private Deck deckTest;
+    private Deck deckTest = new Deck();
     private Card cardTest;
 
     @Test
-    public void DeckTest() {
-        //Given
-        Deck deckTest = new Deck();
-
+    public void deckConstructorTest() {
         //When
         ArrayList<Card> expected = deckTest.getDeckOfCards();
         ArrayList<Card> actual = deckTest.getDeckOfCards();
-
         //Then
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void ShuffleDeckTest(){
-        //Given
-        Deck deckTest = new Deck();
+        Deck expected = deckTest;
         deckTest.shuffleDeck();
-
         //When
-        String expected = "";
-        System.out.println(expected);
-
         ArrayList<Card> actual = deckTest.getDeckOfCards();
-        System.out.println(actual);
-
         //Then
         Assert.assertNotEquals(expected, actual);
     }
 
     @Test
     public void DrawCardTest(){
-        //Given
-        Deck deckTest = new Deck();
-
         //When
+        Card actual = deckTest.getCard();
         Card expected = deckTest.drawCard();
-        ArrayList<Card> actual = deckTest.getDeckOfCards();
-
-
         //Then
-        Assert.assertNotEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void clearDeckTest(){
+        ArrayList<Card> expected = new ArrayList<>();
+        deckTest.clearDeck();
+        ArrayList<Card> actual = deckTest.getDeckOfCards();
+        Assert.assertEquals(expected,actual);
+    }
+
+    @Test
+    public void dealHand(){
+        int expected = 2;
+        ArrayList<Card> hand = deckTest.dealHand(2);
+        int actual = hand.size();
+        Assert.assertEquals(expected,actual);
     }
 
 }

@@ -8,13 +8,13 @@ import java.util.Scanner;
 public class CoinFlipper extends Game implements GameInterface {
 
     private boolean gameIsRunning;
-    private Person player = new Person("Joe");
+    private Person player;
     private Scanner input = new Scanner(System.in);
     private Coin coin = new Coin();
 
     public CoinFlipper(Person player) {
         this.player = player;
-        // Un-note ^ this when added to main
+
     }
 
     public void start() {

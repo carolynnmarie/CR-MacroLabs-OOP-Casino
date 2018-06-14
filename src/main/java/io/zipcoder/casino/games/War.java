@@ -141,4 +141,9 @@ public class War extends Game implements CardGameInterface {
         return null;
     }
 
+    @Override
+    public String displayCards(ArrayList<Card> hand) {
+        return null;
+    }
+
 }

@@ -3,6 +3,7 @@ package io.zipcoder.casino.diceAndCoins;
 
 import static java.lang.Math.ceil;
 import static java.lang.Math.random;
+import static java.lang.Math.round;
 
 public class Die {
 
@@ -11,6 +12,10 @@ public class Die {
 
     public Die() {
         this.dieFace = null;
+    }
+
+    public Die(DieFace dieFace){
+        this.dieFace = dieFace;
     }
 
     public DieFace getDieFace() {
@@ -26,25 +31,27 @@ public class Die {
     }
 
     public void rollDie() {
-        switch ((int)(ceil(random())*6)) {
+        switch ((int)(ceil(random()*6))) {
             case 1:
-                this.setDieFace(DieFace.ONE);
+                this.dieFace = DieFace.ONE;
                 break;
             case 2:
-                this.setDieFace(DieFace.TWO);
+                this.dieFace = DieFace.TWO;
                 break;
             case 3:
-                this.setDieFace(DieFace.THREE);
+                this.dieFace =DieFace.THREE;
                 break;
             case 4:
-                this.setDieFace(DieFace.FOUR);
+                this.dieFace =DieFace.FOUR;
                 break;
             case 5:
-                this.setDieFace(DieFace.FIVE);
+                this.dieFace =DieFace.FIVE;
                 break;
             case 6:
-                this.setDieFace(DieFace.SIX);
+                this.dieFace = DieFace.SIX;
                 break;
+            default:
+                this.dieFace = DieFace.ONE;
         }
     }
 }

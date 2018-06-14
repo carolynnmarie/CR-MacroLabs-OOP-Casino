@@ -30,30 +30,6 @@ public class ScoreboardTest {
     }
 
     @Test
-    public void thirdConstructorTest(){
-        //given
-        Scoreboard board = new Scoreboard();
-        Person[] expected = {person1, person2};
-        //when
-        board.addPlayer(person1);
-        board.addPlayer(person2);
-        //then
-        Person[] actual = board.getPlayers();
-
-        Assert.assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    public void setScoreboardTest(){
-
-    }
-
-    @Test
-    public void getScoreboardTest(){
-
-    }
-
-    @Test
     public void getPlayersTest() {
         //given
         Scoreboard board = new Scoreboard();
@@ -72,14 +48,11 @@ public class ScoreboardTest {
     public void addPlayerTest() {
         //given
         Scoreboard board = new Scoreboard();
-        Person[] expected = {person1, person2, person3};
+        Person[] expected = {person1};
         //when
         board.addPlayer(person1);
-        board.addPlayer(person2);
-        board.addPlayer(person3);
         //then
         Person[] actual = board.getPlayers();
-
         Assert.assertArrayEquals(expected, actual);
     }
 
@@ -87,7 +60,6 @@ public class ScoreboardTest {
     public void removePlayerTest() {
         //given
         Scoreboard board = new Scoreboard();
-        Person[] players = {person1, person2, person3};
         //when
         board.addPlayer(person2);
         board.addPlayer(person1);

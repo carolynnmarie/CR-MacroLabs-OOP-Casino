@@ -12,16 +12,13 @@ public class CardTest {
 
     @Test
     public void CardConstructorRankPositiveTest() {
-
         // Given
         Rank expectedRank = Rank.DEUCE;
         Suit expectedSuit = Suit.CLUBS;
         Card card = new Card(Rank.DEUCE, Suit.CLUBS);
-
         // When
         Rank actualRank = card.getRank();
         Suit actualSuit = card.getSuit();
-
         // Then
         Assert.assertEquals(expectedRank, actualRank);
         Assert.assertEquals(expectedSuit, actualSuit);

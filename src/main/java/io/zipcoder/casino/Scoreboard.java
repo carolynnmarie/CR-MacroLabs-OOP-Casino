@@ -13,11 +13,11 @@ public class Scoreboard {
 
 
     public Scoreboard() {
-        this.scoreboard = new LinkedHashMap<Person, Integer>();
+        this.scoreboard = new LinkedHashMap<>();
     }
 
     public Scoreboard(Person... people) {
-        this.scoreboard = new LinkedHashMap<Person, Integer>();
+        this.scoreboard = new LinkedHashMap<>();
         for(int i = 0; i<people.length; i++) {
             scoreboard.put(people[i],0);
         }
@@ -25,7 +25,6 @@ public class Scoreboard {
 
     public Scoreboard(LinkedHashMap<Person, Integer> scoreboard) {
         this.scoreboard = scoreboard;
-
     }
 
     public void setScoreboard(LinkedHashMap<Person, Integer> scoreboard) {
@@ -71,7 +70,6 @@ public class Scoreboard {
         this.scoreboard.clear();
     }
 
-
     //single player score at request of player during game
     public Integer getScore(Person person) {
         return scoreboard.get(person);
@@ -84,13 +82,12 @@ public class Scoreboard {
         for(Map.Entry<Person, Integer> entry: scoreboard.entrySet()) {
             String name = entry.getKey().getName();
             String score = entry.getValue().toString();
-            display += String.format("%-15s | ", name);
-            display += String.format("%-10s\n", score);
+            display += String.format("%-15s | %-10s\n", name, score);
         }
         return display;
     }
 
-/*    public String displayRunningGameTally() {
+    public String displayRunningGameTally() {
         LinkedHashMap<Person, ArrayList<Integer>> runningTally = new LinkedHashMap<Person, ArrayList<Integer>>();
         String tally = String.format("%-15s | %-10s \n", "Name", "Games");
         tally += "---------------------------------------\n";
@@ -111,7 +108,7 @@ public class Scoreboard {
         }
         return tally;
     }
-    */
+
 
 
 }

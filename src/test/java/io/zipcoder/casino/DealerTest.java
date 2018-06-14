@@ -25,11 +25,4 @@ public class DealerTest {
         Assert.assertEquals(actual, expected);
     }
 
-    @Test
-    public void getHandTest() {
-        Dealer dealer = new Dealer();
-        ArrayList<Card> expected = new ArrayList<Card>();
-        ArrayList<Card> actual = dealer.getHand().getHandArrayList();
-        Assert.assertEquals(actual, expected);
-    }
 }

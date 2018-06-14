@@ -1,6 +1,5 @@
 package io.zipcoder.casino.people;
 
-import io.zipcoder.casino.money.DealerWallet;
 import io.zipcoder.casino.money.Wallet;
 
 public class Dealer extends Person {
@@ -10,7 +9,7 @@ public class Dealer extends Person {
 
     public Dealer() {
         super("Dealer");
-        this.dealerWallet = new DealerWallet();
+        this.dealerWallet = new Wallet();
     }
 
 

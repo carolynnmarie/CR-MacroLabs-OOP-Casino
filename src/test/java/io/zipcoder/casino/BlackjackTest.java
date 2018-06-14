@@ -21,111 +21,50 @@ public class BlackjackTest {
 
     @Before public void setUp() {
         player.getWallet().addChips(500);
-
     }
 
     @Test
     public void BlackJackDefaultConstructorTest() {
-
-        // Given
         String expectedPlayerName = "test";
-        // When
         String actualPlayerName = blackjack.getPlayer().getName();
-        // Then
         Assert.assertEquals(expectedPlayerName, actualPlayerName);
     }
 
     @Test
-    public void sumOfRanksInHandTest() {
-        // Add cards to player1 Hand
+    public void rankSumTest() {
         ArrayList<Card> cards = new ArrayList<>(Arrays.asList(new Card(Rank.DEUCE, Suit.CLUBS),new Card(Rank.ACE, Suit.DIAMONDS),
                 new Card(Rank.ACE, Suit.HEARTS), new Card(Rank.ACE, Suit.SPADES)));
-
-        blackjack.getPlayer().receiveCards(cards);
-
-        // Given
         int expectedPersonHandSum = 5;
-
-        // When
-        int actualPersonHandSum = blackjack.rankSum(blackjack.getPlayer());
-
-        // Then
+        int actualPersonHandSum = blackjack.rankSum(cards);
         Assert.assertEquals(expectedPersonHandSum, actualPersonHandSum);
-
     }
 
-    @Test
-    public void countRankRepetitionsInHandTest() {
-        // Add cards to player1 Hand
-        Card notShuffled0 = new Card(Rank.DEUCE, Suit.CLUBS);
-        Card notShuffled1 = new Card(Rank.ACE, Suit.DIAMONDS);
-        Card notShuffled2 = new Card(Rank.ACE, Suit.HEARTS);
-        Card notShuffled3 = new Card(Rank.ACE, Suit.SPADES);
-        blackjack.getPlayer().receiveCards(notShuffled0, notShuffled1, notShuffled2, notShuffled3);
-
-        // Given
-        int expectedPersonRankReps = 3; // ACE
-        // When
-        int actualPersonRankReps = blackjack.rankRepeats(blackjack.getPlayer(), notShuffled1.toInt());
-        // Then
-        Assert.assertEquals(expectedPersonRankReps, actualPersonRankReps);
-
-    }
-
-
-    @Test
-    public void personDecisionTest() {
-
-        //String playerDecisionString = blackjack.personDecision(blackjack.getPlayer());
-    }
 
     @Test
     public void handToStringTest() {
         // Given
-        player.receiveCards(new Card(Rank.DEUCE, Suit.CLUBS), new Card(Rank.THREE, Suit.DIAMONDS),
-                new Card(Rank.FOUR, Suit.HEARTS), new Card(Rank.FIVE, Suit.SPADES));
-        String expectedHandToString = "5♠ 4♥ 3♦ 2♣";
+        ArrayList<Card> hand = new ArrayList<>(Arrays.asList(new Card(Rank.DEUCE, Suit.CLUBS), new Card(Rank.THREE, Suit.DIAMONDS),
+                new Card(Rank.FOUR, Suit.HEARTS), new Card(Rank.FIVE, Suit.SPADES)));
+        String expectedHandToString = "2♣ 3♦ 4♥ 5♠";
         // When
-        String actualHandToString = blackjack.handToString(player);
-        System.out.println(actualHandToString);
+        String actualHandToString = blackjack.displayCards(hand);
         // Then
         Assert.assertEquals(expectedHandToString, actualHandToString);
     }
 
     @Test
     public void hitTest() {
-        // if playerSum < 21, player can hit
-        // if playerDecision = "hit", then dealer draws card and player hand receives card
+        ArrayList<Card> hand = new ArrayList<>(Arrays.asList(new Card(Rank.DEUCE, Suit.CLUBS),new Card(Rank.THREE, Suit.DIAMONDS)));
 
-        // Add cards to player1 Hand
-        Card playerCard0 = new Card(Rank.DEUCE, Suit.CLUBS);
-        Card playerCard1 = new Card(Rank.THREE, Suit.DIAMONDS);
-        blackjack.getPlayer().receiveCards(playerCard0, playerCard1);
-
-        // Given
-        blackjack.hit(blackjack.getPlayerHand());
-        blackjack.hit(blackjack.getPlayerHand());
-        int expectedPlayerHandSize = 3;
+        blackjack.hit(hand);
+        blackjack.hit(hand);
+        int expectedPlayerHandSize = 4;
         // When
-        int actualPlayerHandSize = blackjack.getPlayer().getPlayerHand().size();
+        int actualPlayerHandSize = hand.size();
         // Then
         Assert.assertEquals(expectedPlayerHandSize, actualPlayerHandSize);
     }
 
-    // Will keep this for future reference
-//    @Test
-//    public void askForPlayerNameTest() {
-//        // Given
-//        String expectedName = "Luis";
-//        // When
-//        Blackjack blackjack = new Blackjack("Luis", 50);
-//        String askedName = blackjack.askForPlayerName();
-//        String actualName = blackjack.getPlayer().getName();
-//        // Then
-//        Assert.assertEquals(expectedName, actualName);
-//    }
-
-    // GamblingInterface
     @Test
     public void placeBetTest() {
         // Given
@@ -140,8 +79,4 @@ public class BlackjackTest {
         Assert.assertEquals(expectedChipsRemaining,actualChipsRemaining);
     }
 
-    @Test
-    public void checkNumberOfCards() {
-
-    }
 }

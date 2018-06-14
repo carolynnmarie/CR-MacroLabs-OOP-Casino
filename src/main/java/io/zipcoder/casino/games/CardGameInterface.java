@@ -12,4 +12,6 @@ public interface CardGameInterface extends GameInterface {
     int checkNumberOfCards(Person person);
 
     ArrayList<Card> dealCards(Person person);
+
+    String displayCards(ArrayList<Card> hand);
 }

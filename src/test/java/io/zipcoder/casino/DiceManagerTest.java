@@ -1,9 +1,13 @@
 package io.zipcoder.casino;
 
 import io.zipcoder.casino.diceAndCoins.DiceManager;
+import io.zipcoder.casino.diceAndCoins.Die;
 import io.zipcoder.casino.diceAndCoins.DieFace;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DiceManagerTest {
 
@@ -11,7 +15,6 @@ public class DiceManagerTest {
     public void amountOfDiceCreatedTest() {
         DiceManager allDice = new DiceManager(5);
         int expected = 5;
-        allDice.rollAllDice();
         int actual = allDice.getAllDieFaces().length;
         Assert.assertEquals(expected, actual);
     }
@@ -30,7 +33,6 @@ public class DiceManagerTest {
     @Test
     public void setSpecificDieFaceTest() {
         DiceManager allDice = new DiceManager(3);
-        allDice.rollAllDice();
         allDice.setSpecificDie(2, DieFace.ONE);
         DieFace expected = DieFace.ONE;
         DieFace actual = allDice.getAllDieFaces()[2];
@@ -40,21 +42,15 @@ public class DiceManagerTest {
     @Test
     public void getDiceArrayTest() {
         DiceManager allDice = new DiceManager(3);
-
-        allDice.setSpecificDie(0, DieFace.THREE);
-        allDice.setSpecificDie(1,DieFace.SIX);
-        allDice.setSpecificDie(2, DieFace.FIVE);
-
-        DieFace[] expected = new DieFace[]{DieFace.THREE, DieFace.SIX, DieFace.FIVE};
-        DieFace[] actual = allDice.getAllDieFaces();
-
-        Assert.assertArrayEquals(expected, actual);
+        ArrayList<Die> expected = new ArrayList<>(Arrays.asList(new Die(DieFace.THREE),new Die(DieFace.SIX),new Die(DieFace.FIVE)));
+        allDice.setDiceArray(expected);
+        ArrayList<Die> actual = allDice.getDiceArray();
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void getTotalValueTest() {
         DiceManager allDice = new DiceManager(2);
-        allDice.rollAllDice();
         allDice.setSpecificDie(0, DieFace.TWO);
         allDice.setSpecificDie(1,DieFace.TWO);
         int expected = 4;

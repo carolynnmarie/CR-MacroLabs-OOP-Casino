@@ -19,6 +19,7 @@ public class DieTest {
     @Test
     public void getDieFaceTest() {
         Integer actual = this.die.getDieFace().getFaceValue();
+        System.out.println(actual);
         Assert.assertTrue(1 <= actual && actual <= 6);
     }
 
@@ -29,5 +30,7 @@ public class DieTest {
         int actual = this.die.getDieFace().getFaceValue();
         Assert.assertEquals(expected, actual);
     }
+
+
 
 }

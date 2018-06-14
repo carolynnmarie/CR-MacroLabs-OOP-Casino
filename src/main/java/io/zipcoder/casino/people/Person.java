@@ -46,32 +46,11 @@ public class Person {
         return new Person(playerName);
     }
 
-
-
-
+    public void setPlayerHand(ArrayList<Card> hand){
+        this.playerHand = hand;
+    }
     public ArrayList<Card> getPlayerHand() {
         return playerHand;
-    }
-
-    public String displayHand(){
-        String hand = "";
-        for(Card card: playerHand){
-            hand += card.toString() + " ";
-        }
-        return hand;
-    }
-
-    public void receiveCards(ArrayList<Card> cards) {
-        playerHand.addAll(cards);
-    }
-
-
-    public Card drawCardfromHand() {
-        return playerHand.remove(playerHand.size() - 1);
-    }
-
-    public void clearHand() {
-        playerHand.clear();
     }
 
     public void setBook(int book){

@@ -39,9 +39,9 @@ public class Deck {
     }
 
 
-    public ArrayList<Card> dealHand(int beginningHand){
+    public ArrayList<Card> dealHand(int numberOfCards){
         ArrayList<Card> hand = new ArrayList<>();
-        for(int i = 0; i<beginningHand; i++){
+        for(int i = 0; i<numberOfCards; i++){
             hand.add(deckOfCards.remove(deckOfCards.size()-1-i));
         }
         return hand;
