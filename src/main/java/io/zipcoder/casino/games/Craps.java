@@ -80,26 +80,19 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
 
     public void firstBetChecker(){
         do {
-            System.out.println("Please place initial bet\n" +
-                    "If you would like to place a pass bet, type 'p'.  If you would like to place a don't pass bet, type 'd'.\n");
-            if (getBetTypeInput().equalsIgnoreCase("p")) {
+            System.out.println("Please place initial bet\nIf you would like to place a pass bet, type pass.  " +
+                    "If you would like to place a don't pass bet, type don't pass.\n");
+            if (getBetTypeInput().equalsIgnoreCase("pass")) {
                 System.out.println("How much would you like to bet on the Pass Line?");
                 setPassLineBet(minimumBetChecker());
                 placeBet(player, getPassLineBet());
-                System.out.println("If you would also like to place a don't pass bet, type 'd', if not, type any other key");
-                if(getBetTypeInput().equalsIgnoreCase("d")) {
-                    if (player.checkChips() < 5) {
-                        System.out.println("You don't have enough money for another bet");
-                        break;
-                    } else {
-                        setDontPassLineBet(placeDontPassLineBet());
-                    }
-                }
-            } else {
-                if (getBetTypeInput().equalsIgnoreCase("don't pass")) {
+                System.out.println("If you would also like to place a don't pass bet, type don't pass, if not, type any other key");
+                if(getBetTypeInput().equalsIgnoreCase("don't pass")) {
                     setDontPassLineBet(placeDontPassLineBet());
                 }
-            }
+            } else if (getBetTypeInput().equalsIgnoreCase("don't pass")) {
+                    setDontPassLineBet(placeDontPassLineBet());
+                }
         } while (passLineBet == 0 && dontPassLineBet == 0);
     }
 
