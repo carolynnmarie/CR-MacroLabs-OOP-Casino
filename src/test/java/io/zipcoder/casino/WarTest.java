@@ -10,12 +10,6 @@
 //
 //public class WarTest {
 //
-//    // psvm for isolated War testing
-////    public static void main(String[] args) {
-////        Person player = new Person();
-////        War war = new War(player);
-////        war.start();
-////    }
 //
 //    @Test
 //    public void checkNumberOfCards() {
@@ -62,7 +56,7 @@
 //    }
 //
 //    @Test
-//    public void decideHowManyYaddaYaddaTest_handHasFourCards() {
+//    public void decideHowManyYaddaYaddaTest1() {
 //        Person player = new Person();
 //        War warGame = new War(player);
 //        int expected = 4;
@@ -71,7 +65,7 @@
 //    }
 //
 //    @Test
-//    public void decideHowManyYaddaYaddaTest_handHasMoreThanFourCards() {
+//    public void decideHowManyYaddaYaddaTest2() {
 //        Person player = new Person();
 //        War warGame = new War(player);
 //        int expected = 4;
@@ -80,7 +74,7 @@
 //    }
 //
 //    @Test
-//    public void decideHowManyYaddaYaddaTest_handHasLessThanFourCards() {
+//    public void decideHowManyYaddaYaddaTest3() {
 //        Person player = new Person();
 //        War warGame = new War(player);
 //        int expected = 2;

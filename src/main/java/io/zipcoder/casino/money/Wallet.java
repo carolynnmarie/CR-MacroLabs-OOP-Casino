@@ -24,6 +24,7 @@ public class Wallet {
     }
 
 
+
     public void fillWallet() {
         String isGambling;
         int walletAmount;

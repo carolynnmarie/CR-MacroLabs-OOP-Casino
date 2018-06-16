@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class DeckTest {
 
     private Deck deckTest = new Deck();
-    private Card cardTest;
 
     @Test
     public void deckConstructorTest() {
@@ -23,10 +22,11 @@ public class DeckTest {
 
     @Test
     public void ShuffleDeckTest(){
-        Deck expected = deckTest;
+        ArrayList<Card> expected = new Deck().getDeckOfCards();
         deckTest.shuffleDeck();
         //When
         ArrayList<Card> actual = deckTest.getDeckOfCards();
+        System.out.println(actual);
         //Then
         Assert.assertNotEquals(expected, actual);
     }
