@@ -1,4 +1,4 @@
-package io.zipcoder.casino;
+package io.zipcoder.casino.diceAndCoins;
 
 import io.zipcoder.casino.diceAndCoins.DieFace;
 import org.junit.Assert;

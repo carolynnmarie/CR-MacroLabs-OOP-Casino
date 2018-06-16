@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class GameMenu {
 
-    Game game;
+    private static Game game;
 
     public GameMenu() {
         this.game = game;
@@ -38,7 +38,6 @@ public class GameMenu {
 
     public static Game chooseGame(String choice, Person player) {
 
-        Game game;
         switch (choice) {
             case "war":
                 game = new War(player);
@@ -55,11 +54,9 @@ public class GameMenu {
             case "coin flipper":
                 game = new CoinFlipper(player);
                 break;
-
             default:
                 return null;
         }
-
         return game;
     }
 

@@ -27,11 +27,11 @@ public class Deck {
     }
 
     public Card drawCard(){
-        return deckOfCards.remove(deckOfCards.size() - 1);
+        return deckOfCards.remove(0);
     }
 
     public Card getCard(){
-        return deckOfCards.get(deckOfCards.size()-1);
+        return deckOfCards.get(0);
     }
 
     public void clearDeck(){
@@ -42,7 +42,7 @@ public class Deck {
     public ArrayList<Card> dealHand(int numberOfCards){
         ArrayList<Card> hand = new ArrayList<>();
         for(int i = 0; i<numberOfCards; i++){
-            hand.add(deckOfCards.remove(deckOfCards.size()-1-i));
+            hand.add(deckOfCards.remove(i));
         }
         return hand;
     }

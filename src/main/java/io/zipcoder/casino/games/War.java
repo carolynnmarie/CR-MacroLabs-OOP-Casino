@@ -20,7 +20,7 @@ public class War extends Game implements CardGameInterface {
         this.dealer = new Person("Dealer");
         this.deck = new Deck();
         this.playerHand = deck.dealHand(26);
-        this.dealerHand = deck.dealHand(26);
+        this.dealerHand = deck.getDeckOfCards();
     }
 
     public void setDealerHand(ArrayList<Card> dealerHand) {

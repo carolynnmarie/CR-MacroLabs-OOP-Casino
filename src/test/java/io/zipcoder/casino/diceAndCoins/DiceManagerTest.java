@@ -1,4 +1,4 @@
-package io.zipcoder.casino;
+package io.zipcoder.casino.diceAndCoins;
 
 import io.zipcoder.casino.diceAndCoins.DiceManager;
 import io.zipcoder.casino.diceAndCoins.Die;
