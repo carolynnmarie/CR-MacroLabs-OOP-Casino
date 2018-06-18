@@ -14,7 +14,7 @@ public class Person {
     private ArrayList<Card> playerHand;
     private int book;
 
-    protected Person(){ }
+    public Person(){ }
 
     public Person(String name) {
         this.name = name;

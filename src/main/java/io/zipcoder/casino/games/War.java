@@ -51,70 +51,95 @@ public class War extends Game implements CardGameInterface {
         String exitStay = input.nextLine();
         System.out.println("Lets go to war!");
         while (!("exit").equals(exitStay)) {
-            while (playerHand.size() !=0 && dealerHand.size() !=0) {
+            while (checkIfEitherAreEmpty(playerHand, dealerHand)) {
                 Card playerCard = playerHand.remove(0);
                 Card dealerCard = dealerHand.remove(0);
-                int winCard = 0;
                 System.out.println("You played " + playerCard + " and the dealer played " + dealerCard);
-
                 if (playerCard.toInt() == dealerCard.toInt()) {
-                    winCard = iDeclareWar(playerHand, dealerHand);
-                    ArrayList<Card> warWin = new ArrayList<>(Arrays.asList(playerHand.remove(0),playerHand.remove(1),playerHand.remove(2),
-                            dealerHand.remove(0), dealerHand.remove(1), dealerHand.remove(2)));
-                    if (winCard == 1) {
-                        playerHand.addAll(warWin);
-                    } else if (winCard == 2) {
-                        dealerHand.addAll(warWin);
-                    }
+                    warCardSwap(playerHand, dealerHand);
+                    System.out.println("You now have " + playerHand.size() + " cards.  Dealer has " + dealerHand.size() + " cards.");
                 } else if (playerCard.toInt() > dealerCard.toInt()) {
-                    playerHand.add(playerCard);
-                    playerHand.add(dealerCard);
-                    System.out.println("You won the round!  You now have " + playerHand.size() + " cards.  Dealer now has "
+                    addToHand(playerCard, dealerCard, playerHand);
+                    System.out.println("You won the round!  You now have " + playerHand.size() + " cards.  Dealer has "
                             + dealerHand.size() + " cards.");
                 } else {
-                    dealerHand.add(playerCard);
-                    dealerHand.add(dealerCard);
-                    System.out.println("Dealer won the round.  You now have" + playerHand.size() + " cards.  Dealer now has "
+                    addToHand(playerCard, dealerCard, dealerHand);
+                    System.out.println("Dealer won the round.  You now have" + playerHand.size() + " cards.  Dealer has "
                             +dealerHand.size() + " cards.");
                 }
             }
-            declareWinner(playerHand,dealerHand);
+            declareWinner(playerHand);
         }
         end();
     }
 
-
-
-    // To avoid recursion I am changing making a minor alteration to the game: if the 3rd card in an "I declare war" is also a tie
-    // then the win goes to the person whose 2nd card is higher, instead of both players going again.
-    public int iDeclareWar(ArrayList<Card> player1, ArrayList<Card> dealer1) {
-        int win = 0;
-        if (player1.size() >= 3 && dealer1.size() >= 3) {
-            System.out.println("I D E C L A R E  W A R!!\nPlayer's top card: " + player1.get(2) + ". Dealer's top card: " + dealer1.get(2));
-            if(player1.get(2).toInt() > dealer1.get(2).toInt()){
-                win = 1;
-            } else if(player1.get(2).toInt() < dealer1.get(2).toInt()){
-                win = 2;
-            } else if(player1.get(2).toInt() == dealer1.get(2).toInt()){
-                if(player1.get(1).toInt() > dealer1.get(1).toInt()){
-                    win = 1;
-                } else {
-                    win = 2;
+    public void warCardSwap(ArrayList<Card> playerHand, ArrayList<Card> dealerHand){
+        int winCard = 0;
+        do {
+            if (!checkIfEitherAreEmpty(playerHand, dealerHand)) {
+                break;
+            }else if(checkIfEitherAreEmpty(playerHand, dealerHand)){
+                winCard = iDeclareWar(playerHand, dealerHand);
+                ArrayList<Card> warWin = getWarTablePile(playerHand, dealerHand);
+                if (winCard == 1) {
+                    playerHand.addAll(warWin);
+                } else if (winCard == 2) {
+                    dealerHand.addAll(warWin);
                 }
             }
-        } else if(player1.size()<3) {
-            System.out.println("Sorry, you don't have enough cards to go to war.");
-            declareWinner(player1, dealer1);
+        } while (winCard == 0);
+    }
+
+
+
+    public ArrayList<Card> getWarTablePile(ArrayList<Card> playerHand, ArrayList<Card> dealerHand){
+        ArrayList<Card> warWin = new ArrayList<>();
+        int x= warCardsNumber(playerHand,dealerHand);
+        for(int i = 0; i<x; i++){
+            warWin.add(playerHand.remove(i));
+            warWin.add(dealerHand.remove(i));
+        }
+        return warWin;
+    }
+
+    public int warCardsNumber(ArrayList<Card> playerHand, ArrayList<Card> dealerHand){
+        int x = 0;
+        if(playerHand.size()>=3 && dealerHand.size()>=3){
+            x=2;
         } else {
-            System.out.println("Dealer doesn't have enough cards to go to war");
-            declareWinner(player1, dealer1);
+            x = Math.min(playerHand.size(), dealerHand.size());
+        }
+        return x;
+    }
+
+    private void addToHand(Card playerCard, Card dealerCard, ArrayList<Card> hand){
+        hand.add(playerCard);
+        hand.add(dealerCard);
+    }
+
+    public boolean checkIfEitherAreEmpty(ArrayList<Card> playerHand, ArrayList<Card>dealerHand){
+        if(playerHand.size() == 0 || dealerHand.size() == 0){
+            return false;
+        }
+        return true;
+    }
+
+
+    public int iDeclareWar(ArrayList<Card> player1, ArrayList<Card> dealer1) {
+        int win = 0;
+        int x = warCardsNumber(player1, dealer1);
+        System.out.println("I D E C L A R E  W A R!!\nPlayer's top card: " + player1.get(x) + ". Dealer's top card: " + dealer1.get(x));
+        if(player1.get(x).toInt() > dealer1.get(x).toInt()){
+            win = 1;
+        } else if(player1.get(x).toInt() < dealer1.get(x).toInt()){
+            win = 2;
         }
         return win;
     }
 
-    public String declareWinner(ArrayList<Card> playerHand, ArrayList<Card> dealerHand){
+    public String declareWinner(ArrayList<Card> playerHand){
         String winner = "And the winner is ";
-        winner += playerHand.size() < 25 ? "the dealer!": "YOU!";
+        winner += (playerHand.size() < 25)? "the dealer!": "YOU!";
         return winner;
     }
 

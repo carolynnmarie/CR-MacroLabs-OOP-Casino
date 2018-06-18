@@ -1,39 +1,40 @@
-//package io.zipcoder.casino;
-//
-//import io.zipcoder.casino.cards.Card;
-//import io.zipcoder.casino.cards.Rank;
-//import io.zipcoder.casino.cards.Suit;
-//import io.zipcoder.casino.games.War;
-//import io.zipcoder.casino.people.Person;
-//import org.junit.Assert;
-//import org.junit.Test;
-//
-//public class WarTest {
-//
-//
-//    @Test
-//    public void checkNumberOfCards() {
-//        Person player = new Person();
-//        War warGame = new War(player);
-//        Hand hand = new Hand();
-//        hand.getHandArrayList().add(new Card(Rank.DEUCE, Suit.CLUBS));
-//        hand.getHandArrayList().add(new Card(Rank.NINE, Suit.HEARTS));
-//        int expected = 2;
-//        int actual = warGame.checkNumberOfCards(hand);
-//        Assert.assertEquals(expected, actual);
-//    }
-//
-//    @Test
-//    public void compareCardsTest() {
-//        Person player = new Person();
-//        War warGame = new War(player);
-//        Card smallCard = new Card(Rank.THREE, Suit.DIAMONDS);
-//        Card bigCard = new Card(Rank.SEVEN, Suit.DIAMONDS);
-//        int expected = 2;
-//        int actual = warGame.compareCards(smallCard, bigCard);
-//        Assert.assertEquals(expected, actual);
-//    }
-//
+package io.zipcoder.casino.games;
+
+import io.zipcoder.casino.cards.Card;
+import io.zipcoder.casino.cards.Rank;
+import io.zipcoder.casino.cards.Suit;
+import io.zipcoder.casino.people.Person;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class WarTest {
+
+
+    Person player = new Person();
+    War warGame = new War(player);
+    ArrayList<Card> playerHand = new ArrayList<>(Arrays.asList(new Card(Rank.THREE, Suit.DIAMONDS), new Card(Rank.SEVEN,Suit.HEARTS),
+            new Card(Rank.EIGHT, Suit.CLUBS), new Card(Rank.DEUCE, Suit.SPADES)));
+    ArrayList<Card> dealerHand = new ArrayList<>(Arrays.asList(new Card(Rank.NINE, Suit.HEARTS), new Card(Rank.ACE, Suit.HEARTS),
+            new Card(Rank.QUEEN, Suit.SPADES), new Card(Rank.FIVE, Suit.HEARTS)));
+
+
+    @Test
+    public void checkNumberOfCards() {
+        int expected = 26;
+        int actual = warGame.getPlayerHand().size();
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void iDeclareWarTest() {
+        int expected = 2;
+        int actual = warGame.iDeclareWar(playerHand, dealerHand);
+        Assert.assertEquals(expected, actual);
+    }
+
 //    @Test
 //    public void compareCardsTest2() {
 //        Person player = new Person();
@@ -81,5 +82,5 @@
 //        int actual = warGame.decideOnHowManyTimesToIterateBasedOn(2);
 //        Assert.assertEquals(expected, actual);
 //    }
-//
-//}
+
+}
