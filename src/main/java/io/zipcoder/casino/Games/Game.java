@@ -1,6 +1,6 @@
-package io.zipcoder.casino;
+package io.zipcoder.casino.Games;
 
-public abstract class Game implements GameInterface{
+public abstract class Game implements GameInterface {
 
     // default constructor for 2 players? (minimum number of players);
 

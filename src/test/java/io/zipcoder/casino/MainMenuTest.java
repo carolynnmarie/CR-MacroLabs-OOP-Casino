@@ -1,5 +1,8 @@
 package io.zipcoder.casino;
 
+import io.zipcoder.casino.Games.Game;
+import io.zipcoder.casino.Games.War;
+import io.zipcoder.casino.People.Person;
 import org.junit.Assert;
 import org.junit.Test;
 

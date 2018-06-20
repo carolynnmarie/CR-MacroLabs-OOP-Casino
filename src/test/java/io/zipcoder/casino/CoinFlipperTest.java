@@ -1,5 +1,7 @@
 package io.zipcoder.casino;
 
+import io.zipcoder.casino.Games.CoinFlipper;
+import io.zipcoder.casino.People.Person;
 import org.junit.Test;
 
 public class CoinFlipperTest {

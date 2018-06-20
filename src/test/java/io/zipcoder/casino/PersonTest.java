@@ -1,7 +1,8 @@
 package io.zipcoder.casino;
 
+import io.zipcoder.casino.Cards.Card;
+import io.zipcoder.casino.People.Person;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;

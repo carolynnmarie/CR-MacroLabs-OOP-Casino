@@ -1,6 +1,6 @@
-package io.zipcoder.casino;
+package io.zipcoder.casino.Games;
 
-import java.util.Map;
+import io.zipcoder.casino.People.Person;
 
 public interface GamblingInterface {
     int checkChipAmount(Person personToCheck);

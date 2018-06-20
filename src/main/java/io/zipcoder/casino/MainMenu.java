@@ -1,7 +1,8 @@
 package io.zipcoder.casino;
 
-import java.awt.*;
-import java.util.*;
+import io.zipcoder.casino.Games.*;
+import io.zipcoder.casino.People.Person;
+
 import java.util.Scanner;
 
 

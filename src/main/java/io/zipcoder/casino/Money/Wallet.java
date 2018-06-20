@@ -1,4 +1,4 @@
-package io.zipcoder.casino;
+package io.zipcoder.casino.Money;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;

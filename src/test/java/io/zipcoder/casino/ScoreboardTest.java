@@ -1,10 +1,8 @@
 package io.zipcoder.casino;
 
+import io.zipcoder.casino.People.Person;
 import org.junit.Test;
 import org.junit.Assert;
-
-import java.util.LinkedHashMap;
-import java.util.Set;
 
 public class ScoreboardTest {
     private Person person1 = new Person("Harry");

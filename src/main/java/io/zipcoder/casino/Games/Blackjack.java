@@ -1,7 +1,15 @@
-package io.zipcoder.casino;
+package io.zipcoder.casino.Games;
+
+import io.zipcoder.casino.Cards.Card;
+import io.zipcoder.casino.Cards.Deck;
+import io.zipcoder.casino.Cards.Rank;
+import io.zipcoder.casino.Cards.Suit;
+import io.zipcoder.casino.Money.Wallet;
+import io.zipcoder.casino.People.Dealer;
+import io.zipcoder.casino.People.Hand;
+import io.zipcoder.casino.People.Person;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Blackjack extends Game implements GameInterface, CardGameInterface, GamblingInterface {

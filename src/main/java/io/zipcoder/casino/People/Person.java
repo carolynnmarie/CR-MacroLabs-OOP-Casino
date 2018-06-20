@@ -1,5 +1,7 @@
-package io.zipcoder.casino;
+package io.zipcoder.casino.People;
 
+
+import io.zipcoder.casino.Money.Wallet;
 
 import java.util.Scanner;
 

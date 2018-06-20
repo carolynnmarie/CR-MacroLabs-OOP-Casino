@@ -1,4 +1,8 @@
-package io.zipcoder.casino;
+package io.zipcoder.casino.People;
+
+import io.zipcoder.casino.Cards.Card;
+import io.zipcoder.casino.Cards.Rank;
+import io.zipcoder.casino.Cards.Suit;
 
 import java.util.ArrayList;
 import java.util.Collections;

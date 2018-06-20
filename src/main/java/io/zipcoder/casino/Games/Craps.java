@@ -1,4 +1,7 @@
-package io.zipcoder.casino;
+package io.zipcoder.casino.Games;
+
+import io.zipcoder.casino.Dice.DiceManager;
+import io.zipcoder.casino.People.Person;
 
 import java.util.*;
 

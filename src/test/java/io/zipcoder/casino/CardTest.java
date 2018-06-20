@@ -1,8 +1,10 @@
 package io.zipcoder.casino;
 
+import io.zipcoder.casino.Cards.Card;
+import io.zipcoder.casino.Cards.Rank;
+import io.zipcoder.casino.Cards.Suit;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.Before;
 
 public class CardTest {
 

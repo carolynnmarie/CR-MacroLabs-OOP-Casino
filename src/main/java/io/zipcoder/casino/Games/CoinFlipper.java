@@ -1,8 +1,11 @@
-package io.zipcoder.casino;
+package io.zipcoder.casino.Games;
+
+import io.zipcoder.casino.Dice.Coin;
+import io.zipcoder.casino.People.Person;
 
 import java.util.Scanner;
 
-public class CoinFlipper extends Game implements GameInterface{
+public class CoinFlipper extends Game implements GameInterface {
 
     private boolean gameIsRunning;
     private Person player = new Person("Joe");

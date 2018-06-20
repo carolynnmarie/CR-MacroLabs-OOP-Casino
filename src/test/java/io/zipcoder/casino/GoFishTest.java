@@ -1,11 +1,15 @@
 package io.zipcoder.casino;
 
+import io.zipcoder.casino.Cards.Card;
+import io.zipcoder.casino.Cards.Deck;
+import io.zipcoder.casino.Cards.Rank;
+import io.zipcoder.casino.Cards.Suit;
+import io.zipcoder.casino.Games.GoFish;
+import io.zipcoder.casino.People.Hand;
+import io.zipcoder.casino.People.Person;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GoFishTest {
 
