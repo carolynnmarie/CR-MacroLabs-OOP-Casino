@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Person {
     private String name = "";
     private Wallet wallet = null;
-    private ArrayList<Card> playerHand;
+    private ArrayList<Card> hand;
     private int book;
 
     public Person(){ }
@@ -19,7 +19,7 @@ public class Person {
     public Person(String name) {
         this.name = name;
         this.wallet = new Wallet();
-        this.playerHand = new ArrayList<>();
+        this.hand = new ArrayList<>();
         this.book = 0;
     }
 
@@ -46,11 +46,11 @@ public class Person {
         return new Person(playerName);
     }
 
-    public void setPlayerHand(ArrayList<Card> hand){
-        this.playerHand = hand;
+    public void setHand(ArrayList<Card> hand){
+        this.hand = hand;
     }
-    public ArrayList<Card> getPlayerHand() {
-        return playerHand;
+    public ArrayList<Card> getHand() {
+        return hand;
     }
 
     public void setBook(int book){

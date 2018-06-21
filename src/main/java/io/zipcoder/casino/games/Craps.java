@@ -159,7 +159,6 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
             player.getWallet().addChips(dontPassLineBet);
             setDontPassLineBet(0);
         }
-
         return bet;
     }
 
@@ -210,14 +209,14 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
                 .append(comeBetPointResult(value))
                 .append(dontComeBetResult(value))
                 .append(fieldBetResult(value))
-                .append(dontComeBetPointResult(value, dontComeBetPoints))
-                .append(passLineOddsCheck(value, passLineBet))
-                .append(dontPassLineOddsCheck(value, dontPassOddsBet))
-                .append(comeBetPointOdds(value, comeBetPointOdds))
-                .append(dontComeBetPointOdds(value, dontComeBetPointOdds))
-                .append(placeWinBetMap(value, placeWinBets))
-                .append(placeLoseBetMap(value, placeLoseBets))
-                .append(placeLoseBetMap(value, placeLoseBets));
+                .append(dontComeBetPointResult(value, getDontComeBetPoints()))
+                .append(passLineOddsCheck(value, getPassLineBet()))
+                .append(dontPassLineOddsCheck(value, getDontPassOddsBet()))
+                .append(comeBetPointOdds(value, getComeBetPointOdds()))
+                .append(dontComeBetPointOdds(value, getDontComeBetPointOdds()))
+                .append(placeWinBetMap(value, getPlaceWinBets()))
+                .append(placeLoseBetMap(value, getPlaceLoseBets()))
+                .append(placeLoseBetMap(value, getPlaceLoseBets()));
         System.out.println(out.toString());
     }
 

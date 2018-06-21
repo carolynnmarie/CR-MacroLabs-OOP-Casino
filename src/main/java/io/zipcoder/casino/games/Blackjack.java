@@ -25,32 +25,28 @@ public class Blackjack extends Game implements CardGameInterface, GamblingInterf
 
     public Blackjack(Person player) {
         this.player = player;
+        this.dealer = new Person("Dealer");
         this.playerHand = new ArrayList<>();
         this.dealerHand = new ArrayList<>();
         this.playerWallet = player.getWallet();
         this.playerChips = player.getWallet().checkChips();
-        this.dealer = new Dealer();
         this.deck = new Deck();
         this.playerBet = 0;
     }
 
     public Blackjack(Person player, int playerChips){
         this.player = player;
+        this.dealer = new Person("Dealer");
         this.playerHand = new ArrayList<>();
         this.dealerHand = new ArrayList<>();
         this.playerWallet = player.getWallet();
         this.playerChips = playerChips;
-        this.dealer = new Dealer();
         this.deck = new Deck();
         this.playerBet = 0;
     }
 
     public Person getPlayer() {
         return player;
-    }
-
-    public Person getDealer() {
-        return dealer;
     }
 
     public void setDeck(Deck deck){
