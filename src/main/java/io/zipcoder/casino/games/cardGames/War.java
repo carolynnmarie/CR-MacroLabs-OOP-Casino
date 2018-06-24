@@ -1,7 +1,9 @@
-package io.zipcoder.casino.games;
+package io.zipcoder.casino.games.cardGames;
 
 import io.zipcoder.casino.cards.Card;
 import io.zipcoder.casino.cards.Deck;
+import io.zipcoder.casino.games.Game;
+import io.zipcoder.casino.games.cardGames.CardGameInterface;
 import io.zipcoder.casino.people.Person;
 
 import java.util.*;
@@ -154,7 +156,7 @@ public class War extends Game implements CardGameInterface {
     }
 
     public int checkNumberOfCards(Person handToCheck) {
-        return handToCheck.getPlayerHand().size();
+        return handToCheck.getHand().size();
     }
 
     @Override

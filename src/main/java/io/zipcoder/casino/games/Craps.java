@@ -116,11 +116,14 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
         int dontPassBet = getBets().get("don't pass");
         String x = "Time to make your first roll!\nYou rolled a " + value + ".";
         if (value == 2 || value == 3) {
-            x += "You crapped out. Pass line bets loose and Don't Pass bets win. " + passLineBetLose(passBet) + dontPassLineWin(dontPassBet);
+            x += "You crapped out. Pass line bets loose and Don't Pass bets win. "
+                    + passLineBetLose(passBet) + dontPassLineWin(dontPassBet);
         } else if (value == 7 || value == 11) {
-            x += "You rolled a natural! Pass Line bets win and Don't Pass loses. " + passLineBetWin(passBet) + dontPassLineLose(dontPassBet);
+            x += "You rolled a natural! Pass Line bets win and Don't Pass loses. "
+                    + passLineBetWin(passBet) + dontPassLineLose(dontPassBet);
         } else if (value == 12) {
-            x += "Pass Line looses and Don't Pass bets are pushed to next round. " + passLineBetLose(passBet);
+            x += "Pass Line looses and Don't Pass bets are pushed to next round. "
+                    + passLineBetLose(passBet);
         } else {
             x += "The point is now " + value;
             setPoint(value);
@@ -218,33 +221,53 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
 
     public void checkBetHandler(int value) {
         StringBuilder out = new StringBuilder();
-        out.append(comeBetResult(value))
-                .append(comeBetPointResult(value))
-                .append(dontComeBetResult(value))
-                .append(fieldBetResult(value))
-                .append(dontComeBetPointResult(value))
-                .append(passLineOddsCheck(value, getPassOddsBet()))
-                .append(dontPassLineOddsCheck(value, getDontPassOddsBet()))
-                .append(comeBetPointOdds(value, getComeBetPointOdds()))
-                .append(dontComeBetPointOdds(value, getDontComeBetPointOdds()))
-                .append(placeWinBetMap(value, getPlaceWinBets()))
-                .append(placeLoseBetMap(value, getPlaceLoseBets()))
-                .append(placeLoseBetMap(value, getPlaceLoseBets()));
+        if(getComeBet() != 0) {
+            out.append(comeBetResult(value)) ;
+        }
+        if(!getComeBetPoints().isEmpty()) {
+            out.append(comeBetPointResult(value));
+        }
+        if(getDontComeBet()!=0) {
+            out.append(dontComeBetResult(value));
+        }
+        if(getFieldBet()!=0) {
+            out.append(fieldBetResult(value));
+        }
+        if(!getDontComeBetPoints().isEmpty()) {
+            out.append(dontComeBetPointResult(value));
+        }
+        if(getPassOddsBet()!=0) {
+            out.append(passLineOddsResult(value));
+        }
+        if(getDontPassOddsBet()!=0) {
+            out.append(dontPassLineOddsResult(value, getDontPassOddsBet()));
+        }
+        if(!getComeBetPointOdds().isEmpty()) {
+            out.append(comeBetPointOdds(value, getComeBetPointOdds()));
+        }
+        if(!getDontComeBetPoints().isEmpty()) {
+            out.append(dontComeBetPointOdds(value, getDontComeBetPointOdds()));
+        }
+        if(!getPlaceWinBets().isEmpty()) {
+            out.append(placeWinBetResult(value, getPlaceWinBets()));
+        }
+        if(!getPlaceLoseBets().isEmpty()) {
+            out.append(placeLoseBetResult(value, getPlaceLoseBets()));
+        }
         System.out.println(out.toString());
     }
 
     public String comeBetResult(int diceValue) {
         String x = "";
-        int comeBet = getComeBet();
-        getBets().replace("come", comeBet);
+        getBets().replace("come", getComeBet());
         if ((diceValue == 7 || diceValue == 11)) {
-            x = "Come bet wins! You won " + comeBet + " chips!";
-            player.addChips(comeBet);
+            x = "Come bet wins! You won " + getComeBet() + " chips!";
+            player.addChips(getComeBet());
         } else if ((diceValue == 2 || diceValue == 3 || diceValue == 12)) {
-            x = "Come Bet loses. You lost " + comeBet + " chips.";
+            x = "Come Bet loses. You lost " + getComeBet() + " chips.";
         } else {
             x = "Your Come bet is now a point.";
-            getComeBetPoints().put(diceValue, comeBet);
+            getComeBetPoints().put(diceValue, getComeBet());
         }
         return x;
     }
@@ -252,14 +275,13 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
 
     public String comeBetPointResult(int dieValue) {
         int totalValueOfPoints = 0;
-        HashMap<Integer, Integer> comeBetPoints = getComeBetPoints();
         String bet = "";
-        if (comeBetPoints.containsKey(dieValue)) {
-            bet = "Your Come bet on point " + dieValue + " wins! You won " + comeBetPoints.get(dieValue) + " chips!";
-            player.addChips(comeBetPoints.get(dieValue));
-            comeBetPoints.remove(dieValue);
-        } else if (dieValue == 7 && !comeBetPoints.isEmpty()) {
-            for (Map.Entry<Integer, Integer> entry : comeBetPoints.entrySet()) {
+        if (getComeBetPoints().containsKey(dieValue)) {
+            bet = "Your Come bet on point " + dieValue + " wins! You won " + getComeBetPoints().get(dieValue) + " chips!";
+            player.addChips(getComeBetPoints().get(dieValue));
+            getComeBetPoints().remove(dieValue);
+        } else if (dieValue == 7) {
+            for (Map.Entry<Integer, Integer> entry : getComeBetPoints().entrySet()) {
                 totalValueOfPoints += entry.getValue();
             }
             bet = "Your Come bet points lost! You lost a total of " + totalValueOfPoints + " chips.";
@@ -270,26 +292,21 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
 
     public String dontComeBetResult(int diceValue) {
         String bet = "";
-        int dontComeBet = getDontComeBet();
         if ((diceValue == 7 || diceValue == 11)) {
-            bet = "Don't Come bet loses. You lost " + dontComeBet + " chips.";
+            bet = "Don't Come bet loses. You lost " + getDontComeBet() + " chips.";
         } else if (diceValue == 2 || diceValue == 3) {
-            bet = "Don't Come bet wins! You won " + dontComeBet + " chips!";
-            player.addChips(dontComeBet);
+            bet = "Don't Come bet wins! You won " + getDontComeBet() + " chips!";
+            player.addChips(getDontComeBet());
         } else if (!(diceValue == 12)) {
             bet = "You Don't Come bet is now a point.";
-            getDontComeBetPoints().put(diceValue, dontComeBet);
+            getDontComeBetPoints().put(diceValue, getDontComeBet());
         }
         return bet;
     }
 
     public String dontComeBetPointResult(int diceValue) {
         String bet = "";
-        if (getDontComeBetPoints().containsKey(diceValue)) {
-            bet = "Your Don't Come bet on point " + diceValue + " lost." +
-                    " You lost " + getDontComeBetPoints().get(diceValue) + " chips!";
-            getDontComeBetPoints().remove(diceValue);
-        } else if (diceValue == 7 && !(getDontComeBetPoints().isEmpty())) {
+        if (diceValue ==7) {
             int totalValueOfPoints = 0;
             for (Map.Entry<Integer, Integer> entry : getDontComeBetPoints().entrySet()) {
                 totalValueOfPoints += entry.getValue();
@@ -297,6 +314,10 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
             bet = "Your Don't Come bet points won! You won a total of " + totalValueOfPoints + " chips.";
             player.addChips(totalValueOfPoints);
             getDontComeBetPoints().clear();
+        } else if (getDontComeBetPoints().containsKey(diceValue)) {
+            bet = "Your Don't Come bet on point " + diceValue + " lost." +
+                    " You lost " + getDontComeBetPoints().get(diceValue) + " chips!";
+            getDontComeBetPoints().remove(diceValue);
         }
         return bet;
     }
@@ -304,7 +325,7 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
     public String fieldBetResult(int diceValue) {
         String bet = "";
         int fieldBet = getFieldBet();
-        if (getFieldValues().contains(diceValue) && fieldBet != 0) {
+        if (getFieldValues().contains(diceValue)) {
             if (diceValue == 2 || diceValue == 12) {
                 bet = "Field win is doubled! You wn " + fieldBet * 2 + " chips!";
                 player.addChips(fieldBet * 2);
@@ -312,25 +333,25 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
                 bet = "Field wins! Payout is 1:1. You won " + fieldBet + " chips!";
                 player.addChips(fieldBet);
             }
-        } else if (fieldBet != 0) {
+        } else{
             bet = "Field loses. You lost " + fieldBet + " chips.";
         }
         return bet;
     }
 
-    public String passLineOddsCheck(int diceValue, int passOddsBet1) {
+    public String passLineOddsResult(int diceValue) {
         HashMap<Integer, Double> payout = CrapsPayouts.passLineComeBetPayout();
         String bet = "";
-        int point = getPoint();
-        if (passOddsBet1 != 0 && diceValue == point) {
+        if (diceValue == 7) {
+            bet = "Pass Line odds lose! You lost " + getPassOddsBet() + " chips";
+        } else if (diceValue == getPoint()) {
             for (Map.Entry<Integer, Double> entry : payout.entrySet()) {
-                if (entry.getValue().equals(point)) {
-                    bet = "Pass Line odds wins on " + entry.getKey() + "! You won " + (passOddsBet1 + passOddsBet1 * entry.getValue()) + " chips!";
-                    player.addChips((int) (passOddsBet1 + passOddsBet1 * entry.getValue()));
+                if (entry.getValue().equals(diceValue)) {
+                    bet = "Pass Line odds wins on " + entry.getKey() + "! You won "
+                            + (getPassOddsBet() + getPassOddsBet() * entry.getValue()) + " chips!";
+                    player.addChips((int) (getPassOddsBet() + getPassOddsBet() * entry.getValue()));
                 }
             }
-        } else if (passOddsBet1 != 0 && diceValue == 7) {
-            bet = "Pass Line odds lose! You lost " + passOddsBet1 + " chips";
         }
         if (!bet.equals("")) {
             getBets().replace("pass", 0);
@@ -339,7 +360,7 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
     }
 
 
-    public String dontPassLineOddsCheck(int diceValue, int dontPassOddsBet) {
+    public String dontPassLineOddsResult(int diceValue, int dontPassOddsBet) {
         HashMap<Integer, Double> payout = dontPassLineDontComePayout();
         String bet = "";
         int point = getPoint();
@@ -416,7 +437,7 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
         return bet;
     }
 
-    public String placeWinBetMap(int diceValue, HashMap<Integer, Integer> placeWinBets) {
+    public String placeWinBetResult(int diceValue, HashMap<Integer, Integer> placeWinBets) {
         String bet = "";
         int totalValueOfPoints = 0;
         if (placeWinBets.containsKey(diceValue)) {
@@ -447,7 +468,7 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
     }
 
 
-    public String placeLoseBetMap(int diceValue, HashMap<Integer, Integer> placeLoseBets) {
+    public String placeLoseBetResult(int diceValue, HashMap<Integer, Integer> placeLoseBets) {
         String bet = "";
         if (placeLoseBets.containsKey(diceValue)) {
             bet = "Your Place Lose bet on point " + diceValue + " lost. You lost " + placeLoseBets.get(diceValue) + " chips!";
@@ -627,13 +648,6 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
         return true;
     }
 
-    public String fieldValuesToString(){
-        String x = "";
-        for(Integer integer: fieldValues){
-            x += integer.toString() + " ";
-        }
-        return x;
-    }
 
     public String winPlaceLoseValuesToString(){
         String x = "";
