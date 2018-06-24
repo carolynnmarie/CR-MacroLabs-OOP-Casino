@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 public class CrapsPayouts {
 
+    public CrapsPayouts(){ }
+
 
     public static HashMap<Integer, Double> placeWinBetPayout() {
         HashMap<Integer, Double> payout = new HashMap<>();
