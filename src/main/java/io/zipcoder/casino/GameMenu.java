@@ -4,6 +4,7 @@ import io.zipcoder.casino.games.*;
 import io.zipcoder.casino.games.cardGames.Blackjack;
 import io.zipcoder.casino.games.cardGames.GoFish;
 import io.zipcoder.casino.games.cardGames.War;
+import io.zipcoder.casino.games.diceGames.Craps;
 import io.zipcoder.casino.people.Person;
 
 import java.util.Scanner;

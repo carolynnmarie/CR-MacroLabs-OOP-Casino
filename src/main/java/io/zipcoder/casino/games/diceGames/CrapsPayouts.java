@@ -1,4 +1,4 @@
-package io.zipcoder.casino.games;
+package io.zipcoder.casino.games.diceGames;
 
 import java.util.HashMap;
 

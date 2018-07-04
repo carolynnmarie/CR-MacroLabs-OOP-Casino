@@ -26,7 +26,6 @@ public class DeckTest {
         deckTest.shuffleDeck();
         //When
         ArrayList<Card> actual = deckTest.getDeckOfCards();
-        System.out.println(actual);
         //Then
         Assert.assertNotEquals(expected, actual);
     }

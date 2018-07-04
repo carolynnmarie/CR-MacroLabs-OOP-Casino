@@ -1,6 +1,6 @@
 package io.zipcoder.casino.games;
 
-import io.zipcoder.casino.games.Craps;
+import io.zipcoder.casino.games.diceGames.Craps;
 import io.zipcoder.casino.people.Person;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,10 +15,6 @@ public class CrapsTest {
 
     @Before public void setUp(){
         person.getWallet().addChips(5000);
-        craps.setPassLineBet(50);
-        craps.setDontPassLineBet(50);
-        craps.setPassOddsBet(50);
-        craps.setDontPassOddsBet(50);
     }
 
 
@@ -47,7 +43,7 @@ public class CrapsTest {
     @Test
     public void comeOutRollTest(){
         int expected = 4;
-        craps.comeOutRoll(4);
+        craps.comeOutRoll();
         int actual = craps.getPoint();
         Assert.assertEquals(expected, actual);
     }

@@ -1,15 +1,16 @@
-package io.zipcoder.casino.games;
+package io.zipcoder.casino.games.diceGames;
 
 
 import io.zipcoder.casino.diceAndCoins.DiceManager;
+import io.zipcoder.casino.games.Game;
 import io.zipcoder.casino.money.GamblingInterface;
 import io.zipcoder.casino.people.Person;
 
 import java.util.*;
 
-import static io.zipcoder.casino.games.CrapsPayouts.dontPassLineDontComePayout;
-import static io.zipcoder.casino.games.CrapsPayouts.placeLoseBetPayout;
-import static io.zipcoder.casino.games.CrapsPayouts.placeWinBetPayout;
+import static io.zipcoder.casino.games.diceGames.CrapsPayouts.dontPassLineDontComePayout;
+import static io.zipcoder.casino.games.diceGames.CrapsPayouts.placeLoseBetPayout;
+import static io.zipcoder.casino.games.diceGames.CrapsPayouts.placeWinBetPayout;
 
 public class Craps extends Game implements DiceGameInterface, GamblingInterface {
 

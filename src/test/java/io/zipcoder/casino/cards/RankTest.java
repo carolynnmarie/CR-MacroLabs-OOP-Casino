@@ -14,7 +14,7 @@ public class RankTest {
     public void RanktoIntTest() {
         // Given
         int expectedRankValue = 3;
-        Card card = new Card(Rank.THREE, Suit.HEARTS);
+        card = new Card(Rank.THREE, Suit.HEARTS);
         // When
         int actualRankValue = card.getRank().toInt();
         // Then
@@ -25,7 +25,7 @@ public class RankTest {
     public void RanktoStringTest() {
         // Given
         String expectedRankSymbol = "3";
-        Card card = new Card(Rank.THREE, Suit.HEARTS);
+        card = new Card(Rank.THREE, Suit.HEARTS);
         // When
         String actualRankSymbol = card.getRank().toString();
         // Then

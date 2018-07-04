@@ -65,7 +65,7 @@ public class GoFishTest {
     public void BookCheckerTest(){
         String expected = "\n!$!$!$!$!$!$! You Scored a Book! (Four of a kind) !$!$!$!$!$!$!\n" +
                 "!!!!Your Book Total: 1\n";
-        String actual = playerBookTest.getPlayerHand().toString();
+        String actual = playerBookTest.toString();
         Assert.assertEquals(expected, actual);
     }
 

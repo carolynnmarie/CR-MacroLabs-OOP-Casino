@@ -12,8 +12,6 @@ public class War extends Game implements CardGameInterface {
 
     private Person dealer;
     private Person player;
-    private ArrayList<Card> playerHand;
-    private ArrayList<Card> dealerHand;
     private Deck deck;
     private Scanner input = new Scanner(System.in);
 
@@ -21,13 +19,10 @@ public class War extends Game implements CardGameInterface {
         this.player = player;
         this.dealer = new Person("Dealer");
         this.deck = new Deck();
-        this.playerHand = deck.dealHand(26);
-        this.dealerHand = deck.getDeckOfCards();
+        this.player.setHand(deck.dealHand(26));
+        dealer.setHand(deck.getDeckOfCards());
     }
 
-    public void setDealerHand(ArrayList<Card> dealerHand) {
-        this.dealerHand = dealerHand;
-    }
 
     public Person getPlayer(){
         return this.player;
@@ -35,18 +30,16 @@ public class War extends Game implements CardGameInterface {
     public Person getDealer(){
         return this.dealer;
     }
-    public ArrayList<Card> getPlayerHand(){
-        return this.playerHand;
-    }
 
+    public ArrayList<Card> getPlayerHand(){  return this.player.getHand(); }
     public ArrayList<Card> getDealerHand(){
-        return this.dealerHand;
+        return this.dealer.getHand();
     }
 
     public void start() {
         System.out.println("Welcome to WAR! Enter anything into the console to play a card");
         System.out.println("Enter 'exit' at any time to end the game");
-        engine(playerHand, dealerHand);
+        engine(getPlayerHand(), getDealerHand());
     }
 
     public void engine(ArrayList<Card> playerHand, ArrayList<Card> dealerHand) {
@@ -70,7 +63,7 @@ public class War extends Game implements CardGameInterface {
                             +dealerHand.size() + " cards.");
                 }
             }
-            declareWinner(playerHand);
+            declareWinner(playerHand, dealerHand);
         }
         end();
     }
@@ -80,7 +73,7 @@ public class War extends Game implements CardGameInterface {
         do {
             if (!checkIfEitherAreEmpty(playerHand, dealerHand)) {
                 break;
-            }else if(checkIfEitherAreEmpty(playerHand, dealerHand)){
+            }else{
                 winCard = iDeclareWar(playerHand, dealerHand);
                 ArrayList<Card> warWin = getWarTablePile(playerHand, dealerHand);
                 if (winCard == 1) {
@@ -92,14 +85,25 @@ public class War extends Game implements CardGameInterface {
         } while (winCard == 0);
     }
 
-
+    public int iDeclareWar(ArrayList<Card> player1, ArrayList<Card> dealer1) {
+        int win = 0;
+        int x = warCardsNumber(player1, dealer1);
+        System.out.println("I D E C L A R E  W A R!!\nPlayer's top card: " + player1.get(x-1) + ". Dealer's top card: " +
+                dealer1.get(x-1));
+        if(player1.get(x).toInt() > dealer1.get(x).toInt()){
+            win = 1;
+        } else if(player1.get(x).toInt() < dealer1.get(x).toInt()){
+            win = 2;
+        }
+        return win;
+    }
 
     public ArrayList<Card> getWarTablePile(ArrayList<Card> playerHand, ArrayList<Card> dealerHand){
         ArrayList<Card> warWin = new ArrayList<>();
         int x= warCardsNumber(playerHand,dealerHand);
         for(int i = 0; i<x; i++){
-            warWin.add(playerHand.remove(i));
-            warWin.add(dealerHand.remove(i));
+            warWin.add(playerHand.remove(0));
+            warWin.add(dealerHand.remove(0));
         }
         return warWin;
     }
@@ -107,14 +111,14 @@ public class War extends Game implements CardGameInterface {
     public int warCardsNumber(ArrayList<Card> playerHand, ArrayList<Card> dealerHand){
         int x = 0;
         if(playerHand.size()>=3 && dealerHand.size()>=3){
-            x=2;
+            x=3;
         } else {
             x = Math.min(playerHand.size(), dealerHand.size());
         }
         return x;
     }
 
-    private void addToHand(Card playerCard, Card dealerCard, ArrayList<Card> hand){
+    public void addToHand(Card playerCard, Card dealerCard, ArrayList<Card> hand){
         hand.add(playerCard);
         hand.add(dealerCard);
     }
@@ -127,29 +131,16 @@ public class War extends Game implements CardGameInterface {
     }
 
 
-    public int iDeclareWar(ArrayList<Card> player1, ArrayList<Card> dealer1) {
-        int win = 0;
-        int x = warCardsNumber(player1, dealer1);
-        System.out.println("I D E C L A R E  W A R!!\nPlayer's top card: " + player1.get(x) + ". Dealer's top card: " + dealer1.get(x));
-        if(player1.get(x).toInt() > dealer1.get(x).toInt()){
-            win = 1;
-        } else if(player1.get(x).toInt() < dealer1.get(x).toInt()){
-            win = 2;
-        }
-        return win;
-    }
-
-    public String declareWinner(ArrayList<Card> playerHand){
+    public String declareWinner(ArrayList<Card> playerHand, ArrayList<Card> dealerHand){
         String winner = "And the winner is ";
-        winner += (playerHand.size() < 25)? "the dealer!": "YOU!";
+        winner += (playerHand.size() < dealerHand.size())? "the dealer!": player.getName();
         return winner;
     }
 
     public void end() {
-        playerHand.clear();
-        dealerHand.clear();
+        player.getHand().clear();
+        dealer.getHand().clear();
         System.out.println("If you want to play again, enter 'yes', or enter anything else to return to the casino");;
-
         if (input.nextLine().equalsIgnoreCase("yes")) {
             start();
         }

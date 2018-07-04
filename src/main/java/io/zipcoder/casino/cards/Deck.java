@@ -18,32 +18,37 @@ public class Deck {
         Collections.shuffle(deckOfCards);
     }
 
+    public void setDeckOfCards(ArrayList<Card> deckOfCards) {
+        this.deckOfCards = deckOfCards;
+    }
+
     public ArrayList<Card> getDeckOfCards(){
-        return deckOfCards;
+        return this.deckOfCards;
     }
 
     public void shuffleDeck(){
-        Collections.shuffle(deckOfCards);
+        Collections.shuffle(this.deckOfCards);
     }
 
     public Card drawCard(){
-        return deckOfCards.remove(0);
+        return this.deckOfCards.remove(0);
     }
 
     public Card getCard(){
-        return deckOfCards.get(0);
+        return this.deckOfCards.get(0);
     }
 
     public void clearDeck(){
-        deckOfCards.clear();
+        this.deckOfCards.clear();
     }
 
 
     public ArrayList<Card> dealHand(int numberOfCards){
         ArrayList<Card> hand = new ArrayList<>();
         for(int i = 0; i<numberOfCards; i++){
-            hand.add(deckOfCards.remove(i));
+            hand.add(this.deckOfCards.remove(i));
         }
+        setDeckOfCards(this.deckOfCards);
         return hand;
     }
 

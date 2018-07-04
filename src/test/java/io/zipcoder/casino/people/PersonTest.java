@@ -39,17 +39,17 @@ public class PersonTest {
         int actual = person.getBook();
         Assert.assertEquals(actual, expected);
     }
-
-    @Test
-    public void getPlayerHandTest(){
-        Person person = new Person("Carolynn");
-        ArrayList<Card> hand = new ArrayList<>(Arrays.asList(new Card(Rank.SEVEN,Suit.SPADES),new Card(Rank.SEVEN,Suit.HEARTS)));
-        person.setPlayerHand(hand);
-        ArrayList<Card> e = new ArrayList<>(Arrays.asList(new Card(Rank.SEVEN,Suit.SPADES),new Card(Rank.SEVEN,Suit.HEARTS)));
-        String expected = e.get(0).toString();
-        String actual = person.getPlayerHand().get(0).toString();
-        Assert.assertEquals(expected,actual);
-    }
+//
+//    @Test
+//    public void getPlayerHandTest(){
+//        Person person = new Person("Carolynn");
+//        ArrayList<Card> hand = new ArrayList<>(Arrays.asList(new Card(Rank.SEVEN,Suit.SPADES),new Card(Rank.SEVEN,Suit.HEARTS)));
+//        person.setPlayerHand(hand);
+//        ArrayList<Card> e = new ArrayList<>(Arrays.asList(new Card(Rank.SEVEN,Suit.SPADES),new Card(Rank.SEVEN,Suit.HEARTS)));
+//        String expected = e.get(0).toString();
+//        String actual = person.getPlayerHand().get(0).toString();
+//        Assert.assertEquals(expected,actual);
+//    }
 
 
 }
