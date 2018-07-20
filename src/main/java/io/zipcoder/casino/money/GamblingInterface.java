@@ -6,6 +6,6 @@ public interface GamblingInterface {
     int checkChipAmount(Person personToCheck);
     void placeBet(Person personPlacingBet, int betAmount);
     int getAnte();
-    void bootPlayerFromGame(Person personToBoot);
+    boolean bootPlayerFromGame(Person personToBoot);
     int checkPot();
 }

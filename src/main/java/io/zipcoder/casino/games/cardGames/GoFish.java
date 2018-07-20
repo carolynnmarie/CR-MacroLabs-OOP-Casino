@@ -139,8 +139,8 @@ public class GoFish extends Game implements CardGameInterface {
         int wish = 0;
             cardCountCheck(pullsCard);
             System.out.println("******************* Go Fish! ********************");
-            houseDeck.shuffleDeck();
-            Card card = houseDeck.drawCard();
+            getHouseDeck().shuffleDeck();
+            Card card = getHouseDeck().drawCard();
             pullsCard.add(card);
             System.out.println("Card fished: " + card.toString());
             if (card.toInt() == desiredCard) {
