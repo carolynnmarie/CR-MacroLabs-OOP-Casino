@@ -42,7 +42,7 @@ public class CoinFlipper extends Game implements GameInterface {
                 if (coinFace.equals("heads")) {
                     int payout = thisRoundsBet * 2;
                     System.out.println("Heads!  You win!  Your payout: " + payout);
-                    player.getWallet().addChipsToAmount(payout);
+                    player.getWallet().addChips(payout);
                 } else {
                     System.out.println("Tails!  You lose!");
                 }
@@ -56,7 +56,7 @@ public class CoinFlipper extends Game implements GameInterface {
     }
 
     public void placeBet(Person personPlacingBet, int betAmount) {
-        personPlacingBet.getWallet().removeChipsFromAmount(betAmount);
+        personPlacingBet.getWallet().removeChips(betAmount);
     }
 
     public void bootPlayerFromGame() {

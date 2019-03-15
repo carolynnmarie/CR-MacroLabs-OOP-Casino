@@ -54,10 +54,6 @@ public class GoFishTest {
         Person player1 = new Person("Joe");
         GoFish goFishTest = new GoFish(player1);
         Deck deckTest = new Deck();
-        Person dealer = new Person();
-
-        Hand dealerHandTest = new Hand();
-
         goFishTest.startingDrawDeck(deckTest);
 
         int expected = 38;

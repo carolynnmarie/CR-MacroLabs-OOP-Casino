@@ -18,6 +18,10 @@ public class Card {
         return suit;
     }
 
+    public int getRankInt(){
+        return rank.toInt();
+    }
+
     // Modified toString on Sat Feb 24 to: rank + "" + suit;
 //    public String toString() {
 //        return rank + " of " + suit;

@@ -12,7 +12,7 @@ public class CrapsTest {
     Craps crapsTest = new Craps(personTest);
 
     @Before public void addMoney() {
-            personTest.getWallet().addChipsToAmount(500);
+            personTest.getWallet().addChips(500);
         }
 
 

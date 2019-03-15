@@ -18,10 +18,12 @@ public class WarTest {
 //        war.start();
 //    }
 
+    Person player = new Person("Player");
+    War warGame = new War(player);
+
     @Test
     public void checkNumberOfCards() {
-        Person player = new Person();
-        War warGame = new War(player);
+
         Hand hand = new Hand();
         hand.getHandArrayList().add(new Card(Rank.DEUCE, Suit.CLUBS));
         hand.getHandArrayList().add(new Card(Rank.NINE, Suit.HEARTS));
@@ -32,8 +34,6 @@ public class WarTest {
 
     @Test
     public void compareCardsTest() {
-        Person player = new Person();
-        War warGame = new War(player);
         Card smallCard = new Card(Rank.THREE, Suit.DIAMONDS);
         Card bigCard = new Card(Rank.SEVEN, Suit.DIAMONDS);
         int expected = 2;
@@ -43,8 +43,6 @@ public class WarTest {
 
     @Test
     public void compareCardsTest2() {
-        Person player = new Person();
-        War warGame = new War(player);
         Card smallCard = new Card(Rank.EIGHT, Suit.DIAMONDS);
         Card bigCard = new Card(Rank.DEUCE, Suit.DIAMONDS);
         int expected = 1;
@@ -54,8 +52,6 @@ public class WarTest {
 
     @Test
     public void dealCardsTest() {
-        Person player = new Person();
-        War warGame = new War(player);
         warGame.start();
         int expected = 26;
         int actual = player.getHand().getHandArrayList().size();
@@ -63,27 +59,21 @@ public class WarTest {
     }
 
     @Test
-    public void decideHowManyYaddaYaddaTest_handHasFourCards() {
-        Person player = new Person();
-        War warGame = new War(player);
+    public void decideHowManyTest_handHasFourCards() {
         int expected = 4;
         int actual = warGame.decideOnHowManyTimesToIterateBasedOn(4);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
-    public void decideHowManyYaddaYaddaTest_handHasMoreThanFourCards() {
-        Person player = new Person();
-        War warGame = new War(player);
+    public void decideHowManyTest_handHasMoreThanFourCards() {
         int expected = 4;
         int actual = warGame.decideOnHowManyTimesToIterateBasedOn(7);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
-    public void decideHowManyYaddaYaddaTest_handHasLessThanFourCards() {
-        Person player = new Person();
-        War warGame = new War(player);
+    public void decideHowManyTest_handHasLessThanFourCards() {
         int expected = 2;
         int actual = warGame.decideOnHowManyTimesToIterateBasedOn(2);
         Assert.assertEquals(expected, actual);

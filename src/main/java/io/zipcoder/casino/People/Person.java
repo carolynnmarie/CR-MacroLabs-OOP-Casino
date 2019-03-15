@@ -32,6 +32,11 @@ public class Person {
         return this.wallet;
     }
 
+    public void setWallet(int chips){
+        this.wallet = new Wallet();
+        wallet.addChips(chips);
+    }
+
     //has Scanner and Wilhelm told me not to test methods with Scanner
     public static Person createNewPlayerFromUserInput() {
         String playerName;

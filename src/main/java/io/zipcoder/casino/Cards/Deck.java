@@ -22,7 +22,6 @@ public class Deck {
     }
 
     public ArrayList<Card> getDeckOfCards(){
-
         return this.deckOfCards;
     }
 
@@ -31,12 +30,15 @@ public class Deck {
     }
 
     public Card drawCard(){
-
         return this.deckOfCards.remove(deckOfCards.size() - 1);
     }
 
     public void clearDeck(){
         this.deckOfCards.clear();
+    }
+
+    public int deckSize(){
+        return deckOfCards.size();
     }
 
 }

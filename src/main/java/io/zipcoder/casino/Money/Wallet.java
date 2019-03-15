@@ -11,11 +11,11 @@ public class Wallet {
         this.chipAmount = 0;
     }
 
-    public void addChipsToAmount(int chipsToAdd) {
+    public void addChips(int chipsToAdd) {
         this.chipAmount = this.chipAmount + chipsToAdd;
     }
 
-    public void removeChipsFromAmount(int chipsToRemove) {
+    public void removeChips(int chipsToRemove) {
         this.chipAmount = this.chipAmount - chipsToRemove;
     }
 
@@ -36,7 +36,7 @@ public class Wallet {
         if(isGambling.equals("y")) {
             System.out.println("Please enter number of chips you would like to begin with");
             walletAmount = getUserInput();
-            addChipsToAmount(walletAmount);
+            addChips(walletAmount);
         }
     }
 
