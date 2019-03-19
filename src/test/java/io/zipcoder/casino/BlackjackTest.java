@@ -64,7 +64,7 @@ public class BlackjackTest {
         Assert.assertEquals(expectedPersonHandSum, actualPersonHandSum);
         Assert.assertEquals(expectedDealerHandSum, actualDealerHandSum);
     }
-
+/*
     @Test
     public void countRankRepetitionsInHandTest() {
 
@@ -92,26 +92,7 @@ public class BlackjackTest {
         Assert.assertEquals(expectedPersonRankReps, actualPersonRankReps);
         Assert.assertEquals(expectedDealerRankReps, actualDealerRankReps);
     }
-
-    @Test
-    public void findSmallerOfTwoIntsTest() {
-        int expectedLowerInt = 5;
-        int expectedHigherInt = 7;
-        // When
-        int actualLowerInt = blackjack.findSmaller(expectedLowerInt, expectedHigherInt);
-        // Then
-        Assert.assertEquals(expectedLowerInt, actualLowerInt);
-    }
-
-    @Test
-    public void findGreaterOfTwoIntsTest() {
-        int expectedLowerInt = 5;
-        int expectedHigherInt = 7;
-        // When
-        int actualHigherInt = blackjack.findGreater(expectedLowerInt, expectedHigherInt);
-        // Then
-        Assert.assertEquals(expectedHigherInt, actualHigherInt);
-    }
+*/
 
     @Test
     public void personDecisionTest() {
@@ -152,8 +133,8 @@ public class BlackjackTest {
         int expectedPlayerHandSize = 3;
         int expectedDealerHandSize = 3;
         // When
-        int actualPlayerHandSize = blackjack.getPlayer().getHand().getHandArrayList().size();
-        int actualDealerHandSize = blackjack.getDealer().getHand().getHandArrayList().size();
+        int actualPlayerHandSize = blackjack.getPlayer().getHand().toArrayList().size();
+        int actualDealerHandSize = blackjack.getDealer().getHand().toArrayList().size();
         // Then
         Assert.assertEquals(expectedPlayerHandSize, actualPlayerHandSize);
         Assert.assertEquals(expectedDealerHandSize, actualDealerHandSize);

@@ -12,26 +12,18 @@ public class Hand {
 
     private ArrayList<Card> handArrayList;
     private ArrayList<Card> specificCardsArrayList;
-    private Rank rank;
-    private Suit suit;
 
     public Hand() {
-        this.handArrayList = new ArrayList<Card>();
-        this.specificCardsArrayList = new ArrayList<Card>();
+        this.handArrayList = new ArrayList<>();
+        this.specificCardsArrayList = new ArrayList<>();
     }
 
-    public ArrayList<Card> getHandArrayList() {
+    public ArrayList<Card> toArrayList() {
         return handArrayList;
     }
 
-    public ArrayList<Card> getSpecificCardsArrayList(Card... cards) {
-
-        for (Card card : cards) {
-            handArrayList.remove(card);
-            specificCardsArrayList.add(card);
-        }
-
-        return specificCardsArrayList;
+    public void receiveCard(Card card){
+        handArrayList.add(card);
     }
 
     public void receiveCards(Card... cards) {
@@ -40,8 +32,13 @@ public class Hand {
         }
     }
 
-    public Card drawCardfromHand() {
+    public void receiveCards(ArrayList<Card> cards){
+        for (Card card : cards) {
+            handArrayList.add(0, card);
+        }
+    }
 
+    public Card drawCard() {
         return handArrayList.remove(handArrayList.size() - 1);
     }
 

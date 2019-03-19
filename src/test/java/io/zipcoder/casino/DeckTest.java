@@ -18,8 +18,8 @@ public class DeckTest {
         Deck deckTest = new Deck();
 
         //When
-        ArrayList<Card> expected = deckTest.getDeckOfCards();
-        ArrayList<Card> actual = deckTest.getDeckOfCards();
+        ArrayList<Card> expected = deckTest.getDeck();
+        ArrayList<Card> actual = deckTest.getDeck();
 
         //Then
         Assert.assertEquals(expected, actual);
@@ -35,7 +35,7 @@ public class DeckTest {
         String expected = "";
         System.out.println(expected);
 
-        ArrayList<Card> actual = deckTest.getDeckOfCards();
+        ArrayList<Card> actual = deckTest.getDeck();
         System.out.println(actual);
 
         //Then
@@ -49,7 +49,7 @@ public class DeckTest {
 
         //When
         Card expected = deckTest.drawCard();
-        ArrayList<Card> actual = deckTest.getDeckOfCards();
+        ArrayList<Card> actual = deckTest.getDeck();
 
 
         //Then

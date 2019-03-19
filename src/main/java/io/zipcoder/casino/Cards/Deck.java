@@ -11,9 +11,7 @@ public class Deck {
     private Suit suit;
 
     public Deck() {
-
-        this.deckOfCards = new ArrayList<Card>();
-
+        this.deckOfCards = new ArrayList<>();
         for (Suit suit : Suit.values()){
             for(Rank rank : Rank.values()){
                 deckOfCards.add(new Card(rank, suit));
@@ -21,7 +19,7 @@ public class Deck {
         }
     }
 
-    public ArrayList<Card> getDeckOfCards(){
+    public ArrayList<Card> getDeck(){
         return this.deckOfCards;
     }
 
@@ -40,6 +38,7 @@ public class Deck {
     public int deckSize(){
         return deckOfCards.size();
     }
+
 
 }
 

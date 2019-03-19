@@ -11,156 +11,128 @@ import java.util.*;
 public class War extends Game implements GameInterface, CardGameInterface {
 
     private boolean gameIsRunning;
-    private Dealer dealer = new Dealer();
+    private Dealer dealer;
     private Person player;
-    private ArrayList<Card> playerPlayedCards = new ArrayList<Card>();
-    private ArrayList<Card> dealerPlayedCards = new ArrayList<Card>();
-    private Scanner input = new Scanner(System.in);
+    private ArrayList<Card> playerPlayedCards;
+    private ArrayList<Card> dealerPlayedCards;
+    private Scanner input;
+    private Hand dealerHand;
+    private Hand playerHand;
 
     public War(Person player) {
         this.player = player;
+        this.dealer = new Dealer();
+        this.dealerHand=dealer.getHand();
+        this.playerHand=player.getHand();
+        this.gameIsRunning=true;
+        this.playerPlayedCards = new ArrayList<>();
+        this.dealerPlayedCards = new ArrayList<>();
+        this.input = new Scanner(System.in);
     }
 
     public void start() {
-        gameIsRunning = true;
         System.out.println("Welcome to WAR! Enter anything into the console to play a card");
         System.out.println("Enter 'exit' at any time to end the game");
-        Deck dealerDeck = new Deck();
-        for (int i = 0; i < dealerDeck.getDeckOfCards().size(); i++) {
-            dealer.getHand().receiveCards(dealerDeck.getDeckOfCards().get(i));
+        Deck deck = new Deck();
+        deck.shuffleDeck();
+        for (int i = 0; i < 26; i++) {
+            dealer.getHand().receiveCards(deck.getDeck().get(i));
+            player.getHand().receiveCards(deck.getDeck().get(51-i));
         }
-        dealer.getHand().shuffleHand();
-        dealCards();
+        //dealer.getHand().shuffleHand();
+        //dealCards();
         engine();
     }
 
     // Make private after testing / Make public for testing
     public void engine() {
         // String playerInput = input.nextLine();
-        if (nextLineIsNotExit()) {
-            while (gameIsRunning == true) {
-                while (!handOfPersonIsEmpty(dealer) && !handOfPersonIsEmpty(player)) {
-                    playerPlayedCards.add(player.getHand().drawCardfromHand());
-                    dealerPlayedCards.add(dealer.getHand().drawCardfromHand());
-                    System.out.println("You played " + playerPlayedCards + " and the dealer played " + dealerPlayedCards);
-                    int winner =
-                            compareCards(
-                                    getLastCardPlayedOnTable(playerPlayedCards),
-                                    getLastCardPlayedOnTable(dealerPlayedCards));
+        if (!("exit").equals(input.nextLine())) {
+            while (gameIsRunning) {
+                while (!emptyHand(dealer) && !emptyHand(player)) {
+                    playerPlayedCards.add(player.getHand().drawCard());
+                    dealerPlayedCards.add(dealer.getHand().drawCard());
+                    System.out.println("You played " + playerPlayedCards.get(playerPlayedCards.size()-1) + " and the dealer played " +
+                            dealerPlayedCards.get(dealerPlayedCards.size()-1));
+                    int winner = compareCards(playerPlayedCards.get(playerPlayedCards.size()-1), dealerPlayedCards.get(dealerPlayedCards.size()-1));
                     announceWinner(winner);
-                    if (!nextLineIsNotExit()) {
+                    if (("exit").equals(input.nextLine()) || emptyHand(player) || emptyHand(dealer)) {
                         end();
                     }
-                    checkIfGameIsOver();
                 }
             }
-        } else {end();}
-    }
-
-    private void checkIfGameIsOver() {
-        if (handOfPersonIsEmpty(player) || handOfPersonIsEmpty(dealer)) {
+        } else {
             end();
         }
     }
 
-    private boolean handOfPersonIsEmpty(Person person) {
-        return person.getHand().getHandArrayList().size() == 0;
+
+    private boolean emptyHand(Person person) {
+        return person.getHand().toArrayList().size() == 0;
     }
 
     private void announceWinner(int winnerNumber) {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.addAll(playerPlayedCards);
+        cards.addAll(dealerPlayedCards);
         if (winnerNumber == 1) {
-            playerWins();
+            player.getHand().receiveCards(cards);
+            System.out.println("You won this round!");
+            whoWon();
         } else if (winnerNumber == 2) {
-            dealerWins();
+            dealer.getHand().receiveCards(cards);
+            System.out.println("You lost this round!");
+            whoWon();
         }
+        playerPlayedCards.clear();
+        dealerPlayedCards.clear();
+
     }
 
-    private Card getLastCardPlayedOnTable(ArrayList<Card> cardsOnTable) {
-        return cardsOnTable.get(cardsOnTable.size() - 1);
-    }
-
-    private boolean nextLineIsNotExit() {
-        return !("exit").equals(input.nextLine());
-    }
-
-    public int compareCards(Card p1card, Card p2card) {
-        if (p1card.getRank().toInt() == p2card.getRank().toInt()) {
-            iDeclareWar();
-        } else if (p1card.getRank().toInt() > p2card.getRank().toInt()) {
-            return 1;
-        } else {return 2;}
-        return 0;
-    }
-
-    // Make private after testing / Make public for testing
-    public void playerWins() {
-        System.out.println("You won this round!");
-        giveCardsFromTheTableToTheWinner(playerPlayedCards, player);
-        giveCardsFromTheTableToTheWinner(dealerPlayedCards, player);
-        somebodyWonMessage();
-    }
-
-    // Make private after testing / Make public for testing
-    public void dealerWins() {
-        System.out.println("You lost this round!");
-        giveCardsFromTheTableToTheWinner(playerPlayedCards, dealer);
-        giveCardsFromTheTableToTheWinner(dealerPlayedCards, dealer);
-        somebodyWonMessage();
-    }
-
-    public void giveCardsFromTheTableToTheWinner(ArrayList<Card> tableDeck, Person person) {
-        while (tableDeck.size() != 0) {
-            person.getHand().receiveCards(tableDeck.remove(0));
+    public int compareCards(Card card1, Card card2) {
+        int value = 0;
+        if (card1.getRankInt() == card2.getRankInt()) {
+            do {
+                iDeclareWar();
+                Card playerTop = playerPlayedCards.get(playerPlayedCards.size() - 1);
+                Card dealerTop = dealerPlayedCards.get(dealerPlayedCards.size() - 1);
+                value = (playerTop.getRankInt() > dealerTop.getRankInt()) ? 1 : (playerTop.getRankInt() < dealerTop.getRankInt())?2:0;
+            } while (value==0);
+        } else if (card1.getRankInt() > card2.getRankInt()) {
+            value = 1;
+        } else {
+            value = 2;
         }
+        return value;
     }
 
-    public void somebodyWonMessage() {
-        System.out.println("You have " + player.getHand().getHandArrayList().size() + " cards and the dealer has " + dealer.getHand().getHandArrayList().size() + " cards");
+    public void whoWon() {
+        System.out.println("You have " + player.getHand().toArrayList().size() + " cards and the dealer has " +
+                dealer.getHand().toArrayList().size() + " cards");
     }
 
     // Make private after testing / Make public for testing
     public void iDeclareWar() {
         System.out.println("I   D E C L A R E   W A R!");
-        int amountOfPlayerAvailibleCards = checkNumberOfCards(player.getHand());
-        int amountOfDealerAvailibleCards = checkNumberOfCards(dealer.getHand());
-        iDeclareWarLogic(playerPlayedCards, player, amountOfPlayerAvailibleCards);
-        iDeclareWarLogic(dealerPlayedCards, dealer, amountOfDealerAvailibleCards);
-    }
-
-    // Make private after testing / Make public for testing
-    public void iDeclareWarLogic(ArrayList<Card> playedCards, Person person, int amountOfCardsAvailable) {
-        for (int i = 0; i < decideOnHowManyTimesToIterateBasedOn(amountOfCardsAvailable); i++) {
-            playCardInHandForPerson(playedCards, person, i);
+        int countDealer = dealer.getHand().toArrayList().size();
+        int countPlayer = player.getHand().toArrayList().size();
+        int count = (countDealer<countPlayer)?countDealer:countPlayer;
+        int x = (count<=4)?count-1:4;
+        for(int i =0; i<x; i++){
+            playerPlayedCards.add(player.getHand().drawCard());
+            dealerPlayedCards.add(dealer.getHand().drawCard());
         }
-    }
-
-    // Make private after testing / Make public for testing
-    public int decideOnHowManyTimesToIterateBasedOn(int amountOfCardsAvailable) {
-        if(amountOfCardsAvailable <= 4) {
-            return amountOfCardsAvailable -1;
-        }
-        return 4;
-    }
-
-    // Make private after testing / Make public for testing
-    public void playCardInHandForPerson(ArrayList<Card> playedCards, Person person, int i) {
-        playedCards.add(person.getHand().drawCardfromHand());
     }
 
     public void dealCards() {
-        for (int i = dealer.getHand().getHandArrayList().size()-1; i >= 26; i--) {
-            player.getHand()
-                    .getHandArrayList()
-                    .add(dealer
-                            .getHand()
-                            .getHandArrayList()
-                            .remove(i));
+        for (int i = dealer.getHand().toArrayList().size()-1; i >= 26; i--) {
+            player.getHand().toArrayList().add(dealer.getHand().toArrayList().remove(i));
         }
     }
 
     public void end() {
         String winner = "";
-        if (player.getHand().getHandArrayList().size() > 25) {
+        if (player.getHand().toArrayList().size() > 25) {
             winner += "you!";
         } else {
             winner += "the dealer!";
@@ -176,7 +148,13 @@ public class War extends Game implements GameInterface, CardGameInterface {
     }
 
     public int checkNumberOfCards(Hand handToCheck) {
-        return handToCheck.getHandArrayList().size();
+        return handToCheck.toArrayList().size();
     }
 
+
+    public static void main(String[] args){
+        Person person= new Person("Jack");
+        War war = new War(person);
+        war.start();
+    }
 }

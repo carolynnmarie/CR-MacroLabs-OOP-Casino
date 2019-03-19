@@ -2,9 +2,6 @@ package io.zipcoder.casino.Games;
 
 import io.zipcoder.casino.Cards.Card;
 import io.zipcoder.casino.Cards.Deck;
-import io.zipcoder.casino.Cards.Rank;
-import io.zipcoder.casino.Cards.Suit;
-import io.zipcoder.casino.Money.Wallet;
 import io.zipcoder.casino.People.Dealer;
 import io.zipcoder.casino.People.Hand;
 import io.zipcoder.casino.People.Person;
@@ -15,18 +12,12 @@ import java.util.Scanner;
 public class Blackjack extends Game implements GameInterface, CardGameInterface, GamblingInterface {
 
     private Person player;
-
-    private Wallet playerWallet;
-    private int playerChips;
-
     private Dealer dealer;
-
     private Deck deck;
 
-    // these 2 args are now in Person constructor for gambling games
+
     public Blackjack(Person player) {
         this.player = player;
-        this.playerWallet = player.getWallet();
         this.dealer = new Dealer();
         this.deck = new Deck();
     }
@@ -45,7 +36,7 @@ public class Blackjack extends Game implements GameInterface, CardGameInterface,
     }
 
     public int handTotal(Person person) {
-        ArrayList<Card> handCards = person.getHand().getHandArrayList();
+        ArrayList<Card> handCards = person.getHand().toArrayList();
         int handValue = 0;
         if (countAceDuplicates(handCards) != 1) {
             for (Card card : handCards) {
@@ -80,7 +71,7 @@ public class Blackjack extends Game implements GameInterface, CardGameInterface,
     }
 
     public String handToString(Person person) {
-        ArrayList<Card> handArrayList = person.getHand().getHandArrayList();
+        ArrayList<Card> handArrayList = person.getHand().toArrayList();
         StringBuilder sb = new StringBuilder();
         for (Card card : handArrayList) {
             sb.append(card.toString() + " ");
@@ -123,7 +114,7 @@ public class Blackjack extends Game implements GameInterface, CardGameInterface,
 
     @Override
     public int checkNumberOfCards(Hand hand) {
-        return hand.getHandArrayList().size();
+        return hand.toArrayList().size();
     }
 
     // CardGameInterface
@@ -164,7 +155,7 @@ public class Blackjack extends Game implements GameInterface, CardGameInterface,
         do {
             playerTotal = handTotal(player);
             dealerTotal = handTotal(dealer);
-            String dealerCard = dealer.getHand().getHandArrayList().get(1).toString();
+            String dealerCard = dealer.getHand().toArrayList().get(1).toString();
             if (deck.deckSize() <= 16) {
                 deck = new Deck();
                 deck.shuffleDeck();
@@ -181,7 +172,7 @@ public class Blackjack extends Game implements GameInterface, CardGameInterface,
             String playerInput = scanner.nextLine();
             if (playerInput.equals("hit")) {
                 hit(player);
-                ArrayList<Card> hand = player.getHand().getHandArrayList();
+                ArrayList<Card> hand = player.getHand().toArrayList();
                 System.out.println("Your new card is: " + hand.get(hand.size()-1).toString());
                 playerTotal = handTotal(player);
                 if(playerTotal>=21){

@@ -29,7 +29,7 @@ public class DealerTest {
     public void getHandTest() {
         Dealer dealer = new Dealer();
         ArrayList<Card> expected = new ArrayList<Card>();
-        ArrayList<Card> actual = dealer.getHand().getHandArrayList();
+        ArrayList<Card> actual = dealer.getHand().toArrayList();
         Assert.assertEquals(actual, expected);
     }
 }

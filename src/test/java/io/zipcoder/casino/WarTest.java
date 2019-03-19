@@ -25,8 +25,8 @@ public class WarTest {
     public void checkNumberOfCards() {
 
         Hand hand = new Hand();
-        hand.getHandArrayList().add(new Card(Rank.DEUCE, Suit.CLUBS));
-        hand.getHandArrayList().add(new Card(Rank.NINE, Suit.HEARTS));
+        hand.toArrayList().add(new Card(Rank.DEUCE, Suit.CLUBS));
+        hand.toArrayList().add(new Card(Rank.NINE, Suit.HEARTS));
         int expected = 2;
         int actual = warGame.checkNumberOfCards(hand);
         Assert.assertEquals(expected, actual);
@@ -54,28 +54,7 @@ public class WarTest {
     public void dealCardsTest() {
         warGame.start();
         int expected = 26;
-        int actual = player.getHand().getHandArrayList().size();
-        Assert.assertEquals(expected, actual);
-    }
-
-    @Test
-    public void decideHowManyTest_handHasFourCards() {
-        int expected = 4;
-        int actual = warGame.decideOnHowManyTimesToIterateBasedOn(4);
-        Assert.assertEquals(expected, actual);
-    }
-
-    @Test
-    public void decideHowManyTest_handHasMoreThanFourCards() {
-        int expected = 4;
-        int actual = warGame.decideOnHowManyTimesToIterateBasedOn(7);
-        Assert.assertEquals(expected, actual);
-    }
-
-    @Test
-    public void decideHowManyTest_handHasLessThanFourCards() {
-        int expected = 2;
-        int actual = warGame.decideOnHowManyTimesToIterateBasedOn(2);
+        int actual = player.getHand().toArrayList().size();
         Assert.assertEquals(expected, actual);
     }
 

@@ -22,7 +22,7 @@ public class PersonTest {
     public void getHandTest() {
         Person person = new Person("Joe");
         ArrayList<Card> expected = new ArrayList<Card>();
-        ArrayList<Card> actual = person.getHand().getHandArrayList();
+        ArrayList<Card> actual = person.getHand().toArrayList();
         Assert.assertEquals(actual, expected);
     }
 

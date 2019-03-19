@@ -572,14 +572,7 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
                 break;
             }
             System.out.println("What type of bet would you like to place?" +
-                    "\nCome" +
-                    "\nDon't Come" +
-                    "\nField" +
-                    "\nOdds" +
-                    "\nPlace Win" +
-                    "\nPlace Lose" +
-                    "\nCheck Wallet Amount" +
-                    "\nRoll Dice");
+                    "\nCome\nDon't Come\nField\nOdds\nPlace Win\nPlace Lose\nCheck Wallet Amount\nRoll Dice");
             userAnswer= getBetTypeInput();
             placeBetSelection(userAnswer);
 
@@ -858,6 +851,9 @@ public class Craps extends Game implements GameInterface, DiceGameInterface, Gam
         }while (!(userAnswer.equals("yes")) && !(userAnswer.equals("no")));
     }
 
+    public void end(){
+
+    }
 
     //Testing methods
     public Person getPlayer() {
