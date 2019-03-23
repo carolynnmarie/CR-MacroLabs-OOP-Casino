@@ -1,5 +1,5 @@
 package io.zipcoder.casino.Games;
 
-public interface DiceGameInterface {
+public interface DiceGameInterface extends GameInterface {
     void rollDice();
 }

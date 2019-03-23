@@ -9,7 +9,7 @@ import io.zipcoder.casino.People.Person;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Blackjack extends Game implements GameInterface, CardGameInterface, GamblingInterface {
+public class Blackjack extends Game implements CardGameInterface, GamblingInterface {
 
     private Person player;
     private Dealer dealer;

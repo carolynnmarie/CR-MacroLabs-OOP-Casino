@@ -22,10 +22,6 @@ public class Card {
         return rank.toInt();
     }
 
-    // Modified toString on Sat Feb 24 to: rank + "" + suit;
-//    public String toString() {
-//        return rank + " of " + suit;
-//    }
     public String toString() {
         return rank + "" + suit;
     }

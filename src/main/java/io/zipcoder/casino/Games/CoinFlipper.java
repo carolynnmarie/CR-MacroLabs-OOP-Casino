@@ -20,17 +20,18 @@ public class CoinFlipper extends Game implements GameInterface {
 
     public void start() {
         gameIsRunning = true;
-        System.out.println("Welcome to Coin Flipper!");
-        System.out.println("In this simple game you can bet chips on a lucky coin.");
-        System.out.println("If it lands on heads, you get double your money!  But if it lands on tails, you get nothing!");
-        System.out.println("If you're feeling lucky, enter how much you would like to bet and hit enter:");
+        System.out.println("Welcome to Coin Flipper!\nIn this simple game you can bet chips on a lucky coin.\n"
+                + "If it lands on heads, you get double your money!  But if it lands on tails, you get nothing!\n" +
+                "If you're feeling lucky, enter how much you would like to bet and hit enter:");
         engine();
     }
 
     public void engine() {
-        while (gameIsRunning == true) {
+        while (gameIsRunning) {
             int thisRoundsBet = 0;
-            if (checkChipAmount(player) == 0) {bootPlayerFromGame();}
+            if (checkChipAmount(player) == 0) {
+                bootPlayerFromGame();
+            }
             if (input.hasNextInt()) {
                 thisRoundsBet = input.nextInt();
                 placeBet(player, thisRoundsBet);

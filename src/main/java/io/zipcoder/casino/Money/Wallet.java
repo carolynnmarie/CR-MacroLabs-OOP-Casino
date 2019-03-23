@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Wallet {
 
-    private int chipAmount;
+    private Integer chipAmount;
 
     public Wallet(){
         this.chipAmount = 0;
@@ -19,7 +19,7 @@ public class Wallet {
         this.chipAmount = this.chipAmount - chipsToRemove;
     }
 
-    public int checkChipAmount(){
+    public Integer checkChipAmount(){
         return this.chipAmount;
     }
 

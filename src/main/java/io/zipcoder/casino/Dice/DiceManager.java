@@ -14,11 +14,6 @@ public class DiceManager {
         }
     }
 
-    public Die rollSpecificDie(int index) {
-        diceArray[index].rollDie();
-        return diceArray[index];
-    }
-
     public void setSpecificDie(int index, DieFace desiredFace) {
         this.diceArray[index].setDieFace(desiredFace);
     }
@@ -29,13 +24,12 @@ public class DiceManager {
 
     public void rollAllDice() {
         for (int i = 0; i < diceArray.length; i++) {
-            rollSpecificDie(i);
+            diceArray[i].rollDie();
         }
     }
 
     public DieFace[] getAllDieFaces() {
-        Die[] copyOfDiceArray = Arrays.copyOf(this.diceArray, this.diceArray.length);
-        DieFace[] dieFaces = new DieFace[copyOfDiceArray.length];
+        DieFace[] dieFaces = new DieFace[diceArray.length];
         for(int i = 0; i < this.diceArray.length; i++) {
             dieFaces[i] = this.diceArray[i].getDieFace();
         }
