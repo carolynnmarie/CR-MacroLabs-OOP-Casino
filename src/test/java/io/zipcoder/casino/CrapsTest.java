@@ -15,14 +15,13 @@ public class CrapsTest {
             personTest.getWallet().addChips(500);
         }
 
-
     @Test
     public void checkPassLineBetWin() {
         crapsTest.getDiceManager().setSpecificDie(0,DieFace.TWO);
         crapsTest.getDiceManager().setSpecificDie(1,DieFace.SIX);
         crapsTest.setPassLineBet(5);
         crapsTest.setPoint(8);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 505;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected,actual);
@@ -34,7 +33,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1,DieFace.SIX);
         crapsTest.setPassLineBet(5);
         crapsTest.setPoint(8);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 500;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected,actual);
@@ -46,7 +45,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1,DieFace.SIX);
         crapsTest.setDontPassLineBet(5);
         crapsTest.setPoint(8);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 505;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected,actual);
@@ -58,7 +57,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1,DieFace.SIX);
         crapsTest.setDontPassLineBet(5);
         crapsTest.setPoint(8);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 500;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected,actual);
@@ -70,7 +69,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1,DieFace.SIX);
         crapsTest.setPoint(8);
         crapsTest.setComeBet(5);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 505;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected,actual);
@@ -82,7 +81,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1,DieFace.ONE);
         crapsTest.setPoint(8);
         crapsTest.setComeBet(5);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 500;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected,actual);
@@ -94,7 +93,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1,DieFace.ONE);
         crapsTest.setPoint(8);
         crapsTest.setDontComeBet(5);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 505;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected,actual);
@@ -106,7 +105,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1,DieFace.SIX);
         crapsTest.setPoint(8);
         crapsTest.setDontComeBet(5);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 500;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected,actual);
@@ -117,7 +116,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(0, DieFace.ONE);
         crapsTest.getDiceManager().setSpecificDie(1, DieFace.ONE);
         crapsTest.setFieldBet(10);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 520;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -128,7 +127,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(0, DieFace.TWO);
         crapsTest.getDiceManager().setSpecificDie(1, DieFace.ONE);
         crapsTest.setFieldBet(10);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 510;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -139,7 +138,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(0, DieFace.TWO);
         crapsTest.getDiceManager().setSpecificDie(1, DieFace.THREE);
         crapsTest.setFieldBet(10);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 500;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -151,7 +150,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1, DieFace.TWO);
         crapsTest.setPassOddsBet(10);
         crapsTest.setPoint(4);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 530;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -163,7 +162,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1, DieFace.FIVE);
         crapsTest.setPassOddsBet(10);
         crapsTest.setPoint(4);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 500;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -175,7 +174,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1, DieFace.FIVE);
         crapsTest.setDontPassOddsBet(10);
         crapsTest.setPoint(4);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 515;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -187,7 +186,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1, DieFace.TWO);
         crapsTest.setDontPassOddsBet(10);
         crapsTest.setPoint(4);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 500;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -199,7 +198,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1, DieFace.THREE);
         crapsTest.setComeBetPoints(5,10);
         crapsTest.setPoint(4);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 510;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -212,7 +211,7 @@ public class CrapsTest {
         crapsTest.setComeBetPoints(5,10);
         crapsTest.setComeBetPoints(4,10);
         crapsTest.setPoint(4);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 500;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -225,7 +224,7 @@ public class CrapsTest {
         crapsTest.setDontComeBetPoints(5,10);
         crapsTest.setDontComeBetPoints(4,10);
         crapsTest.setPoint(4);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 520;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -237,7 +236,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1, DieFace.TWO);
         crapsTest.setDontComeBetPoints(4,10);
         crapsTest.setPoint(4);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 500;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -249,7 +248,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1, DieFace.THREE);
         crapsTest.setComeBetPointOdds(5,10);
         crapsTest.setPoint(4);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 525;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -261,7 +260,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1, DieFace.TWO);
         crapsTest.setComeBetPointOdds(4,10);
         crapsTest.setPoint(5);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 530;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -273,7 +272,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1, DieFace.FOUR);
         crapsTest.setComeBetPointOdds(6,10);
         crapsTest.setPoint(5);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 522;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -286,7 +285,7 @@ public class CrapsTest {
         crapsTest.setComeBetPointOdds(6,10);
         crapsTest.setComeBetPointOdds(5,10);
         crapsTest.setPoint(5);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 500;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -298,7 +297,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1, DieFace.THREE);
         crapsTest.setDontComeBetPointOdds(6,10);
         crapsTest.setPoint(6);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 500;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -312,7 +311,7 @@ public class CrapsTest {
         crapsTest.setDontComeBetPointOdds(5,10);
         crapsTest.setDontComeBetPointOdds(4,10);
         crapsTest.setPoint(6);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 549;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -324,7 +323,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1, DieFace.THREE);
         crapsTest.setPlaceWinBets(6,10);
         crapsTest.setPoint(6);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 521;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -336,7 +335,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1, DieFace.THREE);
         crapsTest.setPlaceWinBets(5,10);
         crapsTest.setPoint(6);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 524;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -348,7 +347,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1, DieFace.TWO);
         crapsTest.setPlaceWinBets(4,10);
         crapsTest.setPoint(6);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 528;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -362,7 +361,7 @@ public class CrapsTest {
         crapsTest.setPlaceWinBets(5,10);
         crapsTest.setPlaceWinBets(6,10);
         crapsTest.setPoint(6);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 500;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -376,7 +375,7 @@ public class CrapsTest {
         crapsTest.setPlaceLoseBets(5,10);
         crapsTest.setPlaceLoseBets(6,10);
         crapsTest.setPoint(6);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 548;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);
@@ -388,7 +387,7 @@ public class CrapsTest {
         crapsTest.getDiceManager().setSpecificDie(1, DieFace.FOUR);
         crapsTest.setPlaceLoseBets(6, 10);
         crapsTest.setPoint(6);
-        crapsTest.checkPhaseTwoRolls();
+        crapsTest.checkBetHandler();
         int expected = 500;
         int actual = crapsTest.getPlayer().getWallet().checkChipAmount();
         Assert.assertEquals(expected, actual);

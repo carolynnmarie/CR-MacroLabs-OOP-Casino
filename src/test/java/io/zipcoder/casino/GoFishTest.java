@@ -75,19 +75,19 @@ public class GoFishTest {
 //        Assert.assertEquals(expected, actual);
 //    }
 
-    @Test
-    public void removeCardsFromComputerPlayerAndIntoHandTest () {
-        Person player1 = new Person("Joe");
-        GoFish goFishTest = new GoFish(player1);
-
-        Card cardSend = new Card(Rank.ACE, Suit.SPADES);
-
-        int actual = goFishTest.giveDealerCardsToPlayer(1, dealerTest, player1Test);
-        int expected = cardSend.getRank().toInt();
-
-
-        Assert.assertEquals(expected, actual);
-    }
+//    @Test
+//    public void removeCardsFromComputerPlayerAndIntoHandTest () {
+//        Person player1 = new Person("Joe");
+//        GoFish goFishTest = new GoFish(player1);
+//
+//        Card cardSend = new Card(Rank.ACE, Suit.SPADES);
+//
+//        int actual = goFishTest.giveDealerCardsToPlayer(1, dealerTest, player1Test);
+//        int expected = cardSend.getRank().toInt();
+//
+//
+//        Assert.assertEquals(expected, actual);
+//    }
 
     @Test
     public void BookCheckerTest(){

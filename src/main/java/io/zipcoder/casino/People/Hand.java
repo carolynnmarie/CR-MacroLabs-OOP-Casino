@@ -11,11 +11,10 @@ import java.util.Collections;
 public class Hand {
 
     private ArrayList<Card> handArrayList;
-    private ArrayList<Card> specificCardsArrayList;
+
 
     public Hand() {
         this.handArrayList = new ArrayList<>();
-        this.specificCardsArrayList = new ArrayList<>();
     }
 
     public ArrayList<Card> toArrayList() {

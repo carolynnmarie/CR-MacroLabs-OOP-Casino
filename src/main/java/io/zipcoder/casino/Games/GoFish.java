@@ -81,7 +81,7 @@ public class GoFish extends Game implements GameInterface, CardGameInterface {
             int randomDealerCard = dealerHand.toArrayList().get(0).getRankInt();
             System.out.println("\n******************************\nDealer's turn! Dealer has chosen card: " + randomDealerCard);
             hasCard =doesPlayerHaveCard(randomDealerCard, playerHand);
-            Collections.shuffle(dealer.getHand().toArrayList());
+            Collections.shuffle(dealerHand.toArrayList());
             if(checkDeckAndHand()) {
                 break;
             }

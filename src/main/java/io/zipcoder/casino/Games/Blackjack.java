@@ -40,11 +40,7 @@ public class Blackjack extends Game implements CardGameInterface, GamblingInterf
         int handValue = 0;
         if (countAceDuplicates(handCards) != 1) {
             for (Card card : handCards) {
-                if (card.getRankInt() == 11 || card.getRankInt() == 12 || card.getRankInt() == 13) {
-                    handValue += 10;
-                } else {
-                    handValue += card.getRankInt();
-                }
+                handValue += (card.getRankInt() == 11 || card.getRankInt() == 12 || card.getRankInt() == 13) ? 10: card.getRankInt();
             }
         } else {
             int sumAceAsOne = 0;
@@ -109,7 +105,6 @@ public class Blackjack extends Game implements CardGameInterface, GamblingInterf
         } while (true);
         return betPlaced;
     }
-
 
 
     @Override
@@ -197,7 +192,6 @@ public class Blackjack extends Game implements CardGameInterface, GamblingInterf
             builder.append("Bust! You lost " + betPlaced + " chips");
         } else if(playerTotal==21) {
             builder.append("\nBLACKJACK!\n You won " + betPlaced + " chip(s)\n");
-            System.out.println(builder.toString());
             addChips(player,(2 * betPlaced));
         } else if ((dealerTotal <= 21) && (dealerTotal > playerTotal)) {
             builder.append("Dealer wins!\nYou lost " + betPlaced + " chip(s)");
@@ -237,18 +231,7 @@ public class Blackjack extends Game implements CardGameInterface, GamblingInterf
     }
 
     // GamblingInterface
-    public int getAnte() {
-        return 0;
-    }
-
-    // GamblingInterface
     public void bootPlayerFromGame(Person personToBoot) {
-
-    }
-
-    // GamblingInterface
-    public int checkPot() {
-        return 0;
     }
 
 
