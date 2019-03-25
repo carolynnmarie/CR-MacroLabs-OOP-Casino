@@ -143,6 +143,8 @@ public class War extends Game implements CardGameInterface {
         System.out.println("If you want to play again, enter 'yes', or enter anything else to return to the casino");;
         if (input.nextLine().equalsIgnoreCase("yes")) {
             start();
+        } else{
+            System.out.println("Thank you for playing War!");
         }
     }
 
@@ -151,7 +153,12 @@ public class War extends Game implements CardGameInterface {
     }
 
     @Override
-    public ArrayList<Card> dealCards(Person person) {
+    public int checkNumberOfCards() {
+        return 0;
+    }
+
+    @Override
+    public ArrayList<Card> dealCards() {
         return null;
     }
 

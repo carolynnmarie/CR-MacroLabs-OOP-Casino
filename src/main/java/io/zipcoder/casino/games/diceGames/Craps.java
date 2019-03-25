@@ -5,7 +5,7 @@ import io.zipcoder.casino.diceAndCoins.DiceManager;
 import io.zipcoder.casino.games.Game;
 import io.zipcoder.casino.money.GamblingInterface;
 import io.zipcoder.casino.people.Person;
-import javafx.util.Pair;
+import io.zipcoder.casino.Pair;
 
 import java.util.*;
 
@@ -20,8 +20,6 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
     private int diceValue;
     private int point;
     private HashMap<String, Integer> bets;
-    private ArrayList<Integer> fieldValues;
-    private ArrayList<Integer> winLosePlaceValues;
     private HashMap<Integer, Integer> comeBetPoints;
     private HashMap<Integer, Integer> dontComeBetPoints;
     private HashMap<Integer, Integer> comeBetPointOdds;
@@ -32,8 +30,6 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
 
     public Craps(Person player) {
         this.player = player;
-        this.fieldValues = new ArrayList<>(Arrays.asList(2, 3, 4, 9, 10, 11, 12));
-        this.winLosePlaceValues = new ArrayList<>(Arrays.asList(4, 5, 6, 8, 9, 10));
         this.point = 0;
         this.diceValue = 0;
         this.comeBetPoints = new HashMap<>();
@@ -110,6 +106,7 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
         } else {
             builder.append("The point is now " )
                     .append(value);
+            point = value;
         }
         System.out.println(builder.toString());
     }
@@ -200,18 +197,37 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
 
     public String checkBetHandler(int value) {
         StringBuilder out = new StringBuilder();
-        List<Integer> intBets = Arrays.asList(getComeBet(), getDontComeBet(), getFieldBet(), getPassOddsBet(), getDontPassOddsBet());
-        List<String> intBetsResults = Arrays.asList(comeBetResult(value), dontComeBetResult(value),
-                fieldBetResult(value), passOddsBetResult(value), dontPassOddsBetResult(value));
+        List<Integer> intBets =
+                Arrays.asList(getComeBet(),
+                        getDontComeBet(),
+                        getFieldBet(),
+                        getPassOddsBet(),
+                        getDontPassOddsBet());
+        List<String> intBetsResults =
+                Arrays.asList(comeBetResult(value),
+                        dontComeBetResult(value),
+                        fieldBetResult(value),
+                        passOddsBetResult(value),
+                        dontPassOddsBetResult(value));
         for(int i = 0; i<intBets.size(); i++){
             if(intBets.get(i)!=0){
                 out.append(intBetsResults.get(i));
             }
         }
-        List<HashMap<Integer, Integer>> mapBets = Arrays.asList(getComeBetPoints(),getComeBetPointOdds(), getDontComeBetPoints(),
-                getDontComeBetPointOdds(), getPlaceWinBets(), getPlaceLoseBets());
-        List<String> mapBetResults = Arrays.asList(comeBetPointResult(value), comeBetPointOddsResult(value),
-                dontComeBetPointResult(value), dontComeBetPointOddsResult(value),placeWinBetResult(value),placeLoseBetResult(value));
+        List<HashMap<Integer, Integer>> mapBets =
+                Arrays.asList(getComeBetPoints(),
+                        getComeBetPointOdds(),
+                        getDontComeBetPoints(),
+                        getDontComeBetPointOdds(),
+                        getPlaceWinBets(),
+                        getPlaceLoseBets());
+        List<String> mapBetResults =
+                Arrays.asList(comeBetPointResult(value),
+                        comeBetPointOddsResult(value),
+                        dontComeBetPointResult(value),
+                        dontComeBetPointOddsResult(value),
+                        placeWinBetResult(value),
+                        placeLoseBetResult(value));
         for(int i = 0; i<mapBets.size(); i++){
             if(!mapBets.get(i).isEmpty()){
                 out.append(mapBetResults.get(i));
@@ -297,7 +313,8 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
     public String fieldBetResult(int diceValue) {
         String bet = "";
         int fieldBet = getFieldBet();
-        if (getFieldValues().contains(diceValue)) {
+        ArrayList<Integer> fieldValues = new ArrayList<>(Arrays.asList(2, 3, 4, 9, 10, 11, 12));
+        if (fieldValues.contains(diceValue)) {
             if (diceValue == 2 || diceValue == 12) {
                 bet = "Field win is doubled! You wn " + fieldBet * 2 + " chips!";
                 player.addChips(fieldBet * 2);
@@ -319,9 +336,9 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
         } else if (diceValue == getPoint()) {
             for (Map.Entry<Integer, Double> entry : CrapsPayouts.passLineComeBetPayout().entrySet()) {
                 if (entry.getValue().equals(diceValue)) {
-                    bet = "Pass Line odds wins on " + entry.getKey() + "! You won " + (getPassOddsBet() +
-                            getPassOddsBet() * entry.getValue()) + " chips!";
-                    player.addChips((int)(getPassOddsBet() + getPassOddsBet()* entry.getValue()));
+                    int winnings = (int) Math.floor(getPassOddsBet() + getPassOddsBet() * entry.getValue());
+                    bet = "Pass Line odds wins on " + entry.getKey() + "! You won " + winnings + " chips!";
+                    player.addChips(winnings);
                 }
             }
             getBets().replace("pass", 0);
@@ -371,7 +388,6 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
         }
         return bet;
     }
-
 
     public String dontComeBetPointOddsResult(int diceValue) {
         String bet = "";
@@ -464,9 +480,8 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
     }
 
     private Pair<Integer, Integer> winLosePlace(){
-        StringBuilder builder = new StringBuilder();
-        winLosePlaceValues.forEach(e-> builder.append(e).append(" "));
-        System.out.println("Which number would you like to be on?" + builder.toString());
+        ArrayList<Integer> winLosePlaceValues = new ArrayList<>(Arrays.asList(4, 5, 6, 8, 9, 10));
+        System.out.println("Which number would you like to be on? 4 5 6 8 9 10");
         int userAnswer = getBetInput();
         int userBet = 0;
         if (winLosePlaceValues.contains(userAnswer)) {
@@ -559,6 +574,20 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
         return true;
     }
 
+    @Override
+    public boolean bootPlayerFromGame(Person personToBoot) { return false; }
+    @Override
+    public void end() {
+        setPoint(0);
+        setDiceValue(0);
+        bets.clear();
+        comeBetPoints.clear();
+        dontComeBetPoints.clear();
+        comeBetPointOdds.clear();
+        dontComeBetPointOdds.clear();
+        placeWinBets.clear();
+        placeLoseBets.clear();
+    }
 
     public int getAnte() { return 5; }
 
@@ -600,26 +629,14 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
     public HashMap<Integer, Integer> getDontComeBetPointOdds() { return dontComeBetPointOdds; }
 
     public void setPlaceLoseBets(HashMap<Integer, Integer> placeLoseBets) { this.placeLoseBets = placeLoseBets; }
+
     public HashMap<Integer, Integer> getPlaceLoseBets() { return placeLoseBets; }
 
     public void setPlaceWinBets(HashMap<Integer, Integer> placeWinBets) { this.placeWinBets = placeWinBets; }
+
     public HashMap<Integer, Integer> getPlaceWinBets() { return placeWinBets; }
 
-    public ArrayList<Integer> getFieldValues() { return fieldValues; }
 
 
-    @Override
-    public boolean bootPlayerFromGame(Person personToBoot) { return false; }
-    @Override
-    public void end() {
-        setPoint(0);
-        setDiceValue(0);
-        bets.clear();
-        comeBetPoints.clear();
-        dontComeBetPoints.clear();
-        comeBetPointOdds.clear();
-        dontComeBetPointOdds.clear();
-        placeWinBets.clear();
-        placeLoseBets.clear();
-    }
+
 }

@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 public interface CardGameInterface extends GameInterface {
 
-    int checkNumberOfCards(Person person);
+    int checkNumberOfCards();
 
-    ArrayList<Card> dealCards(Person person);
+    ArrayList<Card> dealCards();
 
     String displayCards(ArrayList<Card> hand);
 }
