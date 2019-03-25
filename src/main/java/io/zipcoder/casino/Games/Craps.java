@@ -109,36 +109,22 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
 
     private void placeInitialPassBet() {
         System.out.println("Would you like to place a Pass bet? Yes or no.");
-        String userAnswer = "";
-        do {
-            userAnswer = userInput.nextLine().toLowerCase();
-            if (userAnswer.equals("yes")) {
-                System.out.println("How much would you like to bet on the Pass Line?");
-                passLineBet += getBetAmount();
-                placeBet(player, passLineBet);
-            } else if(userAnswer.equals("no")){
-                break;
-            } else {
-                System.out.println("Answer not recognized. Please try again.");
-            }
-        } while (!(userAnswer.equals("yes")) && !(userAnswer.equals("no")));
+        String userAnswer =  userInput.nextLine().toLowerCase();
+        if (userAnswer.equals("yes")) {
+            System.out.println("How much would you like to bet on the Pass Line?");
+            passLineBet += getBetAmount();
+            placeBet(player, passLineBet);
+        }
     }
 
     private void placeInitialDontPassBet() {
-        System.out.println("Would you like to place a Don't Pass bet? Yes or no.");
-        String userAnswer = "";
-        do {
-            userAnswer = userInput.nextLine().toLowerCase();
-            if (userAnswer.equals("yes")) {
-                System.out.println("How much would you like to bet on the Don't Pass Line?");
-                dontPassLineBet += getBetAmount();
-                placeBet(player, dontPassLineBet);
-            } else if (userAnswer.equals("no")){
-                break;
-            } else {
-                System.out.println("Answer not recognized. Please try again.");
-            }
-        } while (!(userAnswer.equals("yes")) && !(userAnswer.equals("no")));
+        System.out.println("Type yes if you would like to place a bet on the Don't Pass Line. If not press Enter");
+        String userAnswer = userInput.nextLine().toLowerCase();
+        if (userAnswer.equals("yes")) {
+            System.out.println("How much would you like to bet on the Don't Pass Line?");
+            dontPassLineBet += getBetAmount();
+            placeBet(player, dontPassLineBet);
+        }
     }
 
     private void phaseTwoRolls() {
@@ -146,12 +132,13 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
         do {
             placeBetPhaseTwoHandler();
             rollDice();
-            System.out.println("You rolled a " + getDiceValue() + "!");
+            String result = "You rolled a " + getDiceValue() + "!\n";
             if(getDiceValue() == point){
-                System.out.println("You rolled the point! Pass Line wins and Don't Pass loses!");
+                result += "You rolled the point! Pass Line wins and Don't Pass loses!";
             } else if(getDiceValue() == 7){
-                System.out.println("You rolled a 7. Don't Pass wins and Pass Line loses!");
+                result += "You rolled a 7. Don't Pass wins and Pass Line loses!";
             }
+            System.out.println(result);
             checkBetHandler();
         } while (!(getDiceValue() == point) && !(getDiceValue() == 7));
     }

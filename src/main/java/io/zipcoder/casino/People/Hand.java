@@ -49,4 +49,10 @@ public class Hand {
         Collections.shuffle(handArrayList);
     }
 
+    public void removeCard(Card card){
+        if(handArrayList.contains(card)){
+            handArrayList.remove(card);
+        }
+    }
+
 }

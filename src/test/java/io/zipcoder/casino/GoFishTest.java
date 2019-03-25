@@ -82,7 +82,7 @@ public class GoFishTest {
 //
 //        Card cardSend = new Card(Rank.ACE, Suit.SPADES);
 //
-//        int actual = goFishTest.giveDealerCardsToPlayer(1, dealerTest, player1Test);
+//        int actual = goFishTest.giveCards(1, dealerTest, player1Test);
 //        int expected = cardSend.getRank().toInt();
 //
 //
