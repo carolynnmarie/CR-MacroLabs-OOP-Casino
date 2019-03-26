@@ -23,7 +23,6 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
     private HashMap<Integer, Integer> dontComePointOdds;
     private HashMap<Integer, Integer> placeWinBets;
     private HashMap<Integer, Integer> placeLoseBets;
-    private boolean keepPlaying;
     private Scanner userInput;
     private Person player;
 
@@ -45,25 +44,20 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
         this.dontComePointOdds = new HashMap<>();
         this.placeWinBets = new HashMap<>();
         this.placeLoseBets = new HashMap<>();
-        this.keepPlaying = true;
         this.userInput = new Scanner(System.in);
     }
 
 
     public void start() {
         System.out.println("Welcome to Craps!");
-        do {
-            if (checkChipAmount(player) < 5) {
-                bootPlayerFromGame(player);
-                break;
-            }
-            placeInitialBet();
-            comeOutRoll();
+        if (checkChipAmount(player) < 5) {
+            bootPlayerFromGame(player);
             end();
-        } while (keepPlaying);
-
+        }
+        placeInitialBet();
+        comeOutRoll();
+        end();
     }
-
 
     public void comeOutRoll() {
         StringBuilder builder = new StringBuilder();
@@ -142,7 +136,6 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
             checkBetHandler();
         } while (!(getDiceValue() == point) && !(getDiceValue() == 7));
     }
-
 
     public void checkBetHandler() {
         if(passLineBet != 0){
@@ -492,7 +485,8 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
 
     private void checkPlaceLoseBet() {
         if (placeLoseBets.containsKey(getDiceValue())) {
-            System.out.println("Your Place Lose bet on point " + getDiceValue() + " lost. You lost " + placeLoseBets.get(getDiceValue()) + " chips!");
+            System.out.println("Your Place Lose bet on point " + getDiceValue() + " lost. You lost " +
+                    placeLoseBets.get(getDiceValue()) + " chips!");
             placeLoseBets.remove(getDiceValue());
         } else if (getDiceValue() == 7) {
             placeLoseBetWin();
@@ -693,7 +687,7 @@ public class Craps extends Game implements DiceGameInterface, GamblingInterface 
                 System.out.println("New round starting!");
             } else if (userAnswer.equals("no")) {
                 System.out.println("Thanks for playing!");
-                keepPlaying = false;
+                start();
             } else {
                 System.out.println("Your answer was not recognized. Please try again.");
             }

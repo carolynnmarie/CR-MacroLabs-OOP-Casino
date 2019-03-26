@@ -8,7 +8,7 @@ import io.zipcoder.casino.People.Person;
 import io.zipcoder.casino.Scoreboard;
 import java.util.*;
 
-public class GoFish extends Game implements GameInterface, CardGameInterface {
+public class GoFish extends Game implements CardGameInterface {
 
     private Person player1;
     private Person dealer;
