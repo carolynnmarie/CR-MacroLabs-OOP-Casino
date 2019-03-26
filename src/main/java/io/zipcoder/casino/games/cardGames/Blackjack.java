@@ -91,23 +91,23 @@ public class Blackjack extends Game implements CardGameInterface, GamblingInterf
         setPlayerBet(starterBet());
         setPlayerHand(deck.dealHand(2));
         setDealerHand(deck.dealHand(2));
-        int dealerHandSum = rankSum(getDealerHand());
         System.out.println("+++ PLAY BLACKJACK +++");
         personHandSum = engine();
+        int dealerHandSum = rankSum(getDealerHand());
         System.out.println(whoWins(personHandSum, dealerHandSum));
         doYouWantToContinuePlaying();
     }
 
     private int engine(){
         String playerDecisionString = "";
+        int dealerHandSum = rankSum(getDealerHand());
         int personHandSum = rankSum(getPlayerHand());
         System.out.println(showHands());
         if (personHandSum == 21) {
-            System.out.println("\n++++++++++++++++++++++++++++++++\nBLACKJACK!+++ You won " + getPlayerBet() + " chip(s)\n" +
-                    "++++++++++++++++++++++++++++++++");
+            System.out.println("\n+++++ BLACKJACK! +++++");
             getPlayerWallet().addChips(2 * getPlayerBet());
         } else if (personHandSum > 21) {
-            System.out.println("+++++++++++++++++++++\nBUST! You lost " + getPlayerBet() + " chip(s)\n+++++++++++++++++++++");
+            System.out.println("+++++ BUST! +++++");
         } else {
             do{
                 System.out.println("Do you want to \"hit\" or \"stay\"?: ");
@@ -121,11 +121,13 @@ public class Blackjack extends Game implements CardGameInterface, GamblingInterf
                 if(playerDecisionString.equals("stay")){
                     break;
                 }
-            } while(personHandSum<=21);
+            } while(personHandSum<21);
 
-            if(personHandSum>21){
-                System.out.println("Bust!");
-            } else if (personHandSum <= 21 && rankSum(getDealerHand()) <= 16) {
+            if(personHandSum>21) {
+                System.out.println("++++ Bust! ++++");
+            } else if (personHandSum==21){
+                System.out.println("++++ BlackJack! ++++");
+            } else if (personHandSum <= 21 && dealerHandSum <= 16) {
                 this.hit(dealerHand);
             }
         }
@@ -200,13 +202,13 @@ public class Blackjack extends Game implements CardGameInterface, GamblingInterf
     }
 
     private String whoWins(int personHandSum, int dealerHandSum) {
-        StringBuilder builder = new StringBuilder("FINAL SCORE:\n");
+        StringBuilder builder = new StringBuilder("\nFINAL SCORE:\n");
         builder.append(player1.getName())
                 .append("\u270B "+ displayCards(playerHand))
-                .append(" \u270B total: ")
+                .append(" \u270B hand = ")
                 .append(personHandSum)
                 .append("\nDealer: " + displayCards(dealerHand))
-                .append(" \u270B total: ")
+                .append(" \u270B hand = ")
                 .append(dealerHandSum)
                 .append("\n\n");
         if(personHandSum>21){
@@ -248,8 +250,6 @@ public class Blackjack extends Game implements CardGameInterface, GamblingInterf
         String test = scanner.nextLine();
         if (test.equals("yes")) {
             start();
-        } else if (test.equals("no")) {
-            end();
         }
     }
 

@@ -81,7 +81,7 @@ public class ScoreboardTest {
         board.addPlayer(person1);
         //then
         board.updateScore(person1, 6);
-        Integer actualScore = board.getScore(person1);
+        Integer actualScore = board.getCurrentScore(person1);
 
         Assert.assertEquals(expectedScore, actualScore);
     }
@@ -123,7 +123,7 @@ public class ScoreboardTest {
         board.addPlayer(person1);
         board.updateScore(person1, 7);
         board.resetScoreboardForSamePlayers();
-        Integer actual = board.getScore(person1);
+        Integer actual = board.getCurrentScore(person1);
         Assert.assertEquals(expected, actual);
     }
 

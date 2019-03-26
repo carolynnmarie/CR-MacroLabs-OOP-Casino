@@ -21,17 +21,7 @@ public class Scoreboard {
             scoreboard.put(people[i],new ArrayList<>());
         }
     }
-
-    public Scoreboard(Person person){
-        this.scoreboard = new LinkedHashMap<>();
-        scoreboard.put(person,new ArrayList<>());
-    }
-
     public Scoreboard(LinkedHashMap<Person, ArrayList<Integer>> scoreboard) {
-        this.scoreboard = scoreboard;
-    }
-
-    public void setScoreboard(LinkedHashMap<Person, ArrayList<Integer>> scoreboard) {
         this.scoreboard = scoreboard;
     }
 
@@ -87,8 +77,12 @@ public class Scoreboard {
     }
 
     //single player score at request of player during game
-    public Integer getScore(Person person) {
-        return scoreboard.get(person).get(scoreboard.values().size()-1);
+    public Integer getCurrentScore(Person person) {
+        Integer x = 0;
+        if(scoreboard.get(person).size()>0){
+            x = scoreboard.get(person).get(scoreboard.values().size()-1);
+        }
+        return x;
     }
 
 
@@ -104,32 +98,22 @@ public class Scoreboard {
     }
 
     public String displayRunningGameTally() {
-        LinkedHashMap<Person, ArrayList<Integer>> runningTally = new LinkedHashMap<Person, ArrayList<Integer>>();
-        String tally = String.format("%-15s | %-10s \n", "Name", "Games");
-        tally += "---------------------------------------\n";
-        StringBuilder builder = new StringBuilder("SCOREBOARD\n----------\n");
+        StringBuilder builder = new StringBuilder("SCOREBOARD\n----------\n")
+                .append(String.format("%-12s | %-21s | Total Won\n", "Name", "Games"))
+                .append("-------------------------------------------------\n");
         for(Map.Entry<Person, ArrayList<Integer>> entry: scoreboard.entrySet()) {
-            builder.append(entry.getKey().getName())
-                    .append(":    ");
+            builder.append(String.format("%-12s |",entry.getKey().getName()));
+            int total = 0;
+            StringBuilder scores = new StringBuilder();
             for(Integer val: entry.getValue()){
-                builder.append(val.toString())
-                        .append(",  ");
+                scores.append(val.toString())
+                        .append(", ");
+                total += val;
             }
-            builder.append("\n");
-//            for(Map.Entry<Person, ArrayList<Integer>> secondEntry: runningTally.entrySet()) {
-//                if(!(runningTally.containsKey(entry.getKey()))) {
-//                    ArrayList<Integer> tallyList = new ArrayList<Integer>(Arrays.asList(entry.getValue()));
-//                    runningTally.put(entry.getKey(), tallyList);
-//                }
-//                if((runningTally.containsKey(entry.getKey()))) {
-//                    secondEntry.getValue().add(entry.getValue());
-//                }
-//            }
+            builder.append(String.format(" %-21s | ",scores.toString()))
+                    .append(total)
+                    .append("\n");
         }
-//        for(Map.Entry<Person, ArrayList<Integer>> secondEntry: runningTally.entrySet()) {
-//            String key = secondEntry.getKey().getName();
-//            tally += String.format("%-15s | \n", key);
-//        }
         return builder.toString();
     }
 
