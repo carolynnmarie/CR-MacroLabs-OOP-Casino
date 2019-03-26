@@ -5,6 +5,7 @@ import io.zipcoder.casino.Cards.Deck;
 import io.zipcoder.casino.People.Hand;
 import io.zipcoder.casino.People.Person;
 
+import io.zipcoder.casino.Scoreboard;
 import java.util.*;
 
 public class GoFish extends Game implements GameInterface, CardGameInterface {
@@ -17,6 +18,7 @@ public class GoFish extends Game implements GameInterface, CardGameInterface {
     private int booksTotalDealer;
     private Hand playerHand;
     private Hand dealerHand;
+    private Scoreboard scoreboard;
 
     public GoFish(Person player) {
         this.player1 = player;
@@ -27,6 +29,8 @@ public class GoFish extends Game implements GameInterface, CardGameInterface {
         this.booksTotalDealer = 0;
         this.playerHand = player1.getHand();
         this.dealerHand = dealer.getHand();
+        Person[] people = {player1,dealer};
+        this.scoreboard = new Scoreboard(people);
     }
 
     public void start() {
@@ -102,7 +106,6 @@ public class GoFish extends Game implements GameInterface, CardGameInterface {
                 break;
             }
         } while(hasCard);
-
     }
 
     public boolean doesDealerHaveCard(Integer userInputSave, Hand hand){
@@ -229,7 +232,6 @@ public class GoFish extends Game implements GameInterface, CardGameInterface {
         return bookCount;
     }
 
-
     public int checkNumberOfCards(Hand hand) {
         return hand.toArrayList().size();
     }
@@ -248,14 +250,19 @@ public class GoFish extends Game implements GameInterface, CardGameInterface {
                     .append(booksTotalPlayer)
                     .append("!\nDealer lost game with a total Book Score of ")
                     .append(booksTotalDealer);
+            scoreboard.addScore(player1,1);
+            scoreboard.addScore(dealer,0);
         } else if (booksTotalPlayer == booksTotalDealer) {
             builder.append("You Tied!  *******************\nYou both had a book score of ")
                     .append(booksTotalPlayer);
+            scoreboard.addScore(player1,0);
+            scoreboard.addScore(dealer,0);
         } else {
             builder.append("You Lost!  *******************\nDealer had a Book Score of ")
                     .append(booksTotalDealer).append("!\nYou had a Book Score of ")
                     .append(booksTotalPlayer);
-
+            scoreboard.addScore(player1,0);
+            scoreboard.addScore(dealer,1);
         }
         builder.append("!\n");
         System.out.println(builder.toString());
@@ -267,6 +274,7 @@ public class GoFish extends Game implements GameInterface, CardGameInterface {
         booksTotalDealer = 0;
         playerHand.clearHand();
         dealerHand.clearHand();
+        System.out.println(scoreboard.displayRunningGameTally());
         System.out.println("Play another round? yes or no...");
         if (scanner.nextLine().equalsIgnoreCase("yes")) {
             start();

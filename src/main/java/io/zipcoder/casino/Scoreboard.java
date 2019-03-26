@@ -4,35 +4,26 @@ import io.zipcoder.casino.People.Person;
 
 import java.util.*;
 
-
-
 public class Scoreboard {
 
-    private LinkedHashMap<Person, Integer> scoreboard;
-
-
+    private LinkedHashMap<Person, ArrayList<Integer>> scoreboard;
 
     public Scoreboard() {
-        this.scoreboard = new LinkedHashMap<Person, Integer>();
+        this.scoreboard = new LinkedHashMap<>();
     }
 
     public Scoreboard(Person... people) {
-        this.scoreboard = new LinkedHashMap<Person, Integer>();
+        this.scoreboard = new LinkedHashMap<>();
         for(int i = 0; i<people.length; i++) {
-            scoreboard.put(people[i],0);
+            scoreboard.put(people[i],new ArrayList<>());
         }
     }
 
-    public Scoreboard(LinkedHashMap<Person, Integer> scoreboard) {
-        this.scoreboard = scoreboard;
-
-    }
-
-    public void setScoreboard(LinkedHashMap<Person, Integer> scoreboard) {
+    public Scoreboard(LinkedHashMap<Person, ArrayList<Integer>> scoreboard) {
         this.scoreboard = scoreboard;
     }
 
-    public LinkedHashMap<Person, Integer> getScoreboard() {
+    public LinkedHashMap<Person, ArrayList<Integer>> getScoreboard() {
         return scoreboard;
     }
 
@@ -43,7 +34,7 @@ public class Scoreboard {
     }
 
     public void addPlayer(Person person) {
-        this.scoreboard.put(person, 0);
+        this.scoreboard.put(person, new ArrayList<>());
     }
 
     public void removePlayer(Person person) {
@@ -51,18 +42,30 @@ public class Scoreboard {
     }
 
     public void updateScore(Person person, Integer newScore){
-        for(Map.Entry<Person, Integer> entry: this.scoreboard.entrySet()) {
+        for(Map.Entry<Person, ArrayList<Integer>> entry: this.scoreboard.entrySet()) {
             if(scoreboard.containsKey(person) && person.equals(entry.getKey())) {
-                scoreboard.put(person, newScore);
+                if(entry.getValue().size()>0){
+                    entry.getValue().remove(entry.getValue().size()-1);
+                }
+                entry.getValue().add(newScore);
+                scoreboard.put(person, entry.getValue());
             }
         }
     }
 
+    public void addScore(Person person, Integer score){
+        for(Map.Entry<Person, ArrayList<Integer>> entry: this.scoreboard.entrySet()) {
+            if(scoreboard.containsKey(person) && person.equals(entry.getKey())) {
+                entry.getValue().add(score);
+                scoreboard.put(person, entry.getValue());
+            }
+        }
+    }
 
     public void resetScoreboardForSamePlayers() {
-        for(Map.Entry<Person, Integer> entry: this.scoreboard.entrySet()) {
+        for(Map.Entry<Person, ArrayList<Integer>> entry: this.scoreboard.entrySet()) {
             if(entry.getKey().equals(entry.getKey())) {
-                scoreboard.put(entry.getKey(), 0);
+                entry.getValue().clear();
             }
         }
     }
@@ -72,46 +75,43 @@ public class Scoreboard {
     }
 
 
-    //single player score at request of player during game
-    public Integer getScore(Person person) {
-        return scoreboard.get(person);
+    public Integer getCurrentScore(Person person) {
+        Integer x = 0;
+        if(scoreboard.get(person).size()>0){
+            x = scoreboard.get(person).get(scoreboard.values().size()-1);
+        }
+        return x;
     }
-
 
     public String displayScoreboardSingleGame() {
         String display = String.format("%-15s | %-10s\n", "Name", "Score");
         display += "------------------------\n";
-        for(Map.Entry<Person, Integer> entry: scoreboard.entrySet()) {
+        for(Map.Entry<Person, ArrayList<Integer>> entry: scoreboard.entrySet()) {
             String name = entry.getKey().getName();
-            String score = entry.getValue().toString();
-            display += String.format("%-15s | ", name);
-            display += String.format("%-10s\n", score);
+            String score = entry.getValue().get(entry.getValue().size()-1).toString();
+            display += String.format("%-15s | %-10s\n", name, score);
         }
         return display;
     }
 
-/*    public String displayRunningGameTally() {
-        LinkedHashMap<Person, ArrayList<Integer>> runningTally = new LinkedHashMap<Person, ArrayList<Integer>>();
-        String tally = String.format("%-15s | %-10s \n", "Name", "Games");
-        tally += "---------------------------------------\n";
-        for(Map.Entry<Person, Integer> entry: scoreboard.entrySet()) {
-            for(Map.Entry<Person, ArrayList<Integer>> secondEntry: runningTally.entrySet()) {
-                if(!(runningTally.containsKey(entry.getKey()))) {
-                    ArrayList<Integer> tallyList = new ArrayList<Integer>(Arrays.asList(entry.getValue()));
-                    runningTally.put(entry.getKey(), tallyList);
-                }
-                if((runningTally.containsKey(entry.getKey()))) {
-                    secondEntry.getValue().add(entry.getValue());
-                }
+    public String displayRunningGameTally() {
+        StringBuilder builder = new StringBuilder("SCOREBOARD\n----------\n")
+                .append(String.format("%-12s | %-21s | Total Won\n", "Name", "Games"))
+                .append("-------------------------------------------------\n");
+        for(Map.Entry<Person, ArrayList<Integer>> entry: scoreboard.entrySet()) {
+            builder.append(String.format("%-12s |",entry.getKey().getName()));
+            int total = 0;
+            StringBuilder scores = new StringBuilder();
+            for(Integer val: entry.getValue()){
+                scores.append(val.toString())
+                        .append(", ");
+                total += val;
             }
+            builder.append(String.format(" %-21s | ",scores.toString()))
+                    .append(total)
+                    .append("\n");
         }
-        for(Map.Entry<Person, ArrayList<Integer>> secondEntry: runningTally.entrySet()) {
-            String key = secondEntry.getKey().getName();
-            tally += String.format("%-15s | \n", key);
-        }
-        return tally;
+        return builder.toString();
     }
-    */
-
 
 }

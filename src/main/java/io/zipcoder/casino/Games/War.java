@@ -6,6 +6,7 @@ import io.zipcoder.casino.People.Dealer;
 import io.zipcoder.casino.People.Hand;
 import io.zipcoder.casino.People.Person;
 
+import io.zipcoder.casino.Scoreboard;
 import java.util.*;
 
 public class War extends Game implements GameInterface, CardGameInterface {
@@ -17,6 +18,7 @@ public class War extends Game implements GameInterface, CardGameInterface {
     private Scanner input;
     private Hand dealerHand;
     private Hand playerHand;
+    private Scoreboard scoreboard;
 
     public War(Person player) {
         this.player1 = player;
@@ -26,6 +28,8 @@ public class War extends Game implements GameInterface, CardGameInterface {
         this.playerPlayedCards = new ArrayList<>();
         this.dealerPlayedCards = new ArrayList<>();
         this.input = new Scanner(System.in);
+        Person[] people = {player1,dealer};
+        this.scoreboard = new Scoreboard(people);
     }
 
     public void start() {
@@ -113,9 +117,14 @@ public class War extends Game implements GameInterface, CardGameInterface {
         String winner = "And the winner is ";
         if (playerHand.toArrayList().size() > 25) {
             winner += "you!";
+            scoreboard.addScore(player1,1);
+            scoreboard.addScore(dealer,0);
         } else {
             winner += "the dealer!";
+            scoreboard.addScore(player1,0);
+            scoreboard.addScore(dealer,1);
         }
+        System.out.println(scoreboard.displayRunningGameTally());
         System.out.println(winner + "\nIf you want to play again, enter 'yes', or enter anything else to return to the casino");
         playerHand.clearHand();
         dealerHand.clearHand();
