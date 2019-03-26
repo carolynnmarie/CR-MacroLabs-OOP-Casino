@@ -9,7 +9,7 @@ import io.zipcoder.casino.People.Person;
 import io.zipcoder.casino.Scoreboard;
 import java.util.*;
 
-public class War extends Game implements CardGameInterface {
+public class War extends CardGames {
 
     private Dealer dealer;
     private Person player1;

@@ -5,7 +5,7 @@ import io.zipcoder.casino.People.Person;
 
 import java.util.Scanner;
 
-public class CoinFlipper extends Game implements GameInterface {
+public class CoinFlipper extends Game {
 
     private boolean gameIsRunning;
     private Person player;
