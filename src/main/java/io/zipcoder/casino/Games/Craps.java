@@ -54,7 +54,7 @@ public class Craps extends DiceGames implements GamblingInterface {
             System.out.println("Welcome to Craps!");
             if (checkChipAmount(player) < 5) {
                 bootPlayerFromGame(player);
-                keepPlaying= endGame();
+                keepPlaying = replenishChips();
             } else {
                 placeInitialBet();
                 comeOutRoll();
@@ -358,7 +358,6 @@ public class Craps extends DiceGames implements GamblingInterface {
         } else if (getDiceValue() ==7) {
             int chips = dontPassLineOddsWin();
             addChipsToWallet(chips);
-
         }
     }
 
@@ -491,7 +490,6 @@ public class Craps extends DiceGames implements GamblingInterface {
             totalValueOfPoints += entry.getValue();
         }
         System.out.println("Your Place Win bets lost! You lost a total of " + totalValueOfPoints + " chips.");
-
     }
 
     private void checkPlaceLoseBet() {
@@ -657,7 +655,9 @@ public class Craps extends DiceGames implements GamblingInterface {
             int userAnswer = getBetInput();
             if (betPoints.containsKey(userAnswer)) {
                 System.out.println("How much would you like to bet?");
-                betPointOdds.put(userAnswer, getBetInput());
+                int bet = getBetInput();
+                betPointOdds.put(userAnswer, bet);
+                placeBet(player,bet);
             } else {
                 System.out.println("That option is not available.");
             }
@@ -688,6 +688,23 @@ public class Craps extends DiceGames implements GamblingInterface {
         }
     }
 
+    public boolean replenishChips(){
+        boolean keepPlaying;
+        String addChips = "";
+        System.out.println("You do not have enough chips to continue playing. If you wish to add chips and continue playing, type add.  " +
+                "To return to the main menu, press enter. ");
+        addChips = userInput.nextLine().toLowerCase();
+        if(addChips.equals("add")){
+            System.out.println("How many chips would you like to add to your wallet?");
+            int chips = userInput.nextInt();
+            player.setWallet(chips);
+            keepPlaying = true;
+        } else {
+            keepPlaying = false;
+        }
+        return keepPlaying;
+    }
+
     public void end(){
 
     }
@@ -695,23 +712,13 @@ public class Craps extends DiceGames implements GamblingInterface {
     public boolean endGame() {
         boolean keepPlaying;
         System.out.println("Would you like to keep playing? Yes or no.");
-        String addChips = "";
+
         String userAnswer = userInput.nextLine().toLowerCase();
         if (userAnswer.equals("yes")) {
             System.out.println("New round starting!");
             keepPlaying = true;
         } else if(checkChipAmount(player) < 5) {
-            System.out.println("You do not have enough chips to continue playing. If you wish to add chips and continue playing, type add.  " +
-                    "To return to the main menu, press enter. ");
-            addChips = userInput.nextLine().toLowerCase();
-            if(addChips.equals("add")){
-                System.out.println("How many chips would you like to add to your wallet?");
-                int chips = userInput.nextInt();
-                player.setWallet(chips);
-                keepPlaying = true;
-            } else {
-                keepPlaying = false;
-            }
+            keepPlaying = replenishChips();
         } else {
             System.out.println("Thank you for playing.");
             keepPlaying = false;

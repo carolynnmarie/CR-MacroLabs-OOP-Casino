@@ -5,8 +5,20 @@ import java.util.Random;
 public class Coin {
 
     Random random = new Random();
+    String[] sides;
 
-    public String flip() {
+    public Coin(){
+        this.sides = new String[]{"Heads","Tails"};
+    }
+
+    public String flip(){
+        Random random = new Random();
+
+        int index = (int)Math.round(Math.random());
+        return sides[index];
+    }
+
+    /*public String flip() {
         int coinLogicInteger = coinLogic();
         if (coinLogicInteger == 1) {
             return "heads";
@@ -17,6 +29,6 @@ public class Coin {
 
     public int coinLogic() {
         return random.nextInt(2) + 1;
-    }
+    }*/
 
 }

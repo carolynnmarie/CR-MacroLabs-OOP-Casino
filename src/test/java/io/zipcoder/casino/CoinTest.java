@@ -18,20 +18,20 @@ public class CoinTest {
      * One of each test type should pass
      * Or maybe not because I'm a dingus and don't know how to make good tests but if you run them enough times you'll get the idea
      */
-
-    @Test
-    public void coinLogicTest1() {
-        int expected = 1;
-        int actual = coin.coinLogic();
-        Assert.assertEquals(expected, actual);
-    }
-
-    @Test
-    public void coinLogicTest2() {
-        int expected = 2;
-        int actual = coin.coinLogic();
-        Assert.assertEquals(expected, actual);
-    }
+//
+//    @Test
+//    public void coinLogicTest1() {
+//        int expected = 1;
+//        int actual = coin.coinLogic();
+//        Assert.assertEquals(expected, actual);
+//    }
+//
+//    @Test
+//    public void coinLogicTest2() {
+//        int expected = 2;
+//        int actual = coin.coinLogic();
+//        Assert.assertEquals(expected, actual);
+//    }
 
     @Test
     public void coinFlipTestHeads() {

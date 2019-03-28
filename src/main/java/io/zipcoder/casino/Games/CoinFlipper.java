@@ -16,41 +16,71 @@ public class CoinFlipper extends Game {
         this.player = player;
         this.input = new Scanner(System.in);
         this.coin = new Coin();
+        this.gameIsRunning = true;
     }
 
     public void start() {
-        gameIsRunning = true;
         System.out.println("Welcome to Coin Flipper!\nIn this simple game you can bet chips on a lucky coin.\n"
-                + "If it lands on heads, you get double your money!  But if it lands on tails, you get nothing!\n" +
-                "If you're feeling lucky, enter how much you would like to bet and hit enter:");
+                + "If it lands on heads, you get double your money!  But if it lands on tails, you lose your bet!\n" +
+                "" +
+                "If you would like to check how many chips you currently have type \'chips\'. Otherwise, just press enter.");
+        if(input.nextLine().equals("chips")){
+            System.out.println("Your current balance is: " + checkChipAmount(player));
+        }
         engine();
     }
 
     public void engine() {
         while (gameIsRunning) {
-            int thisRoundsBet = 0;
-            if (checkChipAmount(player) == 0) {
-                bootPlayerFromGame();
+            int thisRoundsBet = makeBet();
+            if (gameIsRunning) {
+                String coinFace = coin.flip();
+                if (coinFace.equals("Heads")) {
+                    int payout = thisRoundsBet * 3;
+                    player.getWallet().addChips(payout);
+                    System.out.println("Heads!  You win!  Your payout: " + payout + ".  Your current balance is " + checkChipAmount(player));
+                } else {
+                    System.out.println("Tails!  You lose! Your current balance is " + checkChipAmount(player));
+                }
+                gameIsRunning = playAgain();
             }
+        }
+        end();
+    }
+
+    public int makeBet(){
+        if (checkChipAmount(player) == 0) {
+            bootPlayerFromGame();
+        }
+        System.out.println("Please enter the number of chips you would like to bet:");
+        int thisRoundsBet = 0;
+        do{
             if (input.hasNextInt()) {
                 thisRoundsBet = input.nextInt();
                 placeBet(player, thisRoundsBet);
             } else {
-                System.out.println("Invalid input!  Bye-bye!");
-                end();
+                System.out.println("Invalid input. Please try again.");
             }
-            if (gameIsRunning) {
-                String coinFace = coin.flip();
-                if (coinFace.equals("heads")) {
-                    int payout = thisRoundsBet * 2;
-                    System.out.println("Heads!  You win!  Your payout: " + payout);
-                    player.getWallet().addChips(payout);
-                } else {
-                    System.out.println("Tails!  You lose!");
-                }
-                System.out.println("Enter another bet to play again, or enter anything else to quit");
+        }while(thisRoundsBet == 0);
+        return thisRoundsBet;
+    }
+
+    public boolean playAgain(){
+        System.out.println("Would you like to play again? yes/no");
+        input.nextLine();
+        String in;
+        Boolean stay = true;
+        do{
+            in = input.nextLine();
+            if(in.equalsIgnoreCase("yes")){
+                stay = true;
+            } else if (in.equalsIgnoreCase("no")){
+                stay = false;
+            } else {
+                System.out.println("Invalid input. Type \'yes\' to play again and \'no\' to exit the game.");
             }
-        }
+        } while(!in.equals("yes")&&!in.equals("no"));
+        return stay;
     }
 
     public int checkChipAmount(Person personToCheck) {
@@ -69,6 +99,15 @@ public class CoinFlipper extends Game {
     public void end() {
         System.out.println("Thanks for playing!");
         gameIsRunning = false;
+    }
+
+
+    public static void main(String[] args){
+        Person player = new Person("Joe");
+        player.setWallet(10);
+        CoinFlipper flipper = new CoinFlipper(player);
+        flipper.start();
+
     }
 
 }
