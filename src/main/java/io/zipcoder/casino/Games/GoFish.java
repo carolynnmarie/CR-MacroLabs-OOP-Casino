@@ -38,8 +38,7 @@ public class GoFish extends CardGames {
                 "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
                 "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
                 "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\n" +
-                "*************************  Welcome to Go Fish!  *************************\n" +
-                "Enter: 1 for Ace, 11 for Jack, 12 for Queen, & 13 for King\n");
+                "*************************  Welcome to Go Fish!  *************************");
         houseDeck.shuffleDeck();
         dealCards();
         engine();
@@ -69,14 +68,11 @@ public class GoFish extends CardGames {
         int userChoice = 0;
         do {
             do {
-                System.out.println("\n*****************************\nPlayer's turn! Choose a card to request from the dealer\n" +
-                        "Enter: 1 for Ace, 11 for Jack, 12 for Queen, & 13 for King");
+                System.out.println("\n*****************************\nPlayer's turn! Choose a card to request from the dealer");
                 System.out.println("Your hand: " + "\u270B" + playerHand.toArrayList() + "\u270B");
                 checkNumberOfCards(playerHand);
-                while (!userInput.hasNextInt()) {
-                    userInput.next();
-                }
-                userChoice = userInput.nextInt();
+                String choice = userInput.nextLine();
+                userChoice = inputValueConversion(choice);
             } while (userChoice < 0 && userChoice >= 13);
             hasCard = doesDealerHaveCard(userChoice, dealerHand);
             if(!hasCard){
@@ -95,7 +91,7 @@ public class GoFish extends CardGames {
         do {
             Collections.shuffle(dealerHand.toArrayList());
             int randomDealerCard = dealerHand.toArrayList().get(0).getRankInt();
-            System.out.println("******************************\nDealer's turn! Dealer has chosen card: " + randomDealerCard);
+            System.out.println("\n******************************\nDealer's turn! Dealer has chosen card: " + convertFaceCard(randomDealerCard));
             hasCard = doesPlayerHaveCard(randomDealerCard, playerHand);
             if(!hasCard){
                 hasCard = goFishDealer(randomDealerCard);
@@ -109,8 +105,7 @@ public class GoFish extends CardGames {
     }
 
     public boolean doesDealerHaveCard(Integer userInputSave, Hand hand){
-        String rank = (userInputSave==13)? "K":(userInputSave==1)?"A":(userInputSave==11)?"J":
-                (userInputSave==12)?"Q": userInputSave.toString();
+        String rank = convertFaceCard(userInputSave);
         boolean hasCard = false;
         int counter = countDuplicates(userInputSave,hand);
         if (counter > 0){
@@ -124,8 +119,7 @@ public class GoFish extends CardGames {
     }
 
     public boolean doesPlayerHaveCard(Integer dealersChoice, Hand hand){
-        String rank = (dealersChoice==13)? "K":(dealersChoice==1)?"A":(dealersChoice==11)?"J":
-                (dealersChoice==12)?"Q": dealersChoice.toString();
+        String rank = convertFaceCard(dealersChoice);
         boolean fished = false;
         if (countDuplicates(dealersChoice,hand) > 0) {
             System.out.println("Dealer takes all your " + rank + "'s.");
@@ -281,6 +275,23 @@ public class GoFish extends CardGames {
         } else {
             System.out.println("Thanks for playing!");
         }
+    }
+
+    public String convertFaceCard(Integer rankValue){
+        return (rankValue==1)?"A":(rankValue==11)?"J":(rankValue==12)?"Q":(rankValue==13)?"K":rankValue.toString();
+    }
+
+    public static int inputValueConversion(String x){
+        x = x.toLowerCase();
+        return (x.equals("one") || x.equals("1") || x.equals("ace") || x.equals("a"))? 1:
+                (x.equals("two") || x.equals("2"))? 2:
+                (x.equals("three")||x.equals("3"))? 3: (x.equals("four")||x.equals("4"))? 4:
+                  (x.equals("five")||x.equals("5"))? 5: (x.equals("six")||x.equals("6"))? 6:
+                    (x.equals("seven")||x.equals("7"))? 7: (x.equals("eight")||x.equals("8"))? 8:
+                      (x.equals("nine")||x.equals("9"))? 9:(x.equals("ten")||x.equals("10"))? 10:
+                        (x.equals("eleven")||x.equals("11")|| x.equals("jack") || x.equals("j"))? 11:
+                          (x.equals("twelve")||x.equals("12")|| x.equals("queen") || x.equals("q"))? 12:
+                            (x.equals("thirteen")||x.equals("13")|| x.equals("king") || x.equals("k"))? 13: 0;
     }
 
     public static void main(String[] args) {
