@@ -55,4 +55,12 @@ public class Hand {
         }
     }
 
+    public void removeCards(ArrayList<Card> cards){
+        for(Card card: cards){
+            if(handArrayList.contains(card)){
+                handArrayList.remove(card);
+            }
+        }
+    }
+
 }

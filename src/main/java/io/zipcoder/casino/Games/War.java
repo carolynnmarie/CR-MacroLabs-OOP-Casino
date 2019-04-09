@@ -34,8 +34,12 @@ public class War extends CardGames {
 
     public void start() {
         System.out.println("Welcome to WAR! Press Enter key to play a card\nType 'exit' at any time to end the game");
-        dealCards();
-        engine();
+        boolean endG;
+        do{
+            dealCards();
+            engine();
+            endG = endGame();
+        } while(!endG);
         end();
     }
 
@@ -63,48 +67,41 @@ public class War extends CardGames {
                 winner = (playerTop.getRankInt() > dealerTop.getRankInt()) ? 1 : (playerTop.getRankInt() < dealerTop.getRankInt())?2:0;
                 System.out.println("Your top card is: " + playerTop.toString() +" and the dealer's top card is: " + dealerTop.toString());
             }
-            announceWinner(winner);
+            determineWinner(winner);
         }
     }
 
 
     public int compareCards(Card card1, Card card2) {
-        int value;
-        if (card1.getRankInt() == card2.getRankInt()) {
-            value = 0;
-        } else if (card1.getRankInt() > card2.getRankInt()) {
-            value = 1;
-        } else {
-            value = 2;
-        }
-        return value;
+        return (card1.getRankInt() == card2.getRankInt())?0: (card1.getRankInt() > card2.getRankInt())?1:2;
     }
 
     public void iDeclareWar() {
         System.out.println("I   D E C L A R E   W A R!");
         int countDealer = checkNumberOfCards(dealerHand);
         int countPlayer = checkNumberOfCards(playerHand);
-        int count = (countDealer<countPlayer)?countDealer:countPlayer;
-        int x = (count<=3)?count-1:3;
+        int x = (countDealer>=3 && countPlayer>=3)?3:(countDealer<countPlayer)?countDealer:countPlayer;
         for(int i =0; i<x; i++){
             playerPlayedCards.add(playerHand.drawCard());
             dealerPlayedCards.add(dealerHand.drawCard());
         }
     }
 
-    private void announceWinner(int winnerNumber) {
+    private void determineWinner(int winnerNumber) {
+        StringBuilder builder = new StringBuilder();
         ArrayList<Card> cards = new ArrayList<>();
         cards.addAll(playerPlayedCards);
         cards.addAll(dealerPlayedCards);
         if (winnerNumber == 1) {
             playerHand.receiveCards(cards);
-            System.out.println("You won this round!");
+            builder.append("You won this round!\n");
         } else {
             dealerHand.receiveCards(cards);
-            System.out.println("You lost this round!");
+            builder.append("You lost this round!\n");
         }
-        System.out.println("You have " + checkNumberOfCards(playerHand) + " cards and the dealer has " +
-                checkNumberOfCards(dealerHand) + " cards");
+        builder.append("You have " + checkNumberOfCards(playerHand) + " cards. ")
+                .append("The dealer has " + checkNumberOfCards(dealerHand) + " cards.");
+        System.out.println(builder);
         playerPlayedCards.clear();
         dealerPlayedCards.clear();
     }
@@ -113,24 +110,30 @@ public class War extends CardGames {
         return handToCheck.toArrayList().size();
     }
 
-    public void end() {
-        String winner = "And the winner is ";
+    public boolean endGame(){
+        StringBuilder builder = new StringBuilder("And the winner is ");
         if (playerHand.toArrayList().size() > 25) {
-            winner += "you!";
+            builder.append("you!\n");
             scoreboard.addScore(player1,1);
             scoreboard.addScore(dealer,0);
         } else {
-            winner += "the dealer!";
+            builder.append("the dealer!\n");
             scoreboard.addScore(player1,0);
             scoreboard.addScore(dealer,1);
         }
-        System.out.println(scoreboard.displayRunningGameTally());
-        System.out.println(winner + "\nIf you want to play again, enter 'yes', or enter anything else to return to the casino");
+        builder.append(scoreboard.displayRunningGameTally())
+                .append("\nIf you want to play again, enter 'yes', or enter anything else to return to the casino");
+        System.out.println(builder.toString());
         playerHand.clearHand();
         dealerHand.clearHand();
         if (input.nextLine().equals("yes")) {
-            start();
+            return false;
         }
+        return true;
+    }
+
+    public void end() {
+        System.out.println("Thank you for playing War!");
     }
 
     public static void main(String[] args){

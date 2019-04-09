@@ -56,6 +56,9 @@ public class Craps extends DiceGames implements GamblingInterface {
             } else {
                 placeInitialBet();
                 comeOutRoll();
+                if(point!=0){
+                    phaseTwoRolls();
+                }
                 keepPlaying = endGame();
             }
         } while(keepPlaying);
@@ -86,23 +89,19 @@ public class Craps extends DiceGames implements GamblingInterface {
             builder.append(". You crapped out. Pass line bets loose and Don't Pass bets win.\n")
                     .append(passLineBetLose())
                     .append(dontPassLineBetWin());
-            System.out.println(builder.toString());
         } else if (getDiceValue() == 7 || getDiceValue() == 11) {
             builder.append(". You rolled a natural! Pass Line bets win and Don't Pass loses.\n")
                     .append(passLineBetWin())
                     .append(dontPassLineBetLose());
-            System.out.println(builder.toString());
         } else if (getDiceValue() == 12) {
             builder.append(". Pass Line loses and Don't Pass bets are pushed to next round.\n")
                     .append(passLineBetLose());
-            System.out.println(builder.toString());
         } else {
             builder.append(". The point is now ")
                     .append(getDiceValue());
-            System.out.println(builder.toString());
             point = getDiceValue();
-            phaseTwoRolls();
         }
+        System.out.println(builder.toString());
     }
 
 

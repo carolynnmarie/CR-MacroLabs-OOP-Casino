@@ -1,5 +1,7 @@
 package io.zipcoder.casino.Cards;
 
+import java.util.*;
+
 public class Card {
 
     private final Rank rank;
@@ -26,4 +28,18 @@ public class Card {
         return rank + "" + suit;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Card)) return false;
+        Card card = (Card) o;
+        return getRank() == card.getRank() &&
+                getSuit() == card.getSuit();
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getRank(), getSuit());
+    }
 }

@@ -7,6 +7,7 @@ import io.zipcoder.casino.People.Person;
 
 import io.zipcoder.casino.Scoreboard;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GoFish extends CardGames {
 
@@ -42,7 +43,7 @@ public class GoFish extends CardGames {
         houseDeck.shuffleDeck();
         dealCards();
         engine();
-        whoWonTheGame();
+        determineWinner();
         end();
     }
 
@@ -68,8 +69,8 @@ public class GoFish extends CardGames {
         int userChoice = 0;
         do {
             do {
-                System.out.println("\n*****************************\nPlayer's turn! Choose a card to request from the dealer");
-                System.out.println("Your hand: " + "\u270B" + playerHand.toArrayList() + "\u270B");
+                System.out.println("\n*****************************\nPlayer's turn! Choose a card to request from the dealer\nYour hand: \u270B"
+                        + playerHand.toArrayList() + "\u270B");
                 checkNumberOfCards(playerHand);
                 String choice = userInput.nextLine();
                 userChoice = inputValueConversion(choice);
@@ -133,23 +134,16 @@ public class GoFish extends CardGames {
     }
 
     private int countDuplicates(Integer cardRank, Hand hand){
-        int counter = 0;
-        for(int i = 0; i < checkNumberOfCards(hand); i++){
-            if (cardRank == hand.toArrayList().get(i).getRankInt()){
-                counter++;
-            }
-        }
-        return counter;
+        return (int)hand.toArrayList().stream().filter(card -> card.getRankInt()==cardRank).count();
     }
 
     public void giveCards(int cardRank, Hand giver, Hand recipient){
-        for(int i = checkNumberOfCards(giver)-1; i >=0; i--){
-            Card card = giver.toArrayList().get(i);
-            if (cardRank == card.getRankInt()){
-                recipient.receiveCard(card);
-                giver.removeCard(card);
-            }
-        }
+        List list = giver.toArrayList().stream()
+                                       .filter(card -> card.getRankInt()==cardRank)
+                                       .collect(Collectors.toList());
+        ArrayList<Card> cardList = new ArrayList<>(list);
+        recipient.receiveCards(cardList);
+        giver.removeCards(cardList);
     }
 
     public boolean goFishPlayer(int desiredRank){
@@ -237,7 +231,7 @@ public class GoFish extends CardGames {
         return false;
     }
 
-    public void whoWonTheGame(){
+    public void determineWinner(){
         StringBuilder builder = new StringBuilder("*******************  ");
         if (booksTotalPlayer > booksTotalDealer){
             builder.append("You Won!  *******************\nYou won the game with a total Book Score of ")
