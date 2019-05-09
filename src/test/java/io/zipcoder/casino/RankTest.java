@@ -11,30 +11,20 @@ public class RankTest {
     private Card card;
 
     @Test
-    public void RanktoIntTest() {
-
-        // Given
+    public void rankToIntTest() {
         int expectedRankValue = 3;
         Card card = new Card(Rank.THREE, Suit.HEARTS);
-
-        // When
         int actualRankValue = card.getRank().toInt();
 
-        // Then
         Assert.assertEquals(expectedRankValue, actualRankValue);
     }
 
     @Test
-    public void RanktoStringTest() {
-
-        // Given
+    public void rankToStringTest() {
         String expectedRankSymbol = "3";
         Card card = new Card(Rank.THREE, Suit.HEARTS);
-
-        // When
         String actualRankSymbol = card.getRank().toString();
 
-        // Then
         Assert.assertEquals(expectedRankSymbol, actualRankSymbol);
     }
 

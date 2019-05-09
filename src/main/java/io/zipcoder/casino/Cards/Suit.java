@@ -19,6 +19,10 @@ public enum Suit {
         return this.suitSymbol;
     }
 
+    public String getSuitWord(){
+        return this.suitWord;
+    }
+
     public String toSymbol() {
         return this.suitSymbol;
     }

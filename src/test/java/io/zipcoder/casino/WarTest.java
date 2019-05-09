@@ -28,7 +28,7 @@ public class WarTest {
         hand.toArrayList().add(new Card(Rank.DEUCE, Suit.CLUBS));
         hand.toArrayList().add(new Card(Rank.NINE, Suit.HEARTS));
         int expected = 2;
-        int actual = warGame.checkNumberOfCards(hand);
+        int actual = warGame.checkHandSize(hand);
         Assert.assertEquals(expected, actual);
     }
 

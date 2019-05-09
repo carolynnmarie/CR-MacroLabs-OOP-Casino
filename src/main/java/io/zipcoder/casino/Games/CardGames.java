@@ -1,7 +1,6 @@
 package io.zipcoder.casino.Games;
 
-import io.zipcoder.casino.People.Hand;
-import io.zipcoder.casino.People.Person;
+import io.zipcoder.casino.People.*;
 
 public abstract class CardGames extends Game {
 
@@ -10,10 +9,9 @@ public abstract class CardGames extends Game {
     }
 
     public CardGames(){
-
     }
 
-    public abstract int checkNumberOfCards(Hand hand);
+    public abstract int checkHandSize(Hand hand);
     public abstract void dealCards();
     public abstract void engine();
 }

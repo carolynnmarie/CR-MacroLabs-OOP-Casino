@@ -7,8 +7,6 @@ import java.util.Collections;
 public class Deck {
 
     private ArrayList<Card> deckOfCards;
-    private Rank rank;
-    private Suit suit;
 
     public Deck() {
         this.deckOfCards = new ArrayList<>();
@@ -39,6 +37,8 @@ public class Deck {
         return deckOfCards.size();
     }
 
-
+    public void addCards(ArrayList<Card> cards){
+        this.deckOfCards.addAll(cards);
+    }
 }
 

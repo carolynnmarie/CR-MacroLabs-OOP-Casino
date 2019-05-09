@@ -38,31 +38,34 @@ public class BlackjackTest {
     }
 
     @Test
-    public void sumOfRanksInHandTest() {
-
+    public void handTotalTest1() {
         // Add cards to player1 Hand
         Card notShuffled0 = new Card(Rank.DEUCE, Suit.CLUBS);
-        Card notShuffled1 = new Card(Rank.ACE, Suit.DIAMONDS);
-        Card notShuffled2 = new Card(Rank.ACE, Suit.HEARTS);
+        Card notShuffled1 = new Card(Rank.DEUCE, Suit.DIAMONDS);
+        Card notShuffled2 = new Card(Rank.DEUCE, Suit.HEARTS);
+        Card notShuffled3 = new Card(Rank.ACE, Suit.SPADES);
+        blackjack.getPlayer().getHand().receiveCards(notShuffled0, notShuffled1, notShuffled2, notShuffled3);
+        // Given
+        int expectedPersonHandSum = 17;
+        // When
+        int actualPersonHandSum = blackjack.handTotal(blackjack.getPlayer());
+        // Then
+        Assert.assertEquals(expectedPersonHandSum, actualPersonHandSum);
+    }
+
+    @Test
+    public void handTotalTest2() {
+
+        Card notShuffled0 = new Card(Rank.DEUCE, Suit.CLUBS);
+        Card notShuffled1 = new Card(Rank.FIVE, Suit.DIAMONDS);
+        Card notShuffled2 = new Card(Rank.TEN, Suit.HEARTS);
         Card notShuffled3 = new Card(Rank.ACE, Suit.SPADES);
         blackjack.getPlayer().getHand().receiveCards(notShuffled0, notShuffled1, notShuffled2, notShuffled3);
 
-        // Add cards to Dealer Hand
-        Card dealerCard0 = new Card(Rank.ACE, Suit.CLUBS);
-        Card dealerCard1 = new Card(Rank.TEN, Suit.DIAMONDS);
-        Card dealerCard2 = new Card(Rank.JACK, Suit.HEARTS);
-        Card dealerCard3 = new Card(Rank.FIVE, Suit.SPADES);
-        blackjack.getDealer().getHand().receiveCards(dealerCard0, dealerCard1, dealerCard2, dealerCard3);
-
-        // Given
-        int expectedPersonHandSum = 5; // 5 = 2 + 1 + 1 + 1
-        int expectedDealerHandSum = 26; // 26 = 1 + 10 + 10 + 5
-        // When
+        int expectedPersonHandSum = 18;
         int actualPersonHandSum = blackjack.handTotal(blackjack.getPlayer());
-        int actualDealerHandSum = blackjack.handTotal(blackjack.getDealer());
-        // Then
+
         Assert.assertEquals(expectedPersonHandSum, actualPersonHandSum);
-        Assert.assertEquals(expectedDealerHandSum, actualDealerHandSum);
     }
 /*
     @Test
@@ -75,22 +78,12 @@ public class BlackjackTest {
         Card notShuffled3 = new Card(Rank.ACE, Suit.SPADES);
         blackjack.getPlayer().getHand().receiveCards(notShuffled0, notShuffled1, notShuffled2, notShuffled3);
 
-        // Add cards to Dealer Hand
-        Card dealerCard0 = new Card(Rank.SIX, Suit.CLUBS);
-        Card dealerCard1 = new Card(Rank.SIX, Suit.DIAMONDS);
-        Card dealerCard2 = new Card(Rank.EIGHT, Suit.HEARTS);
-        //Card dealerCard3 = new Card(Rank.FIVE, Suit.SPADES);
-        blackjack.getDealer().getHand().receiveCards(dealerCard0, dealerCard1, dealerCard2);
-
         // Given
         int expectedPersonRankReps = 3; // ACE
-        int expectedDealerRankReps = 2; // SIX
         // When
         int actualPersonRankReps = blackjack.countAceDuplicates(blackjack.getPlayer(), notShuffled1);
-        int actualDealerRankReps = blackjack.countAceDuplicates(blackjack.getDealer(), dealerCard0);
         // Then
         Assert.assertEquals(expectedPersonRankReps, actualPersonRankReps);
-        Assert.assertEquals(expectedDealerRankReps, actualDealerRankReps);
     }
 */
 
@@ -113,31 +106,15 @@ public class BlackjackTest {
 
     @Test
     public void hitTest() {
-        // if playerSum < 21, player can hit
-        // if playerDecision = "hit", then dealer draws card and player hand receives card
-
-
-        // Add cards to player1 Hand
         Card playerCard0 = new Card(Rank.DEUCE, Suit.CLUBS);
         Card playerCard1 = new Card(Rank.THREE, Suit.DIAMONDS);
         blackjack.getPlayer().getHand().receiveCards(playerCard0, playerCard1);
-
-        // Add cards to Dealer Hand
-        Card dealerCard0 = new Card(Rank.SIX, Suit.CLUBS);
-        Card dealerCard1 = new Card(Rank.SEVEN, Suit.DIAMONDS);
-        blackjack.getDealer().getHand().receiveCards(dealerCard0, dealerCard1);
-
-        // Given
         blackjack.hit(blackjack.getPlayer());
-        blackjack.hit(blackjack.getDealer());
+
         int expectedPlayerHandSize = 3;
-        int expectedDealerHandSize = 3;
-        // When
         int actualPlayerHandSize = blackjack.getPlayer().getHand().toArrayList().size();
-        int actualDealerHandSize = blackjack.getDealer().getHand().toArrayList().size();
-        // Then
+
         Assert.assertEquals(expectedPlayerHandSize, actualPlayerHandSize);
-        Assert.assertEquals(expectedDealerHandSize, actualDealerHandSize);
     }
 
     // Will keep this for future reference

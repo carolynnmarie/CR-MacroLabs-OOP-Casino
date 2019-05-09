@@ -1,10 +1,8 @@
 package io.zipcoder.casino.Games;
 
-import io.zipcoder.casino.Cards.Card;
-import io.zipcoder.casino.Cards.Deck;
-import io.zipcoder.casino.People.Dealer;
-import io.zipcoder.casino.People.Hand;
-import io.zipcoder.casino.People.Person;
+import io.zipcoder.casino.Cards.*;
+import io.zipcoder.casino.People.*;
+
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -26,11 +24,6 @@ public class Blackjack extends CardGames implements GamblingInterface {
     public Person getPlayer() {
         return player;
     }
-
-    public Dealer getDealer() {
-        return dealer;
-    }
-
     public void start() {
         deck.shuffleDeck();
         if (checkChipAmount(player) <= 0) {
@@ -124,20 +117,14 @@ public class Blackjack extends CardGames implements GamblingInterface {
     public int handTotal(Person person) {
         ArrayList<Card> handCards = person.getHand().toArrayList();
         int handValue = 0;
-        if (countAceDuplicates(handCards) != 1) {
-            for (Card card : handCards) {
-                handValue += (card.getRankInt() == 11 || card.getRankInt() == 12 || card.getRankInt() == 13) ? 10: card.getRankInt();
+        for (Card card : handCards) {
+            int cardValue = card.getRankInt();
+            handValue += (cardValue == 11 || cardValue == 12 || cardValue == 13) ? 10: cardValue;
+        }
+        if(countAceDuplicates(handCards) == 1){
+            if(handValue<=11){
+                handValue+=10;
             }
-        } else {
-            int sumAceAsOne = 0;
-            int sumAceAsEleven = 0;
-            for (Card card : handCards) {
-                int cardValue = card.getRankInt();
-                sumAceAsOne += (cardValue == 11 || cardValue == 12 || cardValue == 13)? 10:(cardValue == 1)?1: cardValue;
-                sumAceAsEleven+= (cardValue == 11 || cardValue == 12 || cardValue == 13)? 10:(cardValue == 1)?11: cardValue;
-            }
-            handValue = ( sumAceAsOne <= 21 && sumAceAsEleven <= 21 ) ?
-                    ((sumAceAsOne<=sumAceAsEleven)?sumAceAsOne:sumAceAsEleven) : ((sumAceAsOne>=sumAceAsEleven)?sumAceAsOne:sumAceAsEleven);
         }
         return handValue;
     }
@@ -207,6 +194,8 @@ public class Blackjack extends CardGames implements GamblingInterface {
                 start();
             } else if (input.equals("no")) {
                 end();
+            } else {
+                System.out.println("Invalid entry");
             }
         } while(!input.equals("yes")||!input.equals("no"));
     }
@@ -217,7 +206,7 @@ public class Blackjack extends CardGames implements GamblingInterface {
     }
 
     @Override
-    public int checkNumberOfCards(Hand hand) {
+    public int checkHandSize(Hand hand) {
         return hand.toArrayList().size();
     }
 

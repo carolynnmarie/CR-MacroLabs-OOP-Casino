@@ -12,9 +12,9 @@ public class PersonTest {
 
     @Test
     public void constructorTest() {
-        Person testPesron = new Person("Joe");
+        Person player = new Person("Joe");
         String expected = "Joe";
-        String actual = testPesron.getName();
+        String actual = player.getName();
         Assert.assertEquals(expected, actual);
     }
 

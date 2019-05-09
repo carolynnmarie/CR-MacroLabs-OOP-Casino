@@ -1,9 +1,7 @@
 package io.zipcoder.casino.Games;
 
-import io.zipcoder.casino.Cards.Card;
-import io.zipcoder.casino.Cards.Deck;
-import io.zipcoder.casino.People.Hand;
-import io.zipcoder.casino.People.Person;
+import io.zipcoder.casino.Cards.*;
+import io.zipcoder.casino.People.*;
 
 import io.zipcoder.casino.Scoreboard;
 import java.util.*;
@@ -57,11 +55,11 @@ public class GoFish extends CardGames {
     public void engine(){
         do{
             userTurn();
-            if(checkDeckAndHand()){
+            if(checkAllSizes()){
                 break;
             }
             dealerTurn();
-        } while (!checkDeckAndHand());
+        } while (!checkAllSizes());
     }
 
     public void userTurn(){
@@ -71,7 +69,7 @@ public class GoFish extends CardGames {
             do {
                 System.out.println("\n*****************************\nPlayer's turn! Choose a card to request from the dealer\nYour hand: \u270B"
                         + playerHand.toArrayList() + "\u270B");
-                checkNumberOfCards(playerHand);
+                checkHandSize(playerHand);
                 String choice = userInput.nextLine();
                 userChoice = inputValueConversion(choice);
             } while (userChoice < 0 && userChoice >= 13);
@@ -80,7 +78,7 @@ public class GoFish extends CardGames {
                 hasCard = goFishPlayer(userChoice);
             }
             countPlayerBooks();
-            if(checkDeckAndHand()) {
+            if(checkAllSizes()) {
                 break;
             }
         } while(hasCard);
@@ -99,7 +97,7 @@ public class GoFish extends CardGames {
             }
             countDealerBooks();
             Collections.shuffle(dealerHand.toArrayList());
-            if(checkDeckAndHand()) {
+            if(checkAllSizes()) {
                 break;
             }
         } while(hasCard);
@@ -220,12 +218,12 @@ public class GoFish extends CardGames {
         return bookCount;
     }
 
-    public int checkNumberOfCards(Hand hand) {
+    public int checkHandSize(Hand hand) {
         return hand.toArrayList().size();
     }
 
-    public boolean checkDeckAndHand(){
-        if(houseDeck.getDeck().size()==0|| checkNumberOfCards(playerHand)==0 || checkNumberOfCards(dealerHand)==0){
+    public boolean checkAllSizes(){
+        if(houseDeck.getDeck().size()==0|| checkHandSize(playerHand)==0 || checkHandSize(dealerHand)==0){
             return true;
         }
         return false;
@@ -279,13 +277,17 @@ public class GoFish extends CardGames {
         x = x.toLowerCase();
         return (x.equals("one") || x.equals("1") || x.equals("ace") || x.equals("a"))? 1:
                 (x.equals("two") || x.equals("2"))? 2:
-                (x.equals("three")||x.equals("3"))? 3: (x.equals("four")||x.equals("4"))? 4:
-                  (x.equals("five")||x.equals("5"))? 5: (x.equals("six")||x.equals("6"))? 6:
-                    (x.equals("seven")||x.equals("7"))? 7: (x.equals("eight")||x.equals("8"))? 8:
-                      (x.equals("nine")||x.equals("9"))? 9:(x.equals("ten")||x.equals("10"))? 10:
-                        (x.equals("eleven")||x.equals("11")|| x.equals("jack") || x.equals("j"))? 11:
+                 (x.equals("three")||x.equals("3"))? 3:
+                  (x.equals("four")||x.equals("4"))? 4:
+                   (x.equals("five")||x.equals("5"))? 5:
+                    (x.equals("six")||x.equals("6"))? 6:
+                     (x.equals("seven")||x.equals("7"))? 7:
+                      (x.equals("eight")||x.equals("8"))? 8:
+                       (x.equals("nine")||x.equals("9"))? 9:
+                        (x.equals("ten")||x.equals("10"))? 10:
+                         (x.equals("eleven")||x.equals("11")|| x.equals("jack") || x.equals("j"))? 11:
                           (x.equals("twelve")||x.equals("12")|| x.equals("queen") || x.equals("q"))? 12:
-                            (x.equals("thirteen")||x.equals("13")|| x.equals("king") || x.equals("k"))? 13: 0;
+                           (x.equals("thirteen")||x.equals("13")|| x.equals("king") || x.equals("k"))? 13: 0;
     }
 
     public static void main(String[] args) {

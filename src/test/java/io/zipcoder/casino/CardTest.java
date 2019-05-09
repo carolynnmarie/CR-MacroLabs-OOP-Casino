@@ -11,12 +11,12 @@ public class CardTest {
     private Card card;
 
     @Test
-    public void CardConstructorRankPositiveTest() {
+    public void constructorTest() {
 
         // Given
         Rank expectedRank = Rank.DEUCE;
         Suit expectedSuit = Suit.CLUBS;
-        Card card = new Card(Rank.DEUCE, Suit.CLUBS);
+        card = new Card(Rank.DEUCE, Suit.CLUBS);
 
         // When
         Rank actualRank = card.getRank();
@@ -28,44 +28,35 @@ public class CardTest {
     }
 
     @Test
-    public void getRankPositiveTest() {
-
+    public void getRankTest() {
         // Given
         Rank expectedRank = Rank.SEVEN;
-        Card card = new Card(Rank.SEVEN, Suit.SPADES);
-
+        card = new Card(Rank.SEVEN, Suit.SPADES);
         // When
         Rank actualRank = card.getRank();
-
         // Then
         Assert.assertEquals(expectedRank, actualRank);
     }
 
     @Test
-    public void getSuitPositiveTest() {
-
+    public void getSuitTest() {
         // Given
         Suit expectedSuit = Suit.DIAMONDS;
-        Card card = new Card(Rank.EIGHT, Suit.DIAMONDS);
-
+        card = new Card(Rank.EIGHT, Suit.DIAMONDS);
         // When
         Suit actualSuit = card.getSuit();
-
         // Then
         Assert.assertEquals(expectedSuit, actualSuit);
 
     }
 
     @Test
-    public void toStringPositiveTest() {
-
+    public void toStringTest() {
         // Given
-        String expectedString = "J of hearts";
-        Card card = new Card(Rank.JACK, Suit.HEARTS);
-
+        String expectedString = "J\u2665";
+        card = new Card(Rank.JACK, Suit.HEARTS);
         // When
         String actualString = card.toString();
-
         // Then
         Assert.assertEquals(expectedString, actualString);
     }

@@ -6,6 +6,7 @@ import io.zipcoder.casino.Cards.Rank;
 import io.zipcoder.casino.Cards.Suit;
 import io.zipcoder.casino.Games.GoFish;
 import io.zipcoder.casino.People.Person;
+import java.util.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,28 +25,19 @@ public class GoFishTest {
     private Card cardTest3 = new Card(Rank.SEVEN,Suit.DIAMONDS);
     private Card cardTest4 = new Card(Rank.SEVEN,Suit.CLUBS);
     private Card cardTest5 = new Card(Rank.ACE,Suit.SPADES);
+    private ArrayList<Card> cardList = new ArrayList<>(Arrays.asList(cardTest1,cardTest2,cardTest3,cardTest4,cardTest5));
 
 
     @Before
     public void startingUp() {
         for (int i = 0; i < 7; i++) {
-            player1Test.getHand().toArrayList().add(houseDeckTest.drawCard());
-        }
-
-        for (int i = 0; i < 7; i++) {
-            dealerTest.getHand().toArrayList().add(houseDeckTest.drawCard());
+            player1Test.getHand().receiveCard(houseDeckTest.drawCard());
+            dealerTest.getHand().receiveCard(houseDeckTest.drawCard());
         }
 
         houseDeckTest2.clearDeck();
-        houseDeckTest2.getDeck().add(cardTest1);
-        houseDeckTest2.getDeck().add(cardTest2);
-        houseDeckTest2.getDeck().add(cardTest3);
-        houseDeckTest2.getDeck().add(cardTest4);
-        houseDeckTest2.getDeck().add(cardTest5);
-
-        for (int i = 0; i < 5; i++) {
-            playerBookTest.getHand().toArrayList().add(houseDeckTest2.drawCard());
-        }
+        houseDeckTest2.addCards(cardList);
+        playerBookTest.getHand().receiveCards(cardList);
     }
 
 //    @Test

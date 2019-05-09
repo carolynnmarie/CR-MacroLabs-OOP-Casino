@@ -1,12 +1,9 @@
 package io.zipcoder.casino.Games;
 
-import io.zipcoder.casino.Cards.Card;
-import io.zipcoder.casino.Cards.Deck;
-import io.zipcoder.casino.People.Dealer;
-import io.zipcoder.casino.People.Hand;
-import io.zipcoder.casino.People.Person;
-
+import io.zipcoder.casino.Cards.*;
+import io.zipcoder.casino.People.*;
 import io.zipcoder.casino.Scoreboard;
+
 import java.util.*;
 
 public class War extends CardGames {
@@ -78,8 +75,8 @@ public class War extends CardGames {
 
     public void iDeclareWar() {
         System.out.println("I   D E C L A R E   W A R!");
-        int countDealer = checkNumberOfCards(dealerHand);
-        int countPlayer = checkNumberOfCards(playerHand);
+        int countDealer = checkHandSize(dealerHand);
+        int countPlayer = checkHandSize(playerHand);
         int x = (countDealer>=3 && countPlayer>=3)?3:(countDealer<countPlayer)?countDealer:countPlayer;
         for(int i =0; i<x; i++){
             playerPlayedCards.add(playerHand.drawCard());
@@ -99,14 +96,14 @@ public class War extends CardGames {
             dealerHand.receiveCards(cards);
             builder.append("You lost this round!\n");
         }
-        builder.append("You have " + checkNumberOfCards(playerHand) + " cards. ")
-                .append("The dealer has " + checkNumberOfCards(dealerHand) + " cards.");
+        builder.append("You have " + checkHandSize(playerHand) + " cards. ")
+                .append("The dealer has " + checkHandSize(dealerHand) + " cards.");
         System.out.println(builder);
         playerPlayedCards.clear();
         dealerPlayedCards.clear();
     }
 
-    public int checkNumberOfCards(Hand handToCheck) {
+    public int checkHandSize(Hand handToCheck) {
         return handToCheck.toArrayList().size();
     }
 
@@ -137,8 +134,7 @@ public class War extends CardGames {
     }
 
     public static void main(String[] args){
-        Person person= new Person("Jack");
-        War war = new War(person);
+        War war = new War(new Person("Jack"));
         war.start();
     }
 }
