@@ -26,7 +26,7 @@ public class BlackjackTest {
     @Test
     public void BlackJackDefaultConstructorTest() {
         String expectedPlayerName = "test";
-        String actualPlayerName = blackjack.getPlayer1().getName();
+        String actualPlayerName = blackjack.getPlayer().getName();
         Assert.assertEquals(expectedPlayerName, actualPlayerName);
     }
 
@@ -73,8 +73,8 @@ public class BlackjackTest {
         int expectedChipsRemaining = chipsToStart - betPlaced; // 499
         // When
         Blackjack blackjack = new Blackjack(player);
-        blackjack.placeBet(blackjack.getPlayer1(), betPlaced); // will remove 1 chip
-        int actualChipsRemaining = blackjack.getPlayer1().getWallet().checkChips();
+        blackjack.placeBet(blackjack.getPlayer(), betPlaced); // will remove 1 chip
+        int actualChipsRemaining = blackjack.getPlayer().getWallet().checkChips();
         // Then
         Assert.assertEquals(expectedChipsRemaining,actualChipsRemaining);
     }

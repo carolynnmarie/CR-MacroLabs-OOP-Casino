@@ -12,56 +12,63 @@ public class War extends Game implements CardGameInterface {
 
     private Person dealer;
     private Person player;
-    private Deck deck;
-    private Scanner input = new Scanner(System.in);
+    private Scanner input;
 
     public War(Person player) {
         this.player = player;
         this.dealer = new Person("Dealer");
-        this.deck = new Deck();
-        this.player.setHand(deck.dealHand(26));
-        dealer.setHand(deck.getDeckOfCards());
+        this.input  = new Scanner(System.in);
     }
-
 
     public Person getPlayer(){
         return this.player;
     }
-    public Person getDealer(){
-        return this.dealer;
-    }
 
-    public ArrayList<Card> getPlayerHand(){  return this.player.getHand(); }
+    public ArrayList<Card> getPlayerHand(){
+        return this.player.getHand();
+    }
     public ArrayList<Card> getDealerHand(){
         return this.dealer.getHand();
     }
 
     public void start() {
-        System.out.println("Welcome to WAR! Enter anything into the console to play a card");
-        System.out.println("Enter 'exit' at any time to end the game");
+        System.out.println("Welcome to WAR! Enter anything into the console to play a card\nEnter 'exit' at any time to end the game");
+        dealCards();
         engine(getPlayerHand(), getDealerHand());
+    }
+
+    @Override
+    public ArrayList<Card> dealCards() {
+        Deck deck = new Deck();
+        player.setHand(deck.dealHand(26));
+        dealer.setHand(deck.getDeckOfCards());
+        return null;
     }
 
     public void engine(ArrayList<Card> playerHand, ArrayList<Card> dealerHand) {
         String exitStay = input.nextLine();
         System.out.println("Lets go to war!");
-        while (!("exit").equals(exitStay)) {
+        while (!("exit").equalsIgnoreCase(exitStay)) {
             while (checkIfEitherAreEmpty(playerHand, dealerHand)) {
+                String play = "";
                 Card playerCard = playerHand.remove(0);
                 Card dealerCard = dealerHand.remove(0);
+                int pCardVal = playerCard.toInt();
+                int dCardVal = dealerCard.toInt();
                 System.out.println("You played " + playerCard + " and the dealer played " + dealerCard);
-                if (playerCard.toInt() == dealerCard.toInt()) {
+                if (pCardVal == dCardVal) {
                     warCardSwap(playerHand, dealerHand);
-                    System.out.println("You now have " + playerHand.size() + " cards.  Dealer has " + dealerHand.size() + " cards.");
-                } else if (playerCard.toInt() > dealerCard.toInt()) {
+                    play = "\nYou now have " + checkCards(playerHand) + " cards.  Dealer has " + checkCards(dealerHand) + " cards.";
+                } else if (pCardVal > dCardVal) {
                     addToHand(playerCard, dealerCard, playerHand);
-                    System.out.println("You won the round!  You now have " + playerHand.size() + " cards.  Dealer has "
-                            + dealerHand.size() + " cards.");
+                    play = "\nYou won the round!  You now have " + checkCards(playerHand) + " cards.  Dealer has "
+                            + checkCards(dealerHand) + " cards.";
                 } else {
                     addToHand(playerCard, dealerCard, dealerHand);
-                    System.out.println("Dealer won the round.  You now have" + playerHand.size() + " cards.  Dealer has "
-                            +dealerHand.size() + " cards.");
+                    play = "\nDealer won the round.  You now have" + checkCards(playerHand) + " cards.  Dealer has "
+                            + checkCards(dealerHand) + " cards.";
                 }
+                System.out.println(play);
             }
             declareWinner(playerHand, dealerHand);
         }
@@ -88,11 +95,13 @@ public class War extends Game implements CardGameInterface {
     public int iDeclareWar(ArrayList<Card> player1, ArrayList<Card> dealer1) {
         int win = 0;
         int x = warCardsNumber(player1, dealer1);
+        int pCard = player1.get(x).toInt();
+        int dCard = dealer1.get(x).toInt();
         System.out.println("I D E C L A R E  W A R!!\nPlayer's top card: " + player1.get(x-1) + ". Dealer's top card: " +
                 dealer1.get(x-1));
-        if(player1.get(x).toInt() > dealer1.get(x).toInt()){
+        if( pCard > dCard ){
             win = 1;
-        } else if(player1.get(x).toInt() < dealer1.get(x).toInt()){
+        } else if(pCard < dCard){
             win = 2;
         }
         return win;
@@ -148,19 +157,16 @@ public class War extends Game implements CardGameInterface {
         }
     }
 
-    public int checkNumberOfCards(Person handToCheck) {
-        return handToCheck.getHand().size();
-    }
-
     @Override
     public int checkNumberOfCards() {
         return 0;
     }
 
-    @Override
-    public ArrayList<Card> dealCards() {
-        return null;
+    public int checkCards(ArrayList<Card> cards){
+        return cards.size();
     }
+
+
 
     @Override
     public String displayCards(ArrayList<Card> hand) {

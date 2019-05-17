@@ -49,11 +49,11 @@ public class GoFish extends Game implements CardGameInterface {
     public void start() {
         setDealerHand(7);
         setPlayerHand(7);
-        System.out.println("*************************  Welcome to Go Fish!  *************************");
-        System.out.println("\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
+        System.out.println("*************************  Welcome to Go Fish!  *************************\n" +
                 "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
-                "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B");
-        System.out.println("*************************  Welcome to Go Fish!  *************************\n\n" +
+                "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
+                "\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B\u270B" +
+                "\n*************************  Welcome to Go Fish!  *************************\n\n" +
                 "When choosing card enter 1 for Ace, 11 for Jack, 12 for Queen, 13 for King\n");
         engine();
     }
