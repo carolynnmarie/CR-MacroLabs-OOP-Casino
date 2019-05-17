@@ -2,7 +2,6 @@ package io.zipcoder.casino.Games;
 
 import io.zipcoder.casino.Cards.*;
 import io.zipcoder.casino.People.*;
-
 import io.zipcoder.casino.Scoreboard;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -70,7 +69,7 @@ public class GoFish extends CardGames {
                 System.out.println("\n*****************************\nPlayer's turn! Choose a card to request from the dealer\nYour hand: \u270B"
                         + playerHand.toArrayList() + "\u270B");
                 checkHandSize(playerHand);
-                String choice = userInput.nextLine();
+                String choice = userInput.nextLine().toLowerCase();
                 userChoice = inputValueConversion(choice);
             } while (userChoice < 0 && userChoice >= 13);
             hasCard = doesDealerHaveCard(userChoice, dealerHand);
@@ -231,25 +230,25 @@ public class GoFish extends CardGames {
 
     public void determineWinner(){
         StringBuilder builder = new StringBuilder("*******************  ");
+        int pScore = 0;
+        int dScore = 0;
         if (booksTotalPlayer > booksTotalDealer){
             builder.append("You Won!  *******************\nYou won the game with a total Book Score of ")
                     .append(booksTotalPlayer)
                     .append("!\nDealer lost game with a total Book Score of ")
                     .append(booksTotalDealer);
-            scoreboard.addScore(player1,1);
-            scoreboard.addScore(dealer,0);
+            pScore = 1;
         } else if (booksTotalPlayer == booksTotalDealer) {
             builder.append("You Tied!  *******************\nYou both had a book score of ")
                     .append(booksTotalPlayer);
-            scoreboard.addScore(player1,0);
-            scoreboard.addScore(dealer,0);
         } else {
             builder.append("You Lost!  *******************\nDealer had a Book Score of ")
                     .append(booksTotalDealer).append("!\nYou had a Book Score of ")
                     .append(booksTotalPlayer);
-            scoreboard.addScore(player1,0);
-            scoreboard.addScore(dealer,1);
+            dScore = 1;
         }
+        scoreboard.addScore(player1,pScore);
+        scoreboard.addScore(dealer,dScore);
         builder.append("!\n");
         System.out.println(builder.toString());
     }
@@ -274,20 +273,16 @@ public class GoFish extends CardGames {
     }
 
     public static int inputValueConversion(String x){
-        x = x.toLowerCase();
-        return (x.equals("one") || x.equals("1") || x.equals("ace") || x.equals("a"))? 1:
-                (x.equals("two") || x.equals("2"))? 2:
-                 (x.equals("three")||x.equals("3"))? 3:
-                  (x.equals("four")||x.equals("4"))? 4:
-                   (x.equals("five")||x.equals("5"))? 5:
-                    (x.equals("six")||x.equals("6"))? 6:
-                     (x.equals("seven")||x.equals("7"))? 7:
-                      (x.equals("eight")||x.equals("8"))? 8:
-                       (x.equals("nine")||x.equals("9"))? 9:
-                        (x.equals("ten")||x.equals("10"))? 10:
-                         (x.equals("eleven")||x.equals("11")|| x.equals("jack") || x.equals("j"))? 11:
-                          (x.equals("twelve")||x.equals("12")|| x.equals("queen") || x.equals("q"))? 12:
-                           (x.equals("thirteen")||x.equals("13")|| x.equals("king") || x.equals("k"))? 13: 0;
+        int value = (x.equals("one") || x.equals("1") || x.equals("ace") || x.equals("a"))? 1:
+               (x.equals("two") || x.equals("2"))? 2: (x.equals("three")||x.equals("3"))? 3:
+               (x.equals("four")||x.equals("4"))? 4: (x.equals("five")||x.equals("5"))? 5:
+               (x.equals("six")||x.equals("6"))? 6: (x.equals("seven")||x.equals("7"))? 7:
+               (x.equals("eight")||x.equals("8"))? 8: (x.equals("nine")||x.equals("9"))? 9:
+               (x.equals("ten")||x.equals("10"))? 10:
+               (x.equals("eleven")||x.equals("11")|| x.equals("jack") || x.equals("j"))? 11:
+               (x.equals("twelve")||x.equals("12")|| x.equals("queen") || x.equals("q"))? 12:
+               (x.equals("thirteen")||x.equals("13")|| x.equals("king") || x.equals("k"))? 13: 0;
+        return value;
     }
 
     public static void main(String[] args) {

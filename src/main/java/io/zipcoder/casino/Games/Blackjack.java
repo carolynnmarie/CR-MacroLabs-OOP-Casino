@@ -79,6 +79,7 @@ public class Blackjack extends CardGames implements GamblingInterface {
     public void engine(){
         int playerTotal;
         int dealerTotal;
+        Scanner scanner = new Scanner(System.in);
         do {
             playerTotal = handTotal(player);
             dealerTotal = handTotal(dealer);
@@ -95,8 +96,7 @@ public class Blackjack extends CardGames implements GamblingInterface {
                 builder.append("\nDo you want to \"hit\" or \"stay\"?: ");
                 System.out.println(builder.toString());
             }
-            Scanner scanner = new Scanner(System.in);
-            String playerInput = scanner.nextLine();
+            String playerInput = scanner.nextLine().toLowerCase();
             if (playerInput.equals("hit")) {
                 hit(player);
                 ArrayList<Card> hand = player.getHand().toArrayList();

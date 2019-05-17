@@ -84,22 +84,23 @@ public class Craps extends DiceGames implements GamblingInterface {
     public void comeOutRoll() {
         StringBuilder builder = new StringBuilder("Time to make your first roll!\nYou rolled a ");
         rollDice();
-        builder.append(getDiceValue());
-        if (getDiceValue() == 2 || getDiceValue() == 3) {
+        int diceVal = getDiceValue();
+        builder.append(diceVal);
+        if (diceVal == 2 || diceVal == 3) {
             builder.append(". You crapped out. Pass line bets loose and Don't Pass bets win.\n")
                     .append(passLineBetLose())
                     .append(dontPassLineBetWin());
-        } else if (getDiceValue() == 7 || getDiceValue() == 11) {
+        } else if (diceVal == 7 || diceVal == 11) {
             builder.append(". You rolled a natural! Pass Line bets win and Don't Pass loses.\n")
                     .append(passLineBetWin())
                     .append(dontPassLineBetLose());
-        } else if (getDiceValue() == 12) {
+        } else if (diceVal == 12) {
             builder.append(". Pass Line loses and Don't Pass bets are pushed to next round.\n")
                     .append(passLineBetLose());
         } else {
             builder.append(". The point is now ")
-                    .append(getDiceValue());
-            point = getDiceValue();
+                    .append(diceVal);
+            point = diceVal;
         }
         System.out.println(builder.toString());
     }
@@ -337,20 +338,23 @@ public class Craps extends DiceGames implements GamblingInterface {
     }
 
     private void comeBetPointOddsWin() {
-        int chips = 0;
+        int chips = comePointOdds.get(getDiceValue());
+        int diceVal = getDiceValue();
         String win = "Your Come bet Odds on point ";
-        if (getDiceValue() == 4 || getDiceValue() == 10) {
-            chips = comePointOdds.get(getDiceValue()) + comePointOdds.get(getDiceValue()) * 2;
-            System.out.println(win + getDiceValue() + " wins! Payout is 2:1. You won " + chips  + " chips!");
-            comePointOdds.remove(getDiceValue());
-        } else if (getDiceValue() == 5 || getDiceValue() == 9) {
-            chips = (comePointOdds.get(getDiceValue()) + (int) Math.floor(comePointOdds.get(getDiceValue()) * 1.5));
-            System.out.println(win + getDiceValue() + " wins! Payout is 3:2. You won " + chips  + " chips!");
-            comePointOdds.remove(getDiceValue());
-        } else if (getDiceValue() == 6 || getDiceValue() == 8) {
-            chips = (comePointOdds.get(getDiceValue()) + (int) Math.floor(comePointOdds.get(getDiceValue()) * 1.2));
-            System.out.println(win + getDiceValue() + " wins! Payout is 6:5. You won " + chips  + " chips!");
-            comePointOdds.remove(getDiceValue());
+        if (diceVal == 4 || diceVal == 10) {
+            chips += (chips * 2);
+            System.out.println(win + diceVal + " wins! Payout is 2:1. You won " + chips  + " chips!");
+            comePointOdds.remove(diceVal);
+        } else if (diceVal == 5 || diceVal == 9) {
+            chips += (int) Math.floor(chips * 1.5);
+            System.out.println(win + diceVal + " wins! Payout is 3:2. You won " + chips  + " chips!");
+            comePointOdds.remove(diceVal);
+        } else if (diceVal == 6 || diceVal == 8) {
+            chips  += (int) Math.floor(chips * 1.2);
+            System.out.println(win + diceVal + " wins! Payout is 6:5. You won " + chips  + " chips!");
+            comePointOdds.remove(diceVal);
+        } else {
+            chips = 0;
         }
         addChipsToWallet(chips);
     }
@@ -372,16 +376,19 @@ public class Craps extends DiceGames implements GamblingInterface {
         StringBuilder builder = new StringBuilder();
         String win = "Your Don't Come bet Odds on point ";
         for (Map.Entry<Integer, Integer> entry: dontComePointOdds.entrySet()) {
-            int chips = 0;
-            if (entry.getKey() == 4 || entry.getKey() == 10) {
-                chips = (entry.getValue() + (int) Math.floor(entry.getValue() * .5));
-                builder.append(win + entry.getKey() + " wins! Payout is 1:2. You won " + chips + " chips!\n");
-            } else if (entry.getKey() == 5 || entry.getKey() == 9) {
-                chips = (entry.getValue() + (int) Math.floor(entry.getValue() * .66));
-                builder.append(win + entry.getKey() + " wins! Payout is 2:3. You won " + chips + " chips!\n");
-            } else if (entry.getKey() == 6 || entry.getKey() == 8) {
-                chips = (entry.getValue() + (int) Math.floor(entry.getValue() * .83));
-                builder.append(win + entry.getKey() + " wins! Payout is 5:6. You won " + chips + " chips!\n");
+            int chips = entry.getValue();
+            int point = entry.getKey();
+            if (point == 4 || point == 10) {
+                chips += (int) Math.floor(chips * .5);
+                builder.append(win + point + " wins! Payout is 1:2. You won " + chips + " chips!\n");
+            } else if (point == 5 || point == 9) {
+                chips += (int) Math.floor(chips * .66);
+                builder.append(win + point + " wins! Payout is 2:3. You won " + chips + " chips!\n");
+            } else if (point == 6 || point == 8) {
+                chips += (int) Math.floor(chips * .83);
+                builder.append(win + point + " wins! Payout is 5:6. You won " + chips + " chips!\n");
+            } else {
+                chips = 0;
             }
             grandTotal += chips;
         }
@@ -406,20 +413,22 @@ public class Craps extends DiceGames implements GamblingInterface {
 
     private void placeWinBetWin() {
         int diceValue = getDiceValue();
-        int chips = 0;
+        int chips = placeWinBets.get(diceValue);
         String win = "Your Place Win bet won! Payout is ";
         if (diceValue == 6 || diceValue == 8) {
-            chips = (int) Math.floor(placeWinBets.get(diceValue) + placeWinBets.get(diceValue) * 1.16);
+            chips += (int) Math.floor(placeWinBets.get(diceValue) * 1.16);
             placeWinBets.remove(diceValue);
             System.out.println(win + "7:6. You won " + chips +  " chips!");
         } else if (diceValue == 5 || diceValue == 9) {
-            chips = (int) Math.floor(placeWinBets.get(diceValue) + placeWinBets.get(diceValue) * 1.4);
+            chips += (int) Math.floor( placeWinBets.get(diceValue) * 1.4);
             placeWinBets.remove(diceValue);
             System.out.println(win + "7:5. You won " + chips +  " chips!");
         } else if (diceValue == 4 || diceValue == 10) {
-            chips =(int) Math.floor(placeWinBets.get(diceValue) + placeWinBets.get(diceValue) * 1.8);
+            chips += (int) Math.floor(placeWinBets.get(diceValue) * 1.8);
             placeWinBets.remove(diceValue);
             System.out.println(win + "9:5. You won " + chips + " chips!");
+        } else {
+            chips = 0;
         }
         addChipsToWallet(chips);
     }
@@ -439,17 +448,19 @@ public class Craps extends DiceGames implements GamblingInterface {
         int grandTotal = 0;
         StringBuilder builder = new StringBuilder();
         for (Map.Entry<Integer, Integer> entry : placeLoseBets.entrySet()) {
-            int chips = 0;
+            int chips = entry.getValue();
             builder.append("Your Place Lose bet on ");
             if (entry.getKey() == 6 || entry.getKey() == 8) {
-                chips = entry.getValue() + (int) Math.floor(entry.getValue() * .8);
+                chips += (int) Math.floor(entry.getValue() * .8);
                 builder.append(entry.getKey() + " won! Payout is 4:5. You won " + chips + " chips!\n");
             } else if (entry.getKey() == 5 || entry.getKey() == 9) {
-                chips = entry.getValue() + (int) Math.floor(entry.getValue() * .62);
+                chips += (int) Math.floor(entry.getValue() * .62);
                 builder.append(entry.getKey() + " won! Payout is 5:8. You won " + chips + " chips!\n");
             } else if (entry.getKey() == 4 || entry.getKey() == 10) {
-                chips = entry.getValue() + (int) Math.floor(entry.getValue() * .45);
+                chips += (int) Math.floor(entry.getValue() * .45);
                 builder.append(entry.getKey() + " won! Payout is 5:11. You won " + chips + " chips!\n");
+            } else {
+                chips = 0;
             }
             grandTotal += chips;
         }

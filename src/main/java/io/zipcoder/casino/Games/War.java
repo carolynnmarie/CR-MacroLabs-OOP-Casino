@@ -109,15 +109,17 @@ public class War extends CardGames {
 
     public boolean endGame(){
         StringBuilder builder = new StringBuilder("And the winner is ");
+        int pScore = 0;
+        int dScore = 0;
         if (playerHand.toArrayList().size() > 25) {
             builder.append("you!\n");
-            scoreboard.addScore(player1,1);
-            scoreboard.addScore(dealer,0);
+            pScore = 1;
         } else {
             builder.append("the dealer!\n");
-            scoreboard.addScore(player1,0);
-            scoreboard.addScore(dealer,1);
+            dScore = 1;
         }
+        scoreboard.addScore(player1,pScore);
+        scoreboard.addScore(dealer,dScore);
         builder.append(scoreboard.displayRunningGameTally())
                 .append("\nIf you want to play again, enter 'yes', or enter anything else to return to the casino");
         System.out.println(builder.toString());
