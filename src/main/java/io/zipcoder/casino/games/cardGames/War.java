@@ -1,9 +1,7 @@
 package io.zipcoder.casino.games.cardGames;
 
-import io.zipcoder.casino.cards.Card;
-import io.zipcoder.casino.cards.Deck;
+import io.zipcoder.casino.cards.*;
 import io.zipcoder.casino.games.Game;
-import io.zipcoder.casino.games.cardGames.CardGameInterface;
 import io.zipcoder.casino.people.Person;
 
 import java.util.*;
@@ -149,7 +147,7 @@ public class War extends Game implements CardGameInterface {
     public void end() {
         player.getHand().clear();
         dealer.getHand().clear();
-        System.out.println("If you want to play again, enter 'yes', or enter anything else to return to the casino");;
+        System.out.println("If you want to play again, enter 'yes', or enter anything else to return to the casino");
         if (input.nextLine().equalsIgnoreCase("yes")) {
             start();
         } else{
@@ -165,8 +163,6 @@ public class War extends Game implements CardGameInterface {
     public int checkCards(ArrayList<Card> cards){
         return cards.size();
     }
-
-
 
     @Override
     public String displayCards(ArrayList<Card> hand) {
