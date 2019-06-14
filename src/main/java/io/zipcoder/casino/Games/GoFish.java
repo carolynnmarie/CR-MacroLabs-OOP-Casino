@@ -45,10 +45,8 @@ public class GoFish extends CardGames {
     }
 
     public void dealCards() {
-        for (int i = 0; i < 7; i++){
-            playerHand.toArrayList().add(houseDeck.drawCard());
-            dealerHand.toArrayList().add(houseDeck.drawCard());
-        }
+        playerHand.toArrayList().addAll(houseDeck.dealCards(7));
+        dealerHand.toArrayList().addAll(houseDeck.dealCards(7));
     }
 
     public void engine(){
@@ -66,8 +64,8 @@ public class GoFish extends CardGames {
         int userChoice = 0;
         do {
             do {
-                System.out.println("\n*****************************\nPlayer's turn! Choose a card to request from the dealer\nYour hand: \u270B"
-                        + playerHand.toArrayList() + "\u270B");
+                System.out.println("\n*****************************\nPlayer's turn! Choose a card to request from the dealer\n" +
+                        "Your hand: \u270B" + playerHand.toArrayList() + "\u270B");
                 checkHandSize(playerHand);
                 String choice = userInput.nextLine().toLowerCase();
                 userChoice = inputValueConversion(choice);

@@ -66,10 +66,8 @@ public class Blackjack extends CardGames implements GamblingInterface {
     }
 
     public void dealCards() {
-        hit(player);
-        hit(player);
-        hit(dealer);
-        hit(dealer);
+        player.getHand().receiveCards(deck.dealCards(2));
+        dealer.getHand().receiveCards(deck.dealCards(2));
     }
 
     public void hit(Person person) {

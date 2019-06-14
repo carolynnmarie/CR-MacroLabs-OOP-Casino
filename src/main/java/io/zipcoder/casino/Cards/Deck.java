@@ -40,5 +40,14 @@ public class Deck {
     public void addCards(ArrayList<Card> cards){
         this.deckOfCards.addAll(cards);
     }
+
+    public ArrayList<Card> dealCards(int numberOfCards){
+        ArrayList<Card> hand = new ArrayList();
+        for(int i = 0; i<numberOfCards; i++){
+            hand.add(deckOfCards.get(i));
+        }
+        deckOfCards.removeAll(hand);
+        return hand;
+    }
 }
 

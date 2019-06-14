@@ -43,10 +43,8 @@ public class War extends CardGames {
     public void dealCards() {
         Deck deck = new Deck();
         deck.shuffleDeck();
-        for (int i = 0; i < 26; i++) {
-            dealerHand.receiveCards(deck.getDeck().get(i));
-            playerHand.receiveCards(deck.getDeck().get(51-i));
-        }
+        dealerHand.receiveCards(deck.dealCards(26));
+        playerHand.receiveCards(deck.dealCards(26));
     }
 
     public void engine() {
