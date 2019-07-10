@@ -45,8 +45,8 @@ public class GoFish extends CardGames {
     }
 
     public void dealCards() {
-        playerHand.toArrayList().addAll(houseDeck.dealCards(7));
-        dealerHand.toArrayList().addAll(houseDeck.dealCards(7));
+        playerHand.receiveCards(houseDeck.dealCards(7));
+        dealerHand.receiveCards(houseDeck.dealCards(7));
     }
 
     public void engine(){
@@ -65,7 +65,7 @@ public class GoFish extends CardGames {
         do {
             do {
                 System.out.println("\n*****************************\nPlayer's turn! Choose a card to request from the dealer\n" +
-                        "Your hand: \u270B" + playerHand.toArrayList() + "\u270B");
+                        "Your hand: \u270B" + playerHand.displayCards() + "\u270B");
                 checkHandSize(playerHand);
                 String choice = userInput.nextLine().toLowerCase();
                 userChoice = inputValueConversion(choice);
@@ -85,7 +85,7 @@ public class GoFish extends CardGames {
     public void dealerTurn() {
         boolean hasCard;
         do {
-            Collections.shuffle(dealerHand.toArrayList());
+            dealerHand.shuffleHand();
             int randomDealerCard = dealerHand.toArrayList().get(0).getRankInt();
             System.out.println("\n******************************\nDealer's turn! Dealer has chosen card: " + convertFaceCard(randomDealerCard));
             hasCard = doesPlayerHaveCard(randomDealerCard, playerHand);
@@ -93,7 +93,7 @@ public class GoFish extends CardGames {
                 hasCard = goFishDealer(randomDealerCard);
             }
             countDealerBooks();
-            Collections.shuffle(dealerHand.toArrayList());
+            dealerHand.shuffleHand();
             if(checkAllSizes()) {
                 break;
             }
@@ -124,7 +124,7 @@ public class GoFish extends CardGames {
         } else {
             System.out.println("You do not have any " + rank + "'s.");
         }
-        Collections.shuffle(dealerHand.toArrayList());
+        dealerHand.shuffleHand();
         return fished;
     }
 

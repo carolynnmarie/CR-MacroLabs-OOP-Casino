@@ -183,31 +183,36 @@ public class Craps extends DiceGames implements GamblingInterface {
     }
 
     public void checkComeBet() {
+        String result = "";
         if ((getDiceValue() == 7 || getDiceValue() == 11)) {
-            System.out.println("Come bet wins! Come bet pays 1:1. You won " + comeBet + " chips!");
+            result = "Come bet wins! Come bet pays 1:1. You won " + comeBet + " chips!";
             addChipsToWallet(comeBet*2);
         } else if ((getDiceValue() == 2 || getDiceValue() == 3 || getDiceValue() == 12)) {
-            System.out.println("Come Bet loses. You lost " + comeBet + " chips.");
+            result = "Come Bet loses. You lost " + comeBet + " chips.";
         } else {
-            System.out.println("Your Come bet is now a point.");
+            result = "Your Come bet is now a point.";
             comePoints.put(getDiceValue(), comeBet);
         }
+        System.out.println(result);
         comeBet = 0;
     }
 
     public void checkDontComeBet() {
+        String result = "";
         if ((getDiceValue() == 7 || getDiceValue() == 11)) {
-            System.out.println("Don't Come bet loses. You lost " + dontComeBet + " chips.");
-            dontComeBet = 0;
+            result = "Don't Come bet loses. You lost " + dontComeBet + " chips.";
         } else if ((getDiceValue() == 2 || getDiceValue() == 3)) {
-            System.out.println("Don't Come bet wins! You won " + dontComeBet + " chips!");
-            addChipsToWallet(dontComeBet*2);
-            dontComeBet = 0;
-        } else if (!(getDiceValue() ==12)) {
-            System.out.println("You Don't Come bet is now a point.");
+            result = "Don't Come bet wins! You won " + dontComeBet + " chips!";
+            addChipsToWallet(dontComeBet * 2);
+        } else if (getDiceValue() == 12){
+            result = "Don't Come bet is a push. You neither win nor lose. You get to keep your initial bet.";
+        } else {
+            result = "Don't Come bet is now a point.";
             dontComePoints.put(getDiceValue(), dontComeBet);
-            dontComeBet = 0;
         }
+        System.out.println(result);
+        dontComeBet = 0;
+
     }
 
     public void checkComeBetPoint() {

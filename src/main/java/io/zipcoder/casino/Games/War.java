@@ -48,7 +48,7 @@ public class War extends CardGames {
     }
 
     public void engine() {
-        while (!("exit").equals(input.nextLine()) && !dealerHand.toArrayList().isEmpty() && !playerHand.toArrayList().isEmpty()) {
+        while (!("exit").equalsIgnoreCase(input.nextLine()) && !dealerHand.toArrayList().isEmpty() && !playerHand.toArrayList().isEmpty()) {
             Card playerCard = playerHand.drawCard();
             Card dealerCard = dealerHand.drawCard();
             playerPlayedCards.add(playerCard);

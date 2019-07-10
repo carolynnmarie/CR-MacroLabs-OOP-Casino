@@ -63,4 +63,13 @@ public class Hand {
         }
     }
 
+    public String displayCards(){
+        StringBuilder builder = new StringBuilder();
+        for (Card card: handArrayList) {
+            builder.append(card.toString())
+                    .append(" ");
+        }
+        return builder.toString();
+    }
+
 }
