@@ -5,11 +5,10 @@ import java.util.Random;
 public class Die {
 
     private DieFace dieFace;
-    Random random;
+
 
     public Die() {
         this.dieFace = null;
-        this.random = new Random();
     }
 
     public DieFace getDieFace() {
@@ -22,26 +21,9 @@ public class Die {
 
 
     public void rollDie() {
-        int randomNumber = random.nextInt(6) + 1;
-        switch (randomNumber) {
-            case 1:
-                setDieFace(DieFace.ONE);
-                break;
-            case 2:
-                setDieFace(DieFace.TWO);
-                break;
-            case 3:
-                setDieFace(DieFace.THREE);
-                break;
-            case 4:
-                setDieFace(DieFace.FOUR);
-                break;
-            case 5:
-                setDieFace(DieFace.FIVE);
-                break;
-            case 6:
-                setDieFace(DieFace.SIX);
-                break;
-        }
+        Random random = new Random();
+        int randNum = random.nextInt(6) + 1;
+        dieFace = (randNum == 1)? DieFace.ONE: (randNum == 2)? DieFace.TWO: (randNum== 3)? DieFace.THREE: (randNum==4)? DieFace.FOUR:
+                (randNum == 5)? DieFace.FIVE: DieFace.SIX;
     }
 }
